@@ -34,7 +34,7 @@ class GameScene: SKScene {
         // https://stackoverflow.com/questions/39590602/scenedidload-being-called-twice
         super.didMove(to: view)
         self.size = view.bounds.size
-        gameGraphics.setup(width: size.width)
+        gameGraphics.setup(width: size.width, height: size.height)
         gameGraphics.setupCards(gameCascades: game.cascades)
         gameGraphics.addChildren(to: self)
         easterEgg.addChildren(to: self)

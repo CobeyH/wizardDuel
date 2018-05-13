@@ -142,10 +142,9 @@ class Game {
                     foundation.state = .card(card)
                     return newLocation
                 
-            case .card(let foundation):
+            case .card( _):
                 throw GameError.invalidMove
-                return location
-                }
+            }
         }
         return location
     }

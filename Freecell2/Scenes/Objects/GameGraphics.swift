@@ -21,7 +21,7 @@ struct GameGraphics {
 
     var cards: [PlayingCard] = []
 
-    mutating func setup(width: CGFloat) {
+    mutating func setup(width: CGFloat, height: CGFloat) {
         let baseZPosition: CGFloat = config.zIndexIncrement
         // Cells
         for i in 0 ..< config.cellCount {
@@ -35,8 +35,8 @@ struct GameGraphics {
         // Foundations
         for i in 0 ..< config.foundationCount {
             let foundation = SKSpriteNode(color: config.backgroundColour, size: config.cardSize)
-            foundation.anchorPoint = CGPoint(x: 2, y: 7)
-            foundation.position = CGPoint(x: width + config.margin - config.cardSize.width - CGFloat(i) * (config.cardSize.width + config.spacing/2), y: config.margin)
+            foundation.anchorPoint = config.topLeft
+            foundation.position = CGPoint(x: config.margin + config.cardSize.width + CGFloat(i) * (config.cardSize.width + config.spacing/2), y: -config.margin - height + config.cardSize.height)
             foundation.zPosition = baseZPosition
             foundations.append(foundation)
         }
