@@ -16,12 +16,13 @@ struct GameGraphics {
     private var foundations: [SKSpriteNode] = []
     private var cascades: [SKSpriteNode] = []
     private var newGameButton: SKSpriteNode = SKSpriteNode(color: .red, size: CGSize(width: 50, height: 50))
+    
+    
 
     var cards: [PlayingCard] = []
 
     mutating func setup(width: CGFloat) {
         let baseZPosition: CGFloat = config.zIndexIncrement
-
         // Cells
         for i in 0 ..< config.cellCount {
             let cell = SKSpriteNode(color: config.backgroundColour, size: config.cardSize)
@@ -75,7 +76,7 @@ struct GameGraphics {
         }
     }
 
-
+    //Adds all the children to the scene
     func addChildren(to scene: SKScene) {
         for cell in cells {
             scene.addChild(cell)
@@ -90,11 +91,25 @@ struct GameGraphics {
         scene.addChild(newGameButton)
     }
 
-
+    //Creates the deck by adding all the cards to the cascade
     func addCards(to scene: SKScene) {
         for card in cards {
             scene.addChild(card)
         }
+    }
+    
+    //Creates the background and sets its image
+    func setupBackground(to scene: SKScene) {
+        let backgroundTexture = SKTexture(imageNamed: "background")
+        let background: SKSpriteNode = SKSpriteNode( color: .clear, size: CGSize(width: scene.size.width, height: scene.size.height))
+        
+        background.texture = backgroundTexture
+        //background.position = CGPoint(x: scene.frame.size.width / 2, y: scene.frame.size.height / 2)
+        background.anchorPoint = CGPoint(x: 0, y: 1)
+        background.zPosition = -5
+        scene.addChild(background)
+        
+       
     }
 
 

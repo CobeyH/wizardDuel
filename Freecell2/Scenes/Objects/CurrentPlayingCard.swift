@@ -21,13 +21,14 @@ struct CurrentPlayingCard {
     }
 
 
+    //Deals with the moving of the card and changes the image of the card once it is released
     func move(to position: CGPoint) {
         let action = SKAction.move(to: position, duration: 0.2)
         playingCard.run(action)
         playingCard.texture = SKTexture(imageNamed: playingCard.card.fileName)
     }
 
-
+    //Returns the card to the where it started. Used when an invalid move is made and the card must be reset.
     func returnToOriginalLocation() {
         move(to: startPosition)
     }

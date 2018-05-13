@@ -25,6 +25,8 @@ class GameScene: SKScene {
     override func sceneDidLoad() {
         super.sceneDidLoad()
         anchorPoint = CGPoint(x: 0, y: 1)
+        
+
     }
 
 
@@ -36,6 +38,7 @@ class GameScene: SKScene {
         gameGraphics.setupCards(gameCascades: game.cascades)
         gameGraphics.addChildren(to: self)
         easterEgg.addChildren(to: self)
+        gameGraphics.setupBackground(to: self)
     }
 
 
