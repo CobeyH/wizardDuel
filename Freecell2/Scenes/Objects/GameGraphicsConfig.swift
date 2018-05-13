@@ -19,9 +19,9 @@ struct GameGraphicsConfig {
 
     let backgroundColour = NSColor.init(white: 1.0, alpha: 0.2)
 
-    let cellCount = 4
+    let cellCount = 3
     let foundationCount = 4
-    let cascadeCount = 8
+    let cascadeCount = 1
 
 
     mutating func getZIndex() -> CGFloat {

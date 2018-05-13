@@ -24,10 +24,12 @@ struct CurrentPlayingCard {
     func move(to position: CGPoint) {
         let action = SKAction.move(to: position, duration: 0.2)
         playingCard.run(action)
+        playingCard.texture = SKTexture(imageNamed: playingCard.card.fileName)
     }
 
 
     func returnToOriginalLocation() {
         move(to: startPosition)
     }
+    
 }

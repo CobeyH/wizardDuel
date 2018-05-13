@@ -120,6 +120,7 @@ class GameScene: SKScene {
                 gameGraphics.move(currentPlayingCard: currentPlayingCard, to: dropLocation, gameCascades: game.cascades)
             } catch GameError.invalidMove {
                 currentPlayingCard.returnToOriginalLocation()
+                print("Invalid Move")
             } catch {
                 // Something went wrong - don't know what
                 currentPlayingCard.returnToOriginalLocation()

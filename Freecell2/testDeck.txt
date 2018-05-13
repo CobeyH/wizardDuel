@@ -4,10 +4,10 @@
 4 Dragonlord's Servant
 2 Dragonmaster Outcast
 2 Duskwatch Recruiter
-8 Forest
+8 Forest.274
 3 Lightning Bolt
 2 Lightning Greaves
-14 Mountain
+14 Mountain.300
 1 Savage Ventmaw
 2 Scourge of Valkas
 2 Skyship Stalker

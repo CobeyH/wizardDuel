@@ -12,12 +12,7 @@ final class Cell: CanAddCard, ContainsCard, HasState, Resetable {
 
     
     func canAdd(card: Card) -> Bool {
-        switch state {
-        case .empty:
-            return true
-        default:
-            return false
-        }
+       return true
     }
 
 

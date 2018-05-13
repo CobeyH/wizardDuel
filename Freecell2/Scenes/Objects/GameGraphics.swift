@@ -40,14 +40,14 @@ struct GameGraphics {
             foundations.append(foundation)
         }
 
-        let cascadeWidth = CGFloat(config.cascadeCount) * config.cardSize.width + CGFloat(config.cascadeCount - 1) * config.spacing
-        let cascadeMargin = (width - cascadeWidth) / 2
+        //let cascadeWidth = CGFloat(config.cascadeCount) * config.cardSize.width + CGFloat(config.cascadeCount - 1) * config.spacing
+        //let cascadeMargin = (width - cascadeWidth) / 2
 
         // Cascades
-        for i in 0 ..< config.cascadeCount {
+        for _ in 0 ..< config.cascadeCount {
             let cascade = SKSpriteNode(color: config.backgroundColour, size: config.cardSize)
             cascade.anchorPoint = config.topLeft
-            cascade.position = CGPoint(x: cascadeMargin + CGFloat(i) * (config.cardSize.width + config.spacing), y: 2 * config.margin - config.cardSize.height)
+            cascade.position = CGPoint(x: -config.margin, y: config.margin)
             cascade.zPosition = baseZPosition
             cascades.append(cascade)
         }
@@ -67,7 +67,8 @@ struct GameGraphics {
                 let card = PlayingCard(card: gameCard, size: config.cardSize)
                 card.anchorPoint = config.topLeft
                 card.size = config.cardSize
-                card.position = CGPoint(x: cascadePosition.x, y: cascadePosition.y + config.margin * CGFloat(i))
+               // card.position = CGPoint(x: cascadePosition.x, y: cascadePosition.y + config.margin * CGFloat(i))
+                card.position = CGPoint(x: cascadePosition.x + CGFloat(i/10), y: cascadePosition.y + CGFloat(i/4))
                 card.zPosition = config.getZIndex()
                 cards.append(card)
             }
@@ -194,6 +195,7 @@ struct GameGraphics {
         let playingCard = findPlayingCard(from: card)
         let currentPlayingCard = CurrentPlayingCard(playingCard: playingCard, startPosition: playingCard.position, touchPoint: playingCard.position, location: move.toLocation)
         self.move(currentPlayingCard: currentPlayingCard, to: move.fromLocation, gameCascades: gameCascades)
+        
     }
 
 
