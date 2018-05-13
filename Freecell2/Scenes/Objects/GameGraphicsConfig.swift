@@ -20,7 +20,7 @@ struct GameGraphicsConfig {
     let backgroundColour = NSColor.init(white: 1.0, alpha: 0.2)
 
     let cellCount = 3
-    let foundationCount = 4
+    let foundationCount = 7
     let cascadeCount = 1
 
 

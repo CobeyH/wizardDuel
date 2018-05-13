@@ -35,8 +35,8 @@ struct GameGraphics {
         // Foundations
         for i in 0 ..< config.foundationCount {
             let foundation = SKSpriteNode(color: config.backgroundColour, size: config.cardSize)
-            foundation.anchorPoint = config.topLeft
-            foundation.position = CGPoint(x: width + config.margin - config.cardSize.width - CGFloat(i) * (config.cardSize.width + config.spacing), y: config.margin)
+            foundation.anchorPoint = CGPoint(x: 2, y: 7)
+            foundation.position = CGPoint(x: width + config.margin - config.cardSize.width - CGFloat(i) * (config.cardSize.width + config.spacing/2), y: config.margin)
             foundation.zPosition = baseZPosition
             foundations.append(foundation)
         }
@@ -104,7 +104,6 @@ struct GameGraphics {
         let background: SKSpriteNode = SKSpriteNode( color: .clear, size: CGSize(width: scene.size.width, height: scene.size.height))
         
         background.texture = backgroundTexture
-        //background.position = CGPoint(x: scene.frame.size.width / 2, y: scene.frame.size.height / 2)
         background.anchorPoint = CGPoint(x: 0, y: 1)
         background.zPosition = -5
         scene.addChild(background)

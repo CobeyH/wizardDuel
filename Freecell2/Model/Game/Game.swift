@@ -48,7 +48,7 @@ class Game {
     
     init() {
         cells = [Cell(), Cell(), Cell()]
-        foundations = [Foundation(), Foundation(), Foundation(), Foundation()]
+        foundations = [Foundation(), Foundation(), Foundation(), Foundation(), Foundation(), Foundation(), Foundation()]
         cascades = (0 ... 1).map({ _ in Cascade() })
         self.new()
     }
@@ -61,7 +61,8 @@ class Game {
         cells.forEach({ $0.reset() })
         foundations.forEach({ $0.reset() })
         for (cascade, config) in zip(cascades, cascadeConfig) {
-            cascade.cards = Array(cards[config.0 ... config.1])
+           // cascade.cards = Array(cards[config.0 ... config.1])
+            cascade.cards = cards
         }
         moves.clear()
     }
@@ -75,14 +76,14 @@ class Game {
 //        case .cell:
 //            return true
 //        case .foundation:
-//            return false
+//            return true
 //        case .cascade(let value):
 //            let cascade = cascades[value]
-//            return cascade.isBottom(card: card)
-//        }
+//           return cascade.isBottom(card: card)
+//
+//    }
         return true
     }
-    
     
     func move(from fromLocation: Location, to toLocation: Location) throws {
         guard let card = card(at: fromLocation) else {
@@ -130,14 +131,35 @@ class Game {
     
     
     func moveToFoundation(from location: Location) throws -> Location {
-        for (i, _) in foundations.enumerated() {
-            let newLocation = Location.foundation(i)
-            try move(from: location, to: newLocation)
-            return newLocation
+        guard let card = card(at: location) else {
+            throw GameError.invalidMove
         }
-    
-        return Location.foundation(0)
+        for (i, foundation) in foundations.enumerated() {
+            switch foundation.state {
+            case .empty:
+                    let newLocation = Location.foundation(i)
+                    try move(from: location, to: newLocation)
+                    foundation.state = .card(card)
+                    return newLocation
+                
+            case .card(let foundation):
+                throw GameError.invalidMove
+                return location
+                }
+        }
+        return location
     }
+
+
+//    func moveToFoundation(from location: Location) throws -> Location {
+//        for (i, foundation) in foundations.enumerated() {
+//            let newLocation = Location.foundation(i)
+//            try move(from: location, to: newLocation)
+//            return newLocation
+//        }
+//
+//        return Location.foundation(0)
+//    }
     
     
     func moveToCell(from location: Location) throws -> Location {
@@ -215,6 +237,7 @@ class Game {
             let cascade = cascades[value]
             try cascade.add(card: card)
         }
+        
     }
 }
 
