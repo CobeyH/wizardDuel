@@ -1,15 +1,15 @@
 //
-//  Freecell2Tests.swift
-//  Freecell2Tests
+//  Freegraveyard2Tests.swift
+//  Freegraveyard2Tests
 //
 //  Created by gary on 16/06/2017.
 //  Copyright © 2017 Gary Kerr. All rights reserved.
 //
 
 import XCTest
-@testable import Freecell2
+@testable import Freegraveyard2
 
-class Freecell2Tests: XCTestCase {
+class Freegraveyard2Tests: XCTestCase {
     
     override func setUp() {
         super.setUp()

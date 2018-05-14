@@ -1,75 +1,60 @@
 //
-//  Cascade.swift
-//  Freecell2
+//  Hand.swift
+//  Freegraveyard2
 //
-//  Created by Cobey on 13/05/2018.
+//  Created by gary on 15/08/2017.
 //  Copyright © 2017 Gary Kerr. All rights reserved.
 //
 
-final class Hand: CanAddCard, ContainsCard {
-    var cards: [Card]
+final class Hand: CanAddCard, ContainsCard, HasState, Resetable {
     
-    init() {
-        self.cards = []
-    }
-    
-    
-    init(cards: [Card]) {
-        self.cards = cards
-    }
+    var state: State = .empty
     
     var isEmpty: Bool {
-        return cards.isEmpty
-    }
-    
-    
-//    func removeBottom() {
-//        let _ = cards.popLast()
-//    }
-    
-    
-    func isBottom(card: Card) -> Bool {
-        guard let bottomCard = cards.last else {
-            return false
+        switch state {
+        case .empty: return true
+        default: return false
         }
-        return card == bottomCard
     }
     
-    
-    func contains(card: Card) -> Bool {
-        for currentCard in cards {
-            if card == currentCard {
-                return true
-            }
-        }
-        return false
+    func removeCard() {
+        state = .empty
     }
-    
     
     func canAdd(card: Card) -> Bool {
-        return true
+        return isEmpty
     }
     
     
     func add(card: Card) throws {
         if canAdd(card: card) {
-            cards.append(card)
+            state = .card(card)
         } else {
             throw GameError.invalidMove
         }
     }
     
     
-    func reset(with cards: [Card]) {
-        self.cards = cards
+    var isDone: Bool {
+        return false
     }
+    
 }
+
 
 
 extension Hand: CustomDebugStringConvertible {
     var debugDescription: String {
-        let cardDescriptions = cards.map({ $0.debugDescription }).joined(separator: " ")
-        return "Hand(\(cardDescriptions))"
+        switch state {
+        case .empty:
+            return ".."
+        case .card(let card):
+            return card.debugDescription
+        }
     }
 }
+    
+    
+   
+
 

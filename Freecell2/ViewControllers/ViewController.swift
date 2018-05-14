@@ -1,6 +1,6 @@
 //
 //  ViewController.swift
-//  Freecell2
+//  Freegraveyard2
 //
 //  Created by gary on 16/06/2017.
 //  Copyright © 2017 Gary Kerr. All rights reserved.
@@ -62,7 +62,7 @@ class ViewController: NSViewController {
         if let view = self.skView {
             if let scene = SKScene(fileNamed: "GameScene") as? GameScene {
                 // Set the scale mode to scale to fit the window
-                scene.scaleMode = .aspectFit
+                scene.scaleMode = .fill
                 scene.viewDelegate = self
                 view.presentScene(scene)
                 delegate = scene

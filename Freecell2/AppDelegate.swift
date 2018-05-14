@@ -1,6 +1,6 @@
 //
 //  AppDelegate.swift
-//  Freecell2
+//  Freegraveyard2
 //
 //  Created by gary on 16/06/2017.
 //  Copyright © 2017 Gary Kerr. All rights reserved.

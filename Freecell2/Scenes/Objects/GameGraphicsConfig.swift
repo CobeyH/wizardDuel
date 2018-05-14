@@ -1,6 +1,6 @@
 //
 //  GameGraphicsConfig.swift
-//  Freecell2
+//  Freehand2
 //
 //  Created by gary on 31/08/2017.
 //  Copyright © 2017 Gary Kerr. All rights reserved.
@@ -19,9 +19,9 @@ struct GameGraphicsConfig {
 
     let backgroundColour = NSColor.init(white: 1.0, alpha: 0.2)
 
-    let cellCount = 3
-    let foundationCount = 7
-    let cascadeCount = 1
+    let handCount = 7
+    let graveyardCount = 2
+    let deckCount = 1
 
 
     mutating func getZIndex() -> CGFloat {

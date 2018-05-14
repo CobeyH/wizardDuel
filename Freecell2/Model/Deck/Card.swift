@@ -1,6 +1,6 @@
 //
 //  Card.swift
-//  Freecell2
+//  Freegraveyard2
 //
 //  Created by gary on 15/08/2017.
 //  Copyright © 2017 Gary Kerr. All rights reserved.
@@ -20,7 +20,6 @@ struct Card {
             do {
                 //Content is a string containing the contents of the file. Each line seperated by /n.
                 let content = try String(contentsOf: fileURL, encoding: String.Encoding.utf8)
-                print(content)
                 //Creates an array of strings with each index in the array holding one line of the file.
                 let cardInfos: [String] = content.components(separatedBy: CharacterSet.newlines)
                 
@@ -30,9 +29,8 @@ struct Card {
                     if cardInfo.count > 3 {
                      let cardInfoArray = cardInfo.split(separator: " ", maxSplits: 1)
                         if let numberOfCards = Int(String((cardInfoArray.first)!)) {
-                            print(numberOfCards)
                             let cardName = String(cardInfoArray.last!)
-                            print(cardName)
+
                             
                             //Appends each card to the deck x times where x is the numberOfCards specified.
                             for _ in 0..<numberOfCards {

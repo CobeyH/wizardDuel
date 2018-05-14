@@ -1,20 +1,20 @@
 //
-//  CellTests.swift
-//  Freecell2
+//  HandTests.swift
+//  Freegraveyard2
 //
 //  Created by gary on 19/08/2017.
 //  Copyright © 2017 Gary Kerr. All rights reserved.
 //
 
 import XCTest
-@testable import Freecell2
+@testable import Freegraveyard2
 
-class CellTests: XCTestCase {
+class HandTests: XCTestCase {
 
     func testCanAddEmpty() {
         for card in Card.deck() {
-            let cell = Cell()
-            XCTAssertTrue(cell.canAdd(card: card))
+            let graveyard = Hand()
+            XCTAssertTrue(graveyard.canAdd(card: card))
         }
     }
 
@@ -22,9 +22,9 @@ class CellTests: XCTestCase {
     func testCanAddNotEmpty() {
         let testCard = Card(suit: .clubs, value: .ace)
         for card in Card.deck() {
-            let cell = Cell()
-            try! cell.add(card: testCard)
-            XCTAssertFalse(cell.canAdd(card: card))
+            let graveyard = Hand()
+            try! graveyard.add(card: testCard)
+            XCTAssertFalse(graveyard.canAdd(card: card))
         }
     }
 }

@@ -1,6 +1,6 @@
 //
 //  PlayingCard.swift
-//  Freecell2
+//  Freegraveyard2
 //
 //  Created by gary on 16/06/2017.
 //  Copyright © 2017 Gary Kerr. All rights reserved.
@@ -26,11 +26,11 @@ final class PlayingCard: SKSpriteNode {
     }
 }
 
-extension PlayingCard {
-    static func ==(lhs: PlayingCard, rhs: PlayingCard) -> Bool {
-        return lhs.card == rhs.card
-    }
-}
+//extension PlayingCard {
+//    static func ==(lhs: PlayingCard, rhs: PlayingCard) -> Bool {
+//        return lhs.card == rhs.card
+//    }
+//}
 
 
 extension Card {

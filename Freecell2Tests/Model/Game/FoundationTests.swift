@@ -1,23 +1,23 @@
 //
-//  FoundationTests.swift
-//  Freecell2
+//  GraveyardTests.swift
+//  Freegraveyard2
 //
 //  Created by gary on 15/08/2017.
 //  Copyright © 2017 Gary Kerr. All rights reserved.
 //
 
 import XCTest
-@testable import Freecell2
+@testable import Freegraveyard2
 
-class FoundationTests: XCTestCase {
+class GraveyardTests: XCTestCase {
 
     func testExample() {
         let state = State.card(Card(suit: .spades, value: .three))
-        let foundation = Foundation()
-        foundation.state = state
-        XCTAssertTrue(foundation.canAdd(card: Card(suit: .spades, value: .four)))
-        XCTAssertFalse(foundation.canAdd(card: Card(suit: .spades, value: .three)))
-        XCTAssertFalse(foundation.canAdd(card: Card(suit: .spades, value: .two)))
-        XCTAssertFalse(foundation.canAdd(card: Card(suit: .hearts, value: .four)))
+        let graveyard = Graveyard()
+        graveyard.state = state
+        XCTAssertTrue(graveyard.canAdd(card: Card(suit: .spades, value: .four)))
+        XCTAssertFalse(graveyard.canAdd(card: Card(suit: .spades, value: .three)))
+        XCTAssertFalse(graveyard.canAdd(card: Card(suit: .spades, value: .two)))
+        XCTAssertFalse(graveyard.canAdd(card: Card(suit: .hearts, value: .four)))
     }
 }
