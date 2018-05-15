@@ -19,7 +19,7 @@ class Game {
     private let graveyards: [Graveyard]
     private let hands: [Hand]
     let battlefieldCells: [Battlefield]
-    let decks: [Deck]
+    let deck: Deck
     
     private var moves = MoveHistory()
     private let deckConfig: [(Int, Int)] = [(0, 60), (7, 13), (14, 20), (21, 27), (28, 33), (34, 39), (40, 45), (46, 51)]
@@ -51,7 +51,8 @@ class Game {
         graveyards = [Graveyard(), Graveyard(), Graveyard()]
         hands = [Hand(), Hand(), Hand(), Hand(), Hand(), Hand(), Hand()]
         battlefieldCells = [Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(),Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield()]
-        decks = (0 ... 1).map({ _ in Deck() })
+        //I don't know what this does exactly and I can't seem to fix it.
+        deck = (0 ... 1).map({ _ in Deck() })
         self.new()
     }
     
@@ -62,10 +63,10 @@ class Game {
         let cards = Card.deck().shuffled()
         graveyards.forEach({ $0.reset() })
         hands.forEach({ $0.reset() })
-        for (deck, _) in zip(decks, deckConfig) {
+//        for (deck, _) in zip(decks, deckConfig) {
            // deck.cards = Array(cards[config.0 ... config.1])
             deck.cards = cards
-        }
+//        }
         moves.clear()
     }
     
@@ -96,8 +97,7 @@ class Game {
         moves.add(move: Move(fromLocation: fromLocation, toLocation: toLocation))
         
         switch fromLocation {
-        case .deck(let value):
-            let deck = decks[value]
+        case .deck():
             deck.removeBottom()
         case .graveyard(let value):
             let graveyard = graveyards[value]
@@ -180,11 +180,11 @@ class Game {
                 return Location.hand(i)
             }
         }
-        for (i, deck) in decks.enumerated() {
+        
             if deck.contains(card: card) {
-                return Location.deck(i)
+                return Location.deck()
             }
-        }
+        
         for (i, battlefield) in battlefieldCells.enumerated() {
             if battlefield.contains(card: card) {
                 return Location.battlefield(i)
@@ -217,8 +217,8 @@ class Game {
             case .empty: return nil
             case .card(let card): return card
             }
-        case .deck(let value):
-            return decks[value].bottomCard
+        case .deck():
+            return deck.bottomCard
         case .battlefield(let value):
         return battlefieldCells[value].bottomCard
     }
@@ -233,8 +233,7 @@ class Game {
         case .hand(let value):
             let hand = hands[value]
             try hand.add(card: card)
-        case .deck(let value):
-            let deck = decks[value]
+        case .deck():
             try deck.add(card: card)
         case .battlefield(let value):
             let battlefield = battlefieldCells[value]
@@ -250,7 +249,6 @@ extension Game: CustomDebugStringConvertible {
         let parts = [
             "Graveyards: \(graveyards)",
             "Hand: \(hands)",
-            decks.map({ "\($0)" }).joined(separator: "\n")
         ]
         
         return parts.joined(separator: "\n")

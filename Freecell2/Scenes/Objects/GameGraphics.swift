@@ -14,7 +14,7 @@ struct GameGraphics {
 
     private var graveyards: [SKSpriteNode] = []
     private var hands: [SKSpriteNode] = []
-    private var decks: [SKSpriteNode] = []
+    private var deck: SKSpriteNode
     private var battlefieldCells: [SKSpriteNode] = []
     private var newGameButton: SKSpriteNode = SKSpriteNode(color: .red, size: CGSize(width: 75, height: 40))
     
@@ -47,13 +47,13 @@ struct GameGraphics {
         //let deckMargin = (width - deckWidth) / 2
 
         // Decks
-        for _ in 0 ..< config.deckCount {
-            let deck = SKSpriteNode(color: config.backgroundColour, size: config.cardSize)
+            deck.color = config.backgroundColour
+            deck.size = config.cardSize
             deck.anchorPoint = config.topLeft
             deck.position = CGPoint(x: -config.margin, y: config.margin)
             deck.zPosition = baseZPosition
-            decks.append(deck)
-        }
+        //  decks.append(deck)
+        
         
         //Battlefield
         for i in 0 ..< Int(width/config.cardSize.width - 1) {
@@ -74,11 +74,11 @@ struct GameGraphics {
     
 
 
-    mutating func setupCards(gameDecks: [Deck]) {
+    mutating func setupCards(gameDecks: Deck) {
         // Playing cards
-        for (deckCards, deck) in zip(gameDecks, decks) {
+        
             let deckPosition = deck.position
-            for (i, gameCard) in deckCards.cards.enumerated() {
+            for (i, gameCard) in gameDecks.cards.enumerated() {
                 let card = PlayingCard(card: gameCard, size: config.cardSize)
                 card.anchorPoint = config.topLeft
                 card.size = config.cardSize
@@ -87,7 +87,7 @@ struct GameGraphics {
                 card.zPosition = config.getZIndex()
                 cards.append(card)
             }
-        }
+        
     }
 
     //Adds all the children to the scene
@@ -98,9 +98,9 @@ struct GameGraphics {
         for hand in hands {
             scene.addChild(hand)
         }
-        for deck in decks {
+        
             scene.addChild(deck)
-        }
+        
         for battlefieldCell in battlefieldCells {
             scene.addChild(battlefieldCell)
         }
@@ -151,7 +151,7 @@ struct GameGraphics {
     }
 
 
-    mutating func newGame(gameDecks: [Deck]) {
+    mutating func newGame(gameDecks: Deck) {
         for card in cards {
             card.removeFromParent()
         }
@@ -160,7 +160,7 @@ struct GameGraphics {
     }
 
 
-    func move(currentPlayingCard: CurrentPlayingCard, to location: Location, gameDecks: [Deck], gameBattleDeck: [Battlefield]) {
+    func move(currentPlayingCard: CurrentPlayingCard, to location: Location, gameDecks: Deck, gameBattleDeck: [Battlefield]) {
         let newPosition: CGPoint
         switch location {
         case .graveyard(let value):
@@ -171,9 +171,8 @@ struct GameGraphics {
             let hand = hands[value]
             newPosition = hand.position
             currentPlayingCard.playingCard.faceUp = true
-        case .deck(let value):
-            let deck = decks[value]
-            let gameDeck = gameDecks[value]
+        case .deck():
+            let gameDeck = gameDecks
             let cardCount = gameDeck.cards.count - 1
             let deckPosition = deck.position
             newPosition = CGPoint(x: deckPosition.x + CGFloat(cardCount)/4, y: deckPosition.y + CGFloat(cardCount)/4)
@@ -207,8 +206,8 @@ struct GameGraphics {
             if playingCard.contains(position) {
                 if let location = game.location(from: playingCard.card) {
                     switch location {
-                    case .deck(let value):
-                        let deck = game.decks[value]
+                    case .deck():
+                        let deck = game.deck
                         if deck.isBottom(card: playingCard.card) {
                             return location
                         }
@@ -218,14 +217,14 @@ struct GameGraphics {
                 }
             }
         }
-        for (i, deck) in decks.enumerated() {
+        
             if deck.contains(position) {
-                let gameDeck = game.decks[i]
+                let gameDeck = game.deck
                 if gameDeck.isEmpty {
-                    return .deck(i)
+                    return .deck()
                 }
             }
-        }
+        
         for (i, battlefield) in battlefieldCells.enumerated() {
             if battlefield.contains(position) {
                 let gameDeck = game.battlefieldCells[i]
@@ -238,16 +237,16 @@ struct GameGraphics {
     }
 
 
-    func undo(move: Move, card: Card, gameDecks: [Deck]) {
-        print("game graphics, undo", move)
-        let position = positionFrom(location: move.toLocation)
-        print(position)
-        let playingCard = findPlayingCard(from: card)
-        let currentPlayingCard = CurrentPlayingCard(playingCard: playingCard, startPosition: playingCard.position, touchPoint: playingCard.position, location: move.toLocation)
-        // TODO
-        //self.move(currentPlayingCard: currentPlayingCard, to: move.fromLocation, gameDecks: gameDecks)
-        
-    }
+//    func undo(move: Move, card: Card, gameDecks: [Deck]) {
+//        print("game graphics, undo", move)
+//        let position = positionFrom(location: move.toLocation)
+//        print(position)
+//        let playingCard = findPlayingCard(from: card)
+//        let currentPlayingCard = CurrentPlayingCard(playingCard: playingCard, startPosition: playingCard.position, touchPoint: playingCard.position, location: move.toLocation)
+//        // TODO
+//        //self.move(currentPlayingCard: currentPlayingCard, to: move.fromLocation, gameDecks: gameDecks)
+//        
+//    }
 
 
     // MARK: - Private
@@ -255,8 +254,7 @@ struct GameGraphics {
     private func positionFrom(location: Location) -> CGPoint {
         let position: CGPoint
         switch location {
-        case .deck(let value):
-            let deck = decks[value]
+        case .deck():
             print("deck position")
             position = deck.position
         case .graveyard(let value):
