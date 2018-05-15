@@ -34,7 +34,7 @@ class GameScene: SKScene {
         super.didMove(to: view)
         self.size = view.bounds.size
         gameGraphics.setup(width: size.width, height: size.height)
-        gameGraphics.setupCards(gameDecks: game.decks)
+        gameGraphics.setupCards(gameDecks: game.deck)
         gameGraphics.addChildren(to: self)
 
         gameGraphics.setupBackground(to: self)
@@ -116,7 +116,7 @@ class GameScene: SKScene {
             do {
                 let startLocation = currentPlayingCard.location
                 try game.move(from: startLocation, to: dropLocation)
-                gameGraphics.move(currentPlayingCard: currentPlayingCard, to: dropLocation, gameDecks: game.decks, gameBattleDeck: game.battlefieldCells)
+                gameGraphics.move(currentPlayingCard: currentPlayingCard, to: dropLocation, gameDecks: game.deck, gameBattleDeck: game.battlefieldCells)
             } catch GameError.invalidMove {
                 currentPlayingCard.returnToOriginalLocation()
                 print("Invalid Move")
@@ -158,7 +158,7 @@ extension GameScene: ViewControllerDelegate {
 
     func newGame() {
         game.new()
-        gameGraphics.newGame(gameDecks: game.decks)
+        gameGraphics.newGame(gameDecks: game.deck)
         gameGraphics.addCards(to: self)
     }
 
@@ -169,6 +169,6 @@ extension GameScene: ViewControllerDelegate {
         guard let card = game.undo(move: move) else { return }
         // pass card name to graphics so it can easily find node from name
         // construct CurrentPlayingCard to pass into this method
-        gameGraphics.undo(move: move, card: card, gameDecks: game.decks)
+        gameGraphics.undo(move: move, card: card, gameDecks: game.deck)
     }
 }
