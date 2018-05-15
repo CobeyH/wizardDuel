@@ -50,9 +50,8 @@ class Game {
     init() {
         graveyards = [Graveyard(), Graveyard(), Graveyard()]
         hands = [Hand(), Hand(), Hand(), Hand(), Hand(), Hand(), Hand()]
-        battlefieldCells = [Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(),Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield()]
-        //I don't know what this does exactly and I can't seem to fix it.
-        deck = (0 ... 1).map({ _ in Deck() })
+        battlefieldCells = (0 ... 54).map({ _ in Battlefield() })
+        deck = Deck()
         self.new()
     }
     

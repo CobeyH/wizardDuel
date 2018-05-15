@@ -164,11 +164,11 @@ extension GameScene: ViewControllerDelegate {
 
 
     func undo() {
-        guard let move = game.lastMove else { return }
-        // game undo should return Card
-        guard let card = game.undo(move: move) else { return }
-        // pass card name to graphics so it can easily find node from name
-        // construct CurrentPlayingCard to pass into this method
-        gameGraphics.undo(move: move, card: card, gameDecks: game.deck)
+//        guard let move = game.lastMove else { return }
+//        // game undo should return Card
+//        guard let card = game.undo(move: move) else { return }
+//        // pass card name to graphics so it can easily find node from name
+//        // construct CurrentPlayingCard to pass into this method
+//        gameGraphics.undo(move: move, card: card, gameDecks: game.deck)
     }
 }
