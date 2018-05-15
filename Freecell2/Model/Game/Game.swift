@@ -18,7 +18,7 @@ class Game {
     
     private let graveyards: [Graveyard]
     private let hands: [Hand]
-    private let battlefieldCells: [Battlefield]
+    let battlefieldCells: [Battlefield]
     let decks: [Deck]
     
     private var moves = MoveHistory()
@@ -50,7 +50,7 @@ class Game {
     init() {
         graveyards = [Graveyard(), Graveyard(), Graveyard()]
         hands = [Hand(), Hand(), Hand(), Hand(), Hand(), Hand(), Hand()]
-        battlefieldCells = [Battlefield()]
+        battlefieldCells = [Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(),Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield(), Battlefield()]
         decks = (0 ... 1).map({ _ in Deck() })
         self.new()
     }
@@ -183,6 +183,11 @@ class Game {
         for (i, deck) in decks.enumerated() {
             if deck.contains(card: card) {
                 return Location.deck(i)
+            }
+        }
+        for (i, battlefield) in battlefieldCells.enumerated() {
+            if battlefield.contains(card: card) {
+                return Location.battlefield(i)
             }
         }
         return nil

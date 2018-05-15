@@ -180,11 +180,12 @@ struct GameGraphics {
             currentPlayingCard.playingCard.faceUp = false
         case .battlefield(let value):
             let battlefield = battlefieldCells[value]
+            //QUESTION SPOT
             let gameDeck = gameDecks[value]
             let cardCount = gameDeck.cards.count - 1
             let deckPosition = battlefield.position
             newPosition = CGPoint(x: deckPosition.x + CGFloat(cardCount), y: deckPosition.y - CGFloat(cardCount)/4)
-            currentPlayingCard.playingCard.faceUp = false
+            currentPlayingCard.playingCard.faceUp = true
             
         }
         currentPlayingCard.move(to: newPosition)
@@ -223,6 +224,14 @@ struct GameGraphics {
                 let gameDeck = game.decks[i]
                 if gameDeck.isEmpty {
                     return .deck(i)
+                }
+            }
+        }
+        for (i, battlefield) in battlefieldCells.enumerated() {
+            if battlefield.contains(position) {
+                let gameDeck = game.battlefieldCells[i]
+                if gameDeck.isEmpty {
+                    return .battlefield(i)
                 }
             }
         }
