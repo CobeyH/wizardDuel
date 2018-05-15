@@ -14,7 +14,7 @@ struct GameGraphics {
 
     private var graveyards: [SKSpriteNode] = []
     private var hands: [SKSpriteNode] = []
-    private var deck: SKSpriteNode
+    private var deck: SKSpriteNode = SKSpriteNode(color: .red, size: CGSize(width: 75, height: 40))
     private var battlefieldCells: [SKSpriteNode] = []
     private var newGameButton: SKSpriteNode = SKSpriteNode(color: .red, size: CGSize(width: 75, height: 40))
     
@@ -237,15 +237,15 @@ struct GameGraphics {
     }
 
 
-//    func undo(move: Move, card: Card, gameDecks: [Deck]) {
+//    func undo(move: Move, card: Card, gameDecks: Deck, battleDecks: [battlefield]) {
 //        print("game graphics, undo", move)
 //        let position = positionFrom(location: move.toLocation)
 //        print(position)
 //        let playingCard = findPlayingCard(from: card)
 //        let currentPlayingCard = CurrentPlayingCard(playingCard: playingCard, startPosition: playingCard.position, touchPoint: playingCard.position, location: move.toLocation)
 //        // TODO
-//        //self.move(currentPlayingCard: currentPlayingCard, to: move.fromLocation, gameDecks: gameDecks)
-//        
+//        self.move(currentPlayingCard: currentPlayingCard, to: move.fromLocation, gameDecks: gameDecks, gameBattleDeck: battleDecks)
+//
 //    }
 
 
