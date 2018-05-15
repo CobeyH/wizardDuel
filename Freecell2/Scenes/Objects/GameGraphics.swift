@@ -160,7 +160,7 @@ struct GameGraphics {
     }
 
 
-    func move(currentPlayingCard: CurrentPlayingCard, to location: Location, gameDecks: [Deck]) {
+    func move(currentPlayingCard: CurrentPlayingCard, to location: Location, gameDecks: [Deck], gameBattleDeck: [Battlefield]) {
         let newPosition: CGPoint
         switch location {
         case .graveyard(let value):
@@ -180,11 +180,10 @@ struct GameGraphics {
             currentPlayingCard.playingCard.faceUp = false
         case .battlefield(let value):
             let battlefield = battlefieldCells[value]
-            //QUESTION SPOT
-            let gameDeck = gameDecks[value]
-            let cardCount = gameDeck.cards.count - 1
+            let battleDeck = gameBattleDeck[value]
+            let cardCount = battleDeck.cards.count - 1
             let deckPosition = battlefield.position
-            newPosition = CGPoint(x: deckPosition.x + CGFloat(cardCount), y: deckPosition.y - CGFloat(cardCount)/4)
+            newPosition = CGPoint(x: deckPosition.x, y: deckPosition.y - CGFloat(cardCount)/4)
             currentPlayingCard.playingCard.faceUp = true
             
         }
@@ -245,7 +244,8 @@ struct GameGraphics {
         print(position)
         let playingCard = findPlayingCard(from: card)
         let currentPlayingCard = CurrentPlayingCard(playingCard: playingCard, startPosition: playingCard.position, touchPoint: playingCard.position, location: move.toLocation)
-        self.move(currentPlayingCard: currentPlayingCard, to: move.fromLocation, gameDecks: gameDecks)
+        // TODO
+        //self.move(currentPlayingCard: currentPlayingCard, to: move.fromLocation, gameDecks: gameDecks)
         
     }
 
