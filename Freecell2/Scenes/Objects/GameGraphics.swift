@@ -15,6 +15,7 @@ struct GameGraphics {
     private var graveyards: [SKSpriteNode] = []
     private var hands: [SKSpriteNode] = []
     private var decks: [SKSpriteNode] = []
+    private var battlefieldCells: [SKSpriteNode] = []
     private var newGameButton: SKSpriteNode = SKSpriteNode(color: .red, size: CGSize(width: 75, height: 40))
     
     
@@ -53,13 +54,24 @@ struct GameGraphics {
             deck.zPosition = baseZPosition
             decks.append(deck)
         }
-
+        
+        //Battlefield
+        for i in 0 ..< Int(width/config.cardSize.width - 1) {
+            for j in 0 ..< Int(height/config.cardSize.height - 3) {
+                let battlefieldCell = SKSpriteNode(color: config.backgroundColour, size: config.cardSize)
+                battlefieldCell.anchorPoint = config.topLeft
+                battlefieldCell.position = CGPoint(x: -config.margin + (config.cardSize.width + config.spacing/2) * CGFloat(i), y: -config.cardSize.height + config.margin - 2 * config.spacing - (config.cardSize.height + config.spacing/2) * CGFloat(j))
+                battlefieldCell.zPosition = baseZPosition
+                battlefieldCells.append(battlefieldCell)
+            }
+        }
         // New game button
         newGameButton.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         newGameButton.position = CGPoint(x: width / 2, y: -110)
         newGameButton.texture = SKTexture(imageNamed: "newGame")
         newGameButton.zPosition = baseZPosition
     }
+    
 
 
     mutating func setupCards(gameDecks: [Deck]) {
@@ -88,6 +100,9 @@ struct GameGraphics {
         }
         for deck in decks {
             scene.addChild(deck)
+        }
+        for battlefieldCell in battlefieldCells {
+            scene.addChild(battlefieldCell)
         }
         addCards(to: scene)
         scene.addChild(newGameButton)
@@ -151,15 +166,26 @@ struct GameGraphics {
         case .graveyard(let value):
             let graveyard = graveyards[value]
             newPosition = graveyard.position
+            currentPlayingCard.playingCard.faceUp = true
         case .hand(let value):
             let hand = hands[value]
             newPosition = hand.position
+            currentPlayingCard.playingCard.faceUp = true
         case .deck(let value):
             let deck = decks[value]
             let gameDeck = gameDecks[value]
             let cardCount = gameDeck.cards.count - 1
             let deckPosition = deck.position
-            newPosition = CGPoint(x: deckPosition.x, y: deckPosition.y + CGFloat(cardCount) * config.margin)
+            newPosition = CGPoint(x: deckPosition.x + CGFloat(cardCount)/4, y: deckPosition.y + CGFloat(cardCount)/4)
+            currentPlayingCard.playingCard.faceUp = false
+        case .battlefield(let value):
+            let battlefield = battlefieldCells[value]
+            let gameDeck = gameDecks[value]
+            let cardCount = gameDeck.cards.count - 1
+            let deckPosition = battlefield.position
+            newPosition = CGPoint(x: deckPosition.x + CGFloat(cardCount), y: deckPosition.y - CGFloat(cardCount)/4)
+            currentPlayingCard.playingCard.faceUp = false
+            
         }
         currentPlayingCard.move(to: newPosition)
     }
@@ -232,6 +258,10 @@ struct GameGraphics {
             let hand = hands[value]
             print("hand position")
             position = hand.position
+        case .battlefield(let value):
+            let battlefield = battlefieldCells[value]
+            print("battlefield position")
+            position = battlefield.position
         }
         return CGPoint(x: position.x + config.cardSize.width/2, y: position.y - config.cardSize.height/2)
     }

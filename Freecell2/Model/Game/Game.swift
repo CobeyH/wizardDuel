@@ -18,6 +18,7 @@ class Game {
     
     private let graveyards: [Graveyard]
     private let hands: [Hand]
+    private let battlefieldCells: [Battlefield]
     let decks: [Deck]
     
     private var moves = MoveHistory()
@@ -49,6 +50,7 @@ class Game {
     init() {
         graveyards = [Graveyard(), Graveyard(), Graveyard()]
         hands = [Hand(), Hand(), Hand(), Hand(), Hand(), Hand(), Hand()]
+        battlefieldCells = [Battlefield()]
         decks = (0 ... 1).map({ _ in Deck() })
         self.new()
     }
@@ -103,6 +105,9 @@ class Game {
         case .hand(let value):
             let hand = hands[value]
             hand.state = .empty
+        case .battlefield(let value):
+            let battlefield = battlefieldCells[value]
+            battlefield.removeBottom()
         }
     }
     
@@ -209,7 +214,9 @@ class Game {
             }
         case .deck(let value):
             return decks[value].bottomCard
-        }
+        case .battlefield(let value):
+        return battlefieldCells[value].bottomCard
+    }
     }
     
     
@@ -224,6 +231,9 @@ class Game {
         case .deck(let value):
             let deck = decks[value]
             try deck.add(card: card)
+        case .battlefield(let value):
+            let battlefield = battlefieldCells[value]
+            try battlefield.add(card: card)
         }
         
     }

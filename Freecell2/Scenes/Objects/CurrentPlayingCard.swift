@@ -25,7 +25,9 @@ struct CurrentPlayingCard {
     func move(to position: CGPoint) {
         let action = SKAction.move(to: position, duration: 0.2)
         playingCard.run(action)
-        playingCard.texture = SKTexture(imageNamed: playingCard.card.fileName)
+        let imageName = playingCard.faceUp ? playingCard.card.fileName : "cardback"
+        playingCard.texture = SKTexture(imageNamed: imageName)
+        
     }
 
     //Returns the card to the where it started. Used when an invalid move is made and the card must be reset.

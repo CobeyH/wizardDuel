@@ -13,6 +13,7 @@ struct Card {
     var name: String
     
     
+    
     static func deck() -> [Card] {
         var cards: [Card] = []
         //creates a bundle with all the lines of text from a passed in file.

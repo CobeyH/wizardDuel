@@ -6,34 +6,34 @@
 //  Copyright © 2017 Gary Kerr. All rights reserved.
 //
 
-final class Battlefield: CanAddCard, ContainsCard {
+final class Battlefield: ContainsCard {
     var cards: [Card]
     
     init() {
         self.cards = []
     }
     
-    
-    init(cards: [Card]) {
-        self.cards = cards
+    var bottomCard: Card? {
+        return cards.last
     }
+    
     
     var isEmpty: Bool {
         return cards.isEmpty
     }
     
     
-//    func removeBottom() {
-//        let _ = cards.popLast()
-//    }
+    func removeBottom() {
+        let _ = cards.popLast()
+    }
     
     
-//    func isBottom(card: Card) -> Bool {
-//        guard let bottomCard = cards.last else {
-//            return false
-//        }
-//        return card == bottomCard
-//    }
+    func isBottom(card: Card) -> Bool {
+        guard let bottomCard = cards.last else {
+            return false
+        }
+        return card == bottomCard
+    }
     
     
     func contains(card: Card) -> Bool {
@@ -45,12 +45,6 @@ final class Battlefield: CanAddCard, ContainsCard {
         return false
     }
     
-    
-    func canAdd(card: Card) -> Bool {
-        return true
-    }
-    
-    
     func add(card: Card) throws {
         cards.append(card)
     }
@@ -60,7 +54,6 @@ final class Battlefield: CanAddCard, ContainsCard {
         self.cards = cards
     }
 }
-
 
 extension Battlefield: CustomDebugStringConvertible {
     var debugDescription: String {

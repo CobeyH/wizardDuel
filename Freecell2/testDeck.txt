@@ -7,7 +7,7 @@
 8 Forest.274
 3 Lightning Bolt
 2 Lightning Greaves
-14 Mountain.300
+13 Mountain.300
 1 Savage Ventmaw
 2 Scourge of Valkas
 2 Skyship Stalker

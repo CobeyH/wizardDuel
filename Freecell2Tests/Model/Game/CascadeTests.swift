@@ -7,7 +7,7 @@
 //
 
 import XCTest
-@testable import Freegraveyard2
+@testable import Freecell2
 
 class DeckTests: XCTestCase {
 

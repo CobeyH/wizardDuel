@@ -10,6 +10,7 @@ enum Location {
     case hand(Int)
     case graveyard(Int)
     case deck(Int)
+    case battlefield(Int)
 }
 
 
@@ -22,6 +23,8 @@ extension Location: CustomDebugStringConvertible {
             return "graveyard(\(value))"
         case .deck(let value):
             return "deck(\(value))"
+        case .battlefield(let value):
+            return "battlefield(\(value))"
         }
     }
 }
