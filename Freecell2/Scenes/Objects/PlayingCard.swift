@@ -12,13 +12,16 @@ final class PlayingCard: SKSpriteNode {
 
     let card: Card
     var faceUp: Bool = false
+    var currDeckPos:String
 
     //Creates a playing card Sprite which is assigned the texture of the back of the card. It inherits its other properties from the card struct
     init(card: Card, size: CGSize) {
         let texture = SKTexture(imageNamed: "cardback")
         self.card = card
+        self.currDeckPos = "Deck"
         super.init(texture: texture, color: .clear, size: size)
         self.name = card.name
+        
     }
     
     required init?(coder aDecoder: NSCoder) {
