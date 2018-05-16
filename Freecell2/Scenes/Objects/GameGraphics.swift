@@ -16,7 +16,7 @@ struct GameGraphics {
     private var hands: [SKSpriteNode] = []
     private var deck: SKSpriteNode = SKSpriteNode(color: .red, size: CGSize(width: 75, height: 40))
     private var battlefieldCells: [SKSpriteNode] = []
-    private var newGameButton: SKSpriteNode = SKSpriteNode(color: .red, size: CGSize(width: 75, height: 40))
+    private var newGameButton: SKLabelNode = SKLabelNode(fontNamed: "planewalker")
     private var deckCount = SKLabelNode(fontNamed: "planewalker")
     
 
@@ -32,7 +32,7 @@ struct GameGraphics {
             graveyard.zPosition = baseZPosition
             graveyards.append(graveyard)
         }
-
+        
         // Graveyards
         for i in 0 ..< config.handCount {
             let hand = SKSpriteNode(color: config.backgroundColour, size: config.cardSize)
@@ -43,27 +43,20 @@ struct GameGraphics {
             hands.append(hand)
         }
 
-        //let deckWidth = CGFloat(config.deckCount) * config.cardSize.width + CGFloat(config.deckCount - 1) * config.spacing
-        //let deckMargin = (width - deckWidth) / 2
-
         // Decks
             deck.color = config.backgroundColour
             deck.size = config.cardSize
             deck.anchorPoint = config.topLeft
             deck.position = CGPoint(x: -config.margin, y: config.margin)
             deck.zPosition = baseZPosition
-        //  decks.append(deck)
-        
+       
         // Labels
         deckCount.fontSize = 40
-        deckCount.fontColor = SKColor.green
-        deckCount.text = "40"
+        deckCount.fontColor = SKColor.black
         deckCount.position = CGPoint(x: -2 * config.margin, y: 2 * config.margin - config.cardSize.height)
         deckCount.zPosition = config.getZIndex()
         
-        
-        
-        //Battlefield
+        //Battlefields
         for i in 0 ..< Int(width/config.cardSize.width - 1) {
             for j in 0 ..< Int(height/config.cardSize.height - 3) {
                 let battlefieldCell = SKSpriteNode(color: config.battlefieldColour, size: config.cardSize)
@@ -74,9 +67,10 @@ struct GameGraphics {
             }
         }
         // New game button
-        newGameButton.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+        newGameButton.fontSize = 40
+        newGameButton.color = SKColor.black
+        newGameButton.text = "New Game"
         newGameButton.position = CGPoint(x: width / 2, y: -130)
-        newGameButton.texture = SKTexture(imageNamed: "newGame")
         newGameButton.zPosition = baseZPosition
     }
     
@@ -167,6 +161,7 @@ struct GameGraphics {
         }
         cards = []
         setupCards(gameDecks: gameDecks)
+        
     }
 
 
@@ -177,16 +172,17 @@ struct GameGraphics {
             let graveyard = graveyards[value]
             newPosition = graveyard.position
             currentPlayingCard.playingCard.faceUp = true
-            
+            updateLabels(gameDeck: gameDecks)
         case .hand(let value):
             let hand = hands[value]
             newPosition = hand.position
             currentPlayingCard.playingCard.faceUp = true
+            updateLabels(gameDeck: gameDecks)
         case .deck():
             let gameDeck = gameDecks
             let cardCount = gameDeck.cards.count - 1
             let deckPosition = deck.position
-            deckCount.text = "\(gameDeck.cards.count)"
+            updateLabels(gameDeck: gameDecks)
             newPosition = CGPoint(x: deckPosition.x + CGFloat(cardCount)/4, y: deckPosition.y + CGFloat(cardCount)/4)
             currentPlayingCard.playingCard.faceUp = false
         case .battlefield(let value):
@@ -196,6 +192,7 @@ struct GameGraphics {
             let deckPosition = battlefield.position
             newPosition = CGPoint(x: deckPosition.x, y: deckPosition.y - CGFloat(cardCount) * config.battlefierdSpacing)
             currentPlayingCard.playingCard.faceUp = true
+            updateLabels(gameDeck: gameDecks)
             
         }
         currentPlayingCard.move(to: newPosition)
@@ -244,6 +241,10 @@ struct GameGraphics {
         }
         return nil
     }
+    
+    func updateLabels(gameDeck: Deck) {
+        deckCount.text = "\(gameDeck.cards.count)"
+    }
 
 
 //    func undo(move: Move, card: Card, gameDecks: Deck, battleDecks: [battlefield]) {
@@ -259,7 +260,8 @@ struct GameGraphics {
 
 
     // MARK: - Private
-
+    
+    
     //Used in the undo method to determine the origonal location of the card
     private func positionFrom(location: Location) -> CGPoint {
         let position: CGPoint

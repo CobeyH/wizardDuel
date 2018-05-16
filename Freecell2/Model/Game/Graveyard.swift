@@ -9,10 +9,6 @@
 final class Graveyard: CanAddCard, ContainsCard, HasState, Resetable {
 
     var state: State = .empty
-    var isDone: Bool {
-        return false
-    }
-    
     
     func canAdd(card: Card) -> Bool {
         return true
