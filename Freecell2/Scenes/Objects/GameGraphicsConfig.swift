@@ -13,6 +13,7 @@ struct GameGraphicsConfig {
     let topLeft = CGPoint(x: 0, y: 1)
     let cardSize = CGSize(width: 103, height: 150)
     let spacing: CGFloat = 20
+    let battlefierdSpacing: CGFloat = 16
     let margin: CGFloat = -40
     var zIndex: CGFloat = 10
     let zIndexIncrement: CGFloat = 5

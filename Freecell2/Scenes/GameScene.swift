@@ -60,7 +60,7 @@ class GameScene: SKScene {
     }
 
 
-    // MARK: - Touch graveyardlers
+    // MARK: - Touch cellers
 
     private func touchDown(atPoint point: CGPoint) {
 

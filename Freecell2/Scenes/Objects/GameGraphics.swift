@@ -17,7 +17,7 @@ struct GameGraphics {
     private var deck: SKSpriteNode = SKSpriteNode(color: .red, size: CGSize(width: 75, height: 40))
     private var battlefieldCells: [SKSpriteNode] = []
     private var newGameButton: SKSpriteNode = SKSpriteNode(color: .red, size: CGSize(width: 75, height: 40))
-    
+    private var deckCount = SKLabelNode(fontNamed: "Chalkduster")
     
 
     var cards: [PlayingCard] = []
@@ -53,6 +53,14 @@ struct GameGraphics {
             deck.position = CGPoint(x: -config.margin, y: config.margin)
             deck.zPosition = baseZPosition
         //  decks.append(deck)
+        
+        // Labels
+        deckCount.fontSize = 40
+        deckCount.fontColor = SKColor.green
+        deckCount.text = "40"
+        deckCount.position = CGPoint(x: -2 * config.margin, y: 2 * config.margin - config.cardSize.height)
+        deckCount.zPosition = config.getZIndex()
+        
         
         
         //Battlefield
@@ -100,6 +108,8 @@ struct GameGraphics {
         }
         
             scene.addChild(deck)
+        
+        scene.addChild(deckCount)
         
         for battlefieldCell in battlefieldCells {
             scene.addChild(battlefieldCell)
@@ -175,6 +185,7 @@ struct GameGraphics {
             let gameDeck = gameDecks
             let cardCount = gameDeck.cards.count - 1
             let deckPosition = deck.position
+            deckCount.text = "\(gameDeck.cards.count)"
             newPosition = CGPoint(x: deckPosition.x + CGFloat(cardCount)/4, y: deckPosition.y + CGFloat(cardCount)/4)
             currentPlayingCard.playingCard.faceUp = false
         case .battlefield(let value):
@@ -182,7 +193,7 @@ struct GameGraphics {
             let battleDeck = gameBattleDeck[value]
             let cardCount = battleDeck.cards.count - 1
             let deckPosition = battlefield.position
-            newPosition = CGPoint(x: deckPosition.x, y: deckPosition.y - CGFloat(cardCount)/4)
+            newPosition = CGPoint(x: deckPosition.x, y: deckPosition.y - CGFloat(cardCount) * config.battlefierdSpacing)
             currentPlayingCard.playingCard.faceUp = true
             
         }
@@ -227,10 +238,7 @@ struct GameGraphics {
         
         for (i, battlefield) in battlefieldCells.enumerated() {
             if battlefield.contains(position) {
-                let gameDeck = game.battlefieldCells[i]
-                if gameDeck.isEmpty {
                     return .battlefield(i)
-                }
             }
         }
         return nil
@@ -251,6 +259,7 @@ struct GameGraphics {
 
     // MARK: - Private
 
+    //Used in the undo method to determine the origonal location of the card
     private func positionFrom(location: Location) -> CGPoint {
         let position: CGPoint
         switch location {

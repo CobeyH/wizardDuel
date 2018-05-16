@@ -22,7 +22,7 @@ class Game {
     let deck: Deck
     
     private var moves = MoveHistory()
-    private let deckConfig: [(Int, Int)] = [(0, 60), (7, 13), (14, 20), (21, 27), (28, 33), (34, 39), (40, 45), (46, 51)]
+//    private let deckConfig: [(Int, Int)] = [(0, 60), (7, 13), (14, 20), (21, 27), (28, 33), (34, 39), (40, 45), (46, 51)]
     
     
     // MARK: - Computed properties
@@ -71,20 +71,20 @@ class Game {
     
     
     func canMove(card: Card) -> Bool {
-//        guard let location = location(from: card) else {
-//            return false
-//        }
-//        switch location {
-//        case .graveyard:
-//            return true
-//        case .hand:
-//            return true
-//        case .deck(let value):
-//            let deck = decks[value]
-//           return deck.isBottom(card: card)
-//
-//    }
-        return true
+        guard let location = location(from: card) else {
+            return false
+        }
+        switch location {
+        case .graveyard:
+            return true
+        case .hand:
+            return true
+        case .deck():
+           return deck.isBottom(card: card)
+        case .battlefield( _):
+            return true
+
+        }
     }
     
     func move(from fromLocation: Location, to toLocation: Location) throws {
