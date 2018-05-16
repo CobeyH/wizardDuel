@@ -29,11 +29,11 @@ final class PlayingCard: SKSpriteNode {
     }
 }
 
-//extension PlayingCard {
-//    static func ==(lhs: PlayingCard, rhs: PlayingCard) -> Bool {
-//        return lhs.card == rhs.card
-//    }
-//}
+extension PlayingCard {
+    static func ==(lhs: PlayingCard, rhs: PlayingCard) -> Bool {
+        return lhs.card == rhs.card
+    }
+}
 
 
 extension Card {

@@ -18,7 +18,9 @@ struct GameGraphicsConfig {
     var zIndex: CGFloat = 10
     let zIndexIncrement: CGFloat = 5
 
+    let backgroundName =  "2"
     let backgroundColour = NSColor.init(white: 1.0, alpha: 0.2)
+    let battlefieldColour = NSColor.init(white: 1.0, alpha: 0.05)
 
     let handCount = 7
     let graveyardCount = 2

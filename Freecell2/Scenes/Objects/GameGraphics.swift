@@ -17,7 +17,7 @@ struct GameGraphics {
     private var deck: SKSpriteNode = SKSpriteNode(color: .red, size: CGSize(width: 75, height: 40))
     private var battlefieldCells: [SKSpriteNode] = []
     private var newGameButton: SKSpriteNode = SKSpriteNode(color: .red, size: CGSize(width: 75, height: 40))
-    private var deckCount = SKLabelNode(fontNamed: "Chalkduster")
+    private var deckCount = SKLabelNode(fontNamed: "planewalker")
     
 
     var cards: [PlayingCard] = []
@@ -66,7 +66,7 @@ struct GameGraphics {
         //Battlefield
         for i in 0 ..< Int(width/config.cardSize.width - 1) {
             for j in 0 ..< Int(height/config.cardSize.height - 3) {
-                let battlefieldCell = SKSpriteNode(color: config.backgroundColour, size: config.cardSize)
+                let battlefieldCell = SKSpriteNode(color: config.battlefieldColour, size: config.cardSize)
                 battlefieldCell.anchorPoint = config.topLeft
                 battlefieldCell.position = CGPoint(x: -config.margin + (config.cardSize.width + config.spacing/2) * CGFloat(i), y: -config.cardSize.height + config.margin - 2 * config.spacing - (config.cardSize.height + config.spacing/2) * CGFloat(j))
                 battlefieldCell.zPosition = baseZPosition
@@ -75,7 +75,7 @@ struct GameGraphics {
         }
         // New game button
         newGameButton.anchorPoint = CGPoint(x: 0.5, y: 0.5)
-        newGameButton.position = CGPoint(x: width / 2, y: -110)
+        newGameButton.position = CGPoint(x: width / 2, y: -130)
         newGameButton.texture = SKTexture(imageNamed: "newGame")
         newGameButton.zPosition = baseZPosition
     }
@@ -127,7 +127,7 @@ struct GameGraphics {
     
     //Creates the background and sets its image
     func setupBackground(to scene: SKScene) {
-        let backgroundTexture = SKTexture(imageNamed: "background")
+        let backgroundTexture = SKTexture(imageNamed: config.backgroundName)
         let background: SKSpriteNode = SKSpriteNode( color: .clear, size: CGSize(width: scene.size.width, height: scene.size.height))
         
         background.texture = backgroundTexture
@@ -177,6 +177,7 @@ struct GameGraphics {
             let graveyard = graveyards[value]
             newPosition = graveyard.position
             currentPlayingCard.playingCard.faceUp = true
+            
         case .hand(let value):
             let hand = hands[value]
             newPosition = hand.position

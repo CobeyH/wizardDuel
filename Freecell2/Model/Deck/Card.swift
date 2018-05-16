@@ -8,11 +8,9 @@
 
 import Foundation
 
-
 struct Card {
     var name: String
-    
-    
+    var cardID: Int
     
     static func deck() -> [Card] {
         var cards: [Card] = []
@@ -26,7 +24,8 @@ struct Card {
                 
                 //Loops through the array of text lines and splits them after the number of cards. Then splits the number of cards and card name
                 //into two variables.
-                for cardInfo in cardInfos {
+                var i = 0
+                for (cardInfo) in cardInfos {
                     if cardInfo.count > 3 {
                      let cardInfoArray = cardInfo.split(separator: " ", maxSplits: 1)
                         if let numberOfCards = Int(String((cardInfoArray.first)!)) {
@@ -35,7 +34,8 @@ struct Card {
                             
                             //Appends each card to the deck x times where x is the numberOfCards specified.
                             for _ in 0..<numberOfCards {
-                                cards.append(Card(name: cardName))
+                                cards.append(Card(name: cardName, cardID: i))
+                                i += i
                             }
                         }
                     }
@@ -58,7 +58,7 @@ struct Card {
 
 extension Card: Equatable {
     static func == (lhs: Card, rhs: Card) -> Bool {
-        return lhs.name == rhs.name
+        return lhs.cardID == rhs.cardID
     }
 }
 
