@@ -6,26 +6,7 @@
 //  Copyright © 2017 Gary Kerr. All rights reserved.
 //
 
-final class Graveyard: CanAddCard, ContainsCard, HasState, Resetable {
-
-    var state: State = .empty
+final class Graveyard: MasterDeck {
     
-    func canAdd(card: Card) -> Bool {
-        return true
-    }
-    
-    
-    func add(card: Card) throws {
-        if canAdd(card: card) {
-            state = .card(card)
-        } else {
-            throw GameError.invalidMove
-        }
-    }
-    
-    
-    func removeCard() {
-        state = .empty
-    }
 }
 

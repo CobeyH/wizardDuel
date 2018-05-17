@@ -35,7 +35,7 @@ struct Card {
                             //Appends each card to the deck x times where x is the numberOfCards specified.
                             for _ in 0..<numberOfCards {
                                 cards.append(Card(name: cardName, cardID: i))
-                                i += i
+                                i = i + 1
                             }
                         }
                     }

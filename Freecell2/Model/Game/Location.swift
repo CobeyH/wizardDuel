@@ -7,7 +7,7 @@
 //
 
 enum Location {
-    case hand(Int)
+    case hand()
     case graveyard(Int)
     case deck()
     case battlefield(Int)
