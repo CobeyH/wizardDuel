@@ -116,7 +116,7 @@ class GameScene: SKScene {
             do {
                 let startLocation = currentPlayingCard.location
                 try game.move(from: startLocation, to: dropLocation)
-                gameGraphics.move(currentPlayingCard: currentPlayingCard, to: dropLocation, gameDecks: game.deck, gameBattleDeck: game.battlefieldCells)
+                gameGraphics.move(currentPlayingCard: currentPlayingCard, to: dropLocation, gameDecks: game.deck, gameBattleDeck: game.battlefieldCells, hand: game.hands)
             } catch GameError.invalidMove {
                 currentPlayingCard.returnToOriginalLocation()
                 print("Invalid Move")

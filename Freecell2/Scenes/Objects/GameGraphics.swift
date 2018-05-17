@@ -13,7 +13,7 @@ struct GameGraphics {
     private var config = GameGraphicsConfig()
 
     private var graveyards: [SKSpriteNode] = []
-    private var hands: [SKSpriteNode] = []
+    private var hands: SKSpriteNode = SKSpriteNode(color: .red, size: CGSize(width: 75, height: 40))
     private var deck: SKSpriteNode = SKSpriteNode(color: .red, size: CGSize(width: 75, height: 40))
     private var battlefieldCells: [SKSpriteNode] = []
     private var newGameButton: SKLabelNode = SKLabelNode(fontNamed: "planewalker")
@@ -34,14 +34,15 @@ struct GameGraphics {
         }
         
         // Graveyards
-        for i in 0 ..< config.handCount {
-            let hand = SKSpriteNode(color: config.backgroundColour, size: config.cardSize)
-            hand.anchorPoint = config.topLeft
-            hand.position = CGPoint(x: config.margin + config.cardSize.width + CGFloat(i) * (config.cardSize.width + config.spacing/2), y: -config.margin - height + config.cardSize.height)
-
-            hand.zPosition = baseZPosition
-            hands.append(hand)
-        }
+        
+            hands.color = config.backgroundColour
+        hands.size = CGSize(width: config.cardSize.width * 5, height: config.cardSize.height)
+            hands.anchorPoint = config.topLeft
+//            hands.position = CGPoint(x: config.margin + config.cardSize.width * (config.cardSize.width + config.spacing/2), y: -config.margin - height + config.cardSize.height)
+        hands.position = CGPoint(x: -config.margin, y: -config.margin - height + config.cardSize.height)
+            hands.zPosition = baseZPosition
+            
+        
 
         // Decks
             deck.color = config.backgroundColour
@@ -97,9 +98,9 @@ struct GameGraphics {
         for graveyard in graveyards {
             scene.addChild(graveyard)
         }
-        for hand in hands {
-            scene.addChild(hand)
-        }
+
+            scene.addChild(hands)
+        
         
             scene.addChild(deck)
         
@@ -128,8 +129,6 @@ struct GameGraphics {
         background.anchorPoint = CGPoint(x: 0, y: 1)
         background.zPosition = -5
         scene.addChild(background)
-        
-       
     }
 
 
@@ -165,7 +164,7 @@ struct GameGraphics {
     }
 
 
-    func move(currentPlayingCard: CurrentPlayingCard, to location: Location, gameDecks: Deck, gameBattleDeck: [Battlefield]) {
+    func move(currentPlayingCard: CurrentPlayingCard, to location: Location, gameDecks: Deck, gameBattleDeck: [Battlefield], hand: Hand) {
         let newPosition: CGPoint
         switch location {
         case .graveyard(let value):
@@ -173,9 +172,9 @@ struct GameGraphics {
             newPosition = graveyard.position
             currentPlayingCard.playingCard.faceUp = true
             updateLabels(gameDeck: gameDecks)
-        case .hand(let value):
-            let hand = hands[value]
-            newPosition = hand.position
+        case .hand():
+            let cardCount = hand.cards.count - 1
+            newPosition = CGPoint(x: hands.position.x + CGFloat(cardCount) * config.cardSize.width, y: hands.position.y)
             currentPlayingCard.playingCard.faceUp = true
             updateLabels(gameDeck: gameDecks)
         case .deck():
@@ -205,11 +204,10 @@ struct GameGraphics {
                 return .graveyard(i)
             }
         }
-        for (i, hand) in hands.enumerated() {
-            if hand.contains(position) {
-                return .hand(i)
-            }
+        if hands.contains(position) {
+            return .hand()
         }
+        
         for playingCard in cards {
             if playingCard == currentPlayingCard.playingCard { continue }
             if playingCard.contains(position) {
@@ -273,10 +271,9 @@ struct GameGraphics {
             let graveyard = graveyards[value]
             print("graveyard position")
             position = graveyard.position
-        case .hand(let value):
-            let hand = hands[value]
+        case .hand():
             print("hand position")
-            position = hand.position
+            position = hands.position
         case .battlefield(let value):
             let battlefield = battlefieldCells[value]
             print("battlefield position")

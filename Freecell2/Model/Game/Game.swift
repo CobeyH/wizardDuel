@@ -17,7 +17,7 @@ class Game {
     // MARK: - Properties
     
     private let graveyards: [Graveyard]
-    private let hands: [Hand]
+    let hands: Hand
     let battlefieldCells: [Battlefield]
     let deck: Deck
     
@@ -48,8 +48,8 @@ class Game {
     // MARK: - Initialisers
     
     init() {
-        graveyards = [Graveyard(), Graveyard(), Graveyard()]
-        hands = [Hand(), Hand(), Hand(), Hand(), Hand(), Hand(), Hand()]
+        graveyards = [Graveyard(), Graveyard()]
+        hands = Hand()
         battlefieldCells = (0 ... 54).map({ _ in Battlefield() })
         deck = Deck()
         self.new()
@@ -61,7 +61,7 @@ class Game {
     func new() {
         let cards = Card.deck().shuffled()
         graveyards.forEach({ $0.reset() })
-        hands.forEach({ $0.reset() })
+        hands.reset()
 //        for (deck, _) in zip(decks, deckConfig) {
            // deck.cards = Array(cards[config.0 ... config.1])
             deck.cards = cards
@@ -100,13 +100,12 @@ class Game {
             deck.removeBottom()
         case .graveyard(let value):
             let graveyard = graveyards[value]
-            graveyard.removeCard()
-        case .hand(let value):
-            let hand = hands[value]
-            hand.state = .empty
+            graveyard.removeBottom()
+        case .hand():
+            hands.removeCard(card: card)
         case .battlefield(let value):
             let battlefield = battlefieldCells[value]
-            battlefield.removeBottom()
+            battlefield.removeCard(card: card)
         }
     }
     
@@ -138,17 +137,16 @@ class Game {
         guard let card = card(at: location) else {
             throw GameError.invalidMove
         }
-        for (i, hand) in hands.enumerated() {
-            switch hand.state {
+        
+            switch hands.state {
             case .empty:
-                    let newLocation = Location.hand(i)
+                    let newLocation = Location.hand()
                     try move(from: location, to: newLocation)
-                    hand.state = .card(card)
+                    hands.state = .card(card)
                     return newLocation
                 
             case .card( _):
                 throw GameError.invalidMove
-            }
         }
         return location
     }
@@ -174,11 +172,11 @@ class Game {
                 return Location.graveyard(i)
             }
         }
-        for (i, hand) in hands.enumerated() {
-            if hand.contains(card: card) {
-                return Location.hand(i)
-            }
+        
+        if hands.contains(card: card) {
+            return Location.hand()
         }
+        
         
             if deck.contains(card: card) {
                 return Location.deck()
@@ -211,8 +209,8 @@ class Game {
             case .empty: return nil
             case .card(let card): return card
             }
-        case .hand(let value):
-            switch hands[value].state {
+        case .hand():
+            switch hands.state {
             case .empty: return nil
             case .card(let card): return card
             }
@@ -229,9 +227,8 @@ class Game {
         case .graveyard(let value):
             let graveyard = graveyards[value]
             try graveyard.add(card: card)
-        case .hand(let value):
-            let hand = hands[value]
-            try hand.add(card: card)
+        case .hand():
+            try hands.add(card: card)
         case .deck():
             try deck.add(card: card)
         case .battlefield(let value):
