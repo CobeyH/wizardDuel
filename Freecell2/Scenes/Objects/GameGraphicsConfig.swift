@@ -10,8 +10,11 @@ import Foundation
 import Cocoa
 
 struct GameGraphicsConfig {
-    let topLeft = CGPoint(x: 0, y: 1)
+    let cardMiddle = CGPoint(x: 0.5, y: 0.5)
     let cardSize = CGSize(width: 103, height: 150)
+    let offsetX = CGFloat(103/2)
+    let offsetY = -CGFloat(150/2)
+    
     let spacing: CGFloat = 20
     let battlefierdSpacing: CGFloat = 16
     let margin: CGFloat = -40

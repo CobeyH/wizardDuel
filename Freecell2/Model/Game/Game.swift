@@ -56,7 +56,6 @@ class Game {
     
     
     // MARK: - Methods
-    
     func new() {
         let cards = Card.deck().shuffled()
         graveyards.forEach({ $0.reset() })

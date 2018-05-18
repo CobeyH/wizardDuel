@@ -28,6 +28,17 @@ class GameScene: SKScene {
 
     }
 
+    // see if the hit node is a card in the battle field and if so rotate it
+    @objc func tap(sender: NSClickGestureRecognizer) {
+        if sender.state == .ended {
+            var touchLocation: CGPoint = sender.location(in: sender.view)
+            touchLocation = self.convertPoint(fromView: touchLocation)
+            if let playingCard = gameGraphics.cardFrom(position: touchLocation) {
+                gameGraphics.tapCard(card: playingCard)
+            }
+            
+        }
+    }
 
     override func didMove(to view: SKView) {
         // https://stackoverflow.com/questions/39590602/scenedidload-being-called-twice
@@ -112,9 +123,6 @@ class GameScene: SKScene {
         //Drop location is set as the location where the card is released.
         if let dropLocation = gameGraphics.dropLocation(from: pos, currentPlayingCard: currentPlayingCard, game: game) {
             do {
-                if currentPlayingCard.location.debugDescription == dropLocation.debugDescription {
-                    gameGraphics.tapCard(card: currentPlayingCard)
-                }
 
                 //Updates the model by removing the card from the origonal location and adding it to the new location.
                 try game.move(card: currentPlayingCard, to: dropLocation)

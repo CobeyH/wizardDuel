@@ -24,31 +24,28 @@ struct GameGraphics {
 
     mutating func setup(width: CGFloat, height: CGFloat) {
         let baseZPosition: CGFloat = config.zIndexIncrement
-        // Hand
+        
+        // Graveyards
         for i in 0 ..< config.graveyardCount {
             let graveyard = SKSpriteNode(color: config.backgroundColour, size: config.cardSize)
-            graveyard.anchorPoint = config.topLeft
-            graveyard.position = CGPoint(x: -config.margin + config.spacing + config.cardSize.width + CGFloat(i) * (config.cardSize.width + config.spacing), y: config.margin)
+            graveyard.anchorPoint = config.cardMiddle
+            graveyard.position = CGPoint(x: config.offsetX - config.margin + CGFloat(i + 1) * (config.cardSize.width + config.spacing), y: config.margin + config.offsetY)
             graveyard.zPosition = baseZPosition
             graveyards.append(graveyard)
         }
         
-        // Graveyards
-        
+        // Hand
             hands.color = config.backgroundColour
-        hands.size = CGSize(width: config.cardSize.width * 5, height: config.cardSize.height)
-            hands.anchorPoint = config.topLeft
-//            hands.position = CGPoint(x: config.margin + config.cardSize.width * (config.cardSize.width + config.spacing/2), y: -config.margin - height + config.cardSize.height)
-        hands.position = CGPoint(x: -config.margin, y: -config.margin - height + config.cardSize.height)
+            hands.size = CGSize(width: config.cardSize.width * 5, height: config.cardSize.height)
+            hands.anchorPoint = config.cardMiddle
+            hands.position = CGPoint(x: -config.margin + 5 * config.offsetX, y: -config.margin - height + config.cardSize.height + config.offsetY)
             hands.zPosition = baseZPosition
-            
-        
 
-        // Decks
+        // Deck
             deck.color = config.backgroundColour
             deck.size = config.cardSize
-            deck.anchorPoint = config.topLeft
-            deck.position = CGPoint(x: -config.margin, y: config.margin)
+            deck.anchorPoint = config.cardMiddle
+            deck.position = CGPoint(x: -config.margin + config.offsetX, y: config.margin + config.offsetY)
             deck.zPosition = baseZPosition
        
         // Labels
@@ -61,8 +58,8 @@ struct GameGraphics {
         for i in 0 ..< Int(width/config.cardSize.width - 1) {
             for j in 0 ..< Int(height/config.cardSize.height - 3) {
                 let battlefieldCell = SKSpriteNode(color: config.battlefieldColour, size: config.cardSize)
-                battlefieldCell.anchorPoint = config.topLeft
-                battlefieldCell.position = CGPoint(x: -config.margin + (config.cardSize.width + config.spacing/2) * CGFloat(i), y: -config.cardSize.height + config.margin - 2 * config.spacing - (config.cardSize.height + config.spacing/2) * CGFloat(j))
+                battlefieldCell.anchorPoint = config.cardMiddle
+                battlefieldCell.position = CGPoint(x: -config.margin + config.offsetX + (config.cardSize.width + config.spacing/2) * CGFloat(i), y: -config.cardSize.height + config.margin - 2 * config.spacing - (config.cardSize.height + config.spacing/2) * CGFloat(j) + config.offsetY)
                 battlefieldCell.zPosition = baseZPosition
                 battlefieldCells.append(battlefieldCell)
             }
@@ -83,7 +80,7 @@ struct GameGraphics {
             let deckPosition = deck.position
             for (i, gameCard) in gameDecks.cards.enumerated() {
                 let card = PlayingCard(card: gameCard, size: config.cardSize)
-                card.anchorPoint = config.topLeft
+                card.anchorPoint = config.cardMiddle
                 card.size = config.cardSize
                // card.position = CGPoint(x: deckPosition.x, y: deckPosition.y + config.margin * CGFloat(i))
                 card.position = CGPoint(x: deckPosition.x + CGFloat(i/10), y: deckPosition.y + CGFloat(i/4))
@@ -162,8 +159,8 @@ struct GameGraphics {
         setupCards(gameDecks: gameDecks)
     }
     
-    func tapCard(card: CurrentPlayingCard) {
-        let playingCard = card.playingCard
+    func tapCard(card: PlayingCard) {
+        let playingCard = card
         
         playingCard.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         if playingCard.tapped == false {
@@ -175,7 +172,7 @@ struct GameGraphics {
             playingCard.zRotation = CGFloat(0)
         }
 
-        card.playingCard.tapped = card.playingCard.tapped ? false : true
+        card.tapped = card.tapped ? false : true
     }
 
 
@@ -190,14 +187,14 @@ struct GameGraphics {
             
         case .hand():
             let cardCount = hand.cards.count - 1
-            newPosition = CGPoint(x: hands.position.x + CGFloat(cardCount) * config.cardSize.width, y: hands.position.y)
+            newPosition = CGPoint(x: -4 * config.offsetX + hands.position.x + CGFloat(cardCount) * config.cardSize.width, y: hands.position.y)
             currentPlayingCard.playingCard.faceUp = true
             
         case .deck():
             let gameDeck = gameDecks
             let cardCount = gameDeck.cards.count - 1
             let deckPosition = deck.position
-            newPosition = CGPoint(x: deckPosition.x + CGFloat(cardCount)/4, y: deckPosition.y + CGFloat(cardCount)/4)
+            newPosition = CGPoint(x: deckPosition.x + CGFloat(cardCount)/4 - config.offsetX, y: deckPosition.y + CGFloat(cardCount)/4 - config.offsetY)
             currentPlayingCard.playingCard.faceUp = false
             
         case .battlefield(let value):
@@ -205,7 +202,7 @@ struct GameGraphics {
             let battleDeck = gameBattleDeck[value]
             let cardCount = battleDeck.cards.count - 1
             let deckPosition = battlefield.position
-            newPosition = CGPoint(x: deckPosition.x, y: deckPosition.y - CGFloat(cardCount) * config.battlefierdSpacing)
+            newPosition = CGPoint(x: deckPosition.x + config.cardSize.width/2 - config.offsetX, y: deckPosition.y - CGFloat(cardCount) * config.battlefierdSpacing - config.cardSize.height/2 - config.offsetY)
             currentPlayingCard.playingCard.faceUp = true
         
         }
