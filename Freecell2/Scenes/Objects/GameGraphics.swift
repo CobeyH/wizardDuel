@@ -160,30 +160,46 @@ struct GameGraphics {
         }
         cards = []
         setupCards(gameDecks: gameDecks)
+    }
+    
+    func tapCard(card: CurrentPlayingCard) {
+        let playingCard = card.playingCard
         
+        playingCard.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+        if playingCard.tapped == false {
+            playingCard.zRotation = CGFloat(Double.pi/2)
+            //let rotate:SKAction = SKAction.rotate(byAngle: CGFloat.pi / 2, duration: 2)
+            //playingCard.run(rotate)
+        }
+        else {
+            playingCard.zRotation = CGFloat(0)
+        }
+
+        card.playingCard.tapped = card.playingCard.tapped ? false : true
     }
 
 
     func move(currentPlayingCard: CurrentPlayingCard, to location: Location, gameDecks: Deck, gameBattleDeck: [Battlefield], hand: Hand) {
         let newPosition: CGPoint
         switch location {
+            
         case .graveyard(let value):
             let graveyard = graveyards[value]
             newPosition = graveyard.position
             currentPlayingCard.playingCard.faceUp = true
-            updateLabels(gameDeck: gameDecks)
+            
         case .hand():
             let cardCount = hand.cards.count - 1
             newPosition = CGPoint(x: hands.position.x + CGFloat(cardCount) * config.cardSize.width, y: hands.position.y)
             currentPlayingCard.playingCard.faceUp = true
-            updateLabels(gameDeck: gameDecks)
+            
         case .deck():
             let gameDeck = gameDecks
             let cardCount = gameDeck.cards.count - 1
             let deckPosition = deck.position
-            updateLabels(gameDeck: gameDecks)
             newPosition = CGPoint(x: deckPosition.x + CGFloat(cardCount)/4, y: deckPosition.y + CGFloat(cardCount)/4)
             currentPlayingCard.playingCard.faceUp = false
+            
         case .battlefield(let value):
             let battlefield = battlefieldCells[value]
             let battleDeck = gameBattleDeck[value]
@@ -191,9 +207,9 @@ struct GameGraphics {
             let deckPosition = battlefield.position
             newPosition = CGPoint(x: deckPosition.x, y: deckPosition.y - CGFloat(cardCount) * config.battlefierdSpacing)
             currentPlayingCard.playingCard.faceUp = true
-            updateLabels(gameDeck: gameDecks)
-            
+        
         }
+        updateLabels(gameDeck: gameDecks)
         currentPlayingCard.move(to: newPosition)
     }
 

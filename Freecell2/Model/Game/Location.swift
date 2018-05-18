@@ -5,7 +5,6 @@
 //  Created by gary on 19/08/2017.
 //  Copyright © 2017 Gary Kerr. All rights reserved.
 //
-
 enum Location {
     case hand()
     case graveyard(Int)

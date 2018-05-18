@@ -8,6 +8,7 @@
 
 import Foundation
 class MasterDeck: ContainsCard, HasState, Resetable {
+    
     var cards: [Card]
     var state: State = .empty
     
@@ -37,13 +38,7 @@ class MasterDeck: ContainsCard, HasState, Resetable {
     }
     
     func removeCard(card: Card) {
-        var i = 0
-        for potientialCard in cards {
-            if potientialCard == card {
-                cards.remove(at: i)
-            }
-        i += 1
-        }
+        cards.remove(at: cards.index(of: card)!)
     }
     
     

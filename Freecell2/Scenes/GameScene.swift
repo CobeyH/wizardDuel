@@ -49,16 +49,13 @@ class GameScene: SKScene {
 //        }
     }
 
-
     override func mouseDragged(with event: NSEvent) {
         touchMoved(toPoint: event.location(in: self))
     }
 
-
     override func mouseUp(with event: NSEvent) {
         touchUp(atPoint: event.location(in: self))
     }
-
 
     // MARK: - Touch cellers
 
@@ -109,13 +106,19 @@ class GameScene: SKScene {
         currentPlayingCard.update(position: pos)
     }
 
-
+    //Triggered when the mouse is released
     private func touchUp(atPoint pos: CGPoint) {
         guard let currentPlayingCard = currentPlayingCard else { return }
+        //Drop location is set as the location where the card is released.
         if let dropLocation = gameGraphics.dropLocation(from: pos, currentPlayingCard: currentPlayingCard, game: game) {
             do {
-                let startLocation = currentPlayingCard.location
-                try game.move(from: startLocation, to: dropLocation)
+                if currentPlayingCard.location.debugDescription == dropLocation.debugDescription {
+                    gameGraphics.tapCard(card: currentPlayingCard)
+                }
+
+                //Updates the model by removing the card from the origonal location and adding it to the new location.
+                try game.move(card: currentPlayingCard, to: dropLocation)
+                //Updates the view by moving the image to the correct animation
                 gameGraphics.move(currentPlayingCard: currentPlayingCard, to: dropLocation, gameDecks: game.deck, gameBattleDeck: game.battlefieldCells, hand: game.hands)
             } catch GameError.invalidMove {
                 currentPlayingCard.returnToOriginalLocation()
@@ -125,6 +128,7 @@ class GameScene: SKScene {
                 currentPlayingCard.returnToOriginalLocation()
             }
         } else {
+
             currentPlayingCard.returnToOriginalLocation()
         }
         self.currentPlayingCard = nil
@@ -133,6 +137,8 @@ class GameScene: SKScene {
             gameIsWon()
         }
     }
+    
+    
 
 
     private func requestNewGame() {
@@ -161,7 +167,7 @@ extension GameScene: ViewControllerDelegate {
         gameGraphics.newGame(gameDecks: game.deck)
         gameGraphics.addCards(to: self)
     }
-
+ 
 
     func undo() {
 //        guard let move = game.lastMove else { return }
