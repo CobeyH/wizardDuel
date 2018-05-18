@@ -22,11 +22,10 @@ class Game {
     let deck: Deck
     
     private var moves = MoveHistory()
-//    private let deckConfig: [(Int, Int)] = [(0, 60), (7, 13), (14, 20), (21, 27), (28, 33), (34, 39), (40, 45), (46, 51)]
+
     
     
     // MARK: - Computed properties
-    
     var isGameOver: Bool {
         return false
     }
@@ -87,12 +86,11 @@ class Game {
         }
     }
     
-    func move(from fromLocation: Location, to toLocation: Location) throws {
-        guard let card = card(at: fromLocation) else {
-            throw GameError.invalidMove
-        }
+    func move(card currentPlayingCard: CurrentPlayingCard, to toLocation: Location) throws {
+         let card = currentPlayingCard.playingCard.card
+           
         try move(card: card, to: toLocation)
-        
+        let fromLocation = currentPlayingCard.location
         moves.add(move: Move(fromLocation: fromLocation, toLocation: toLocation))
         
         switch fromLocation {
@@ -133,37 +131,37 @@ class Game {
 //    }
     
     
-    func moveToHand(from location: Location) throws -> Location {
-        guard let card = card(at: location) else {
-            throw GameError.invalidMove
-        }
-        
-            switch hands.state {
-            case .empty:
-                    let newLocation = Location.hand()
-                    try move(from: location, to: newLocation)
-                    hands.state = .card(card)
-                    return newLocation
-                
-            case .card( _):
-                throw GameError.invalidMove
-        }
-        return location
-    }
-    
-    
-    func moveToGraveyard(from location: Location) throws -> Location {
-        //        guard let _ = card(at: location) else {
-        //            throw GameError.invalidMove
-        //        }
-        for (i, _) in graveyards.enumerated() {
-    
-                let newLocation = Location.graveyard(i)
-                try move(from: location, to: newLocation)
-            return newLocation
-        }
-        return location
-    }
+//    func moveToHand(from location: Location) throws -> Location {
+//        guard let card = card(at: location) else {
+//            throw GameError.invalidMove
+//        }
+//
+//            switch hands.state {
+//            case .empty:
+//                    let newLocation = Location.hand()
+//                    try move(from: location, to: newLocation)
+//                    hands.state = .card(card)
+//                    return newLocation
+//
+//            case .card( _):
+//                throw GameError.invalidMove
+//        }
+//        return location
+//    }
+//
+//
+//    func moveToGraveyard(from location: Location) throws -> Location {
+//        //        guard let _ = card(at: location) else {
+//        //            throw GameError.invalidMove
+//        //        }
+//        for (i, _) in graveyards.enumerated() {
+//
+//                let newLocation = Location.graveyard(i)
+//                try move(from: location, to: newLocation)
+//            return newLocation
+//        }
+//        return location
+//    }
     
     
     func location(from card: Card) -> Location? {

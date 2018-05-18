@@ -55,7 +55,6 @@ class ViewController: NSViewController {
         delegate?.undo()
     }
 
-
     // MARK: - Private
 
     private func configureScene() {
