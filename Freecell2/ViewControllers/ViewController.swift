@@ -65,6 +65,9 @@ class ViewController: NSViewController {
                 scene.viewDelegate = self
                 view.presentScene(scene)
                 delegate = scene
+                let tapGR = NSClickGestureRecognizer(target: self, action: #selector(tap))
+                tapGR.numberOfClicksRequired = 1
+                view.addGestureRecognizer(tapGR)
             }
             view.ignoresSiblingOrder = true
             view.showsFPS = true
@@ -72,6 +75,11 @@ class ViewController: NSViewController {
         }
     }
 
+    @objc func tap(sender: NSClickGestureRecognizer) {
+        let scene = self.delegate as! GameScene
+        
+        scene.tap(sender: sender)
+    }
 
     private func configureStatistics() {
         let userDefaults = UserDefaults.standard
