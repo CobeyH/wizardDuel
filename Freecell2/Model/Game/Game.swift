@@ -60,10 +60,7 @@ class Game {
         let cards = Card.deck().shuffled()
         graveyards.forEach({ $0.reset() })
         hands.reset()
-//        for (deck, _) in zip(decks, deckConfig) {
-           // deck.cards = Array(cards[config.0 ... config.1])
-            deck.cards = cards
-//        }
+        deck.cards = cards
         moves.clear()
     }
     
@@ -100,68 +97,40 @@ class Game {
             graveyard.removeBottom()
         case .hand():
             hands.removeCard(card: card)
+            
         case .battlefield(let value):
             let battlefield = battlefieldCells[value]
             battlefield.removeCard(card: card)
+
         }
     }
-    
-    
-//    func quickMove(from location: Location) throws -> Location {
-//        switch location {
-//        case .hand:
-//            let newLocation = try moveToHand(from: location)
-//            return newLocation
-//        case .graveyard:
-//            do {
-//                let newLocation = try moveToHand(from: location)
-//                return newLocation
-//            }
-//        case .deck:
-//            do {
-//                let newLocation = try moveToHand(from: location)
-//                return newLocation
-//            } catch {}
-//            do {
-//                let newLocation = try moveToGraveyard(from: location)
-//                return newLocation
-//            }
-//        }
-//    }
-    
     
 //    func moveToHand(from location: Location) throws -> Location {
 //        guard let card = card(at: location) else {
 //            throw GameError.invalidMove
 //        }
 //
-//            switch hands.state {
-//            case .empty:
-//                    let newLocation = Location.hand()
-//                    try move(from: location, to: newLocation)
-//                    hands.state = .card(card)
-//                    return newLocation
-//
-//            case .card( _):
-//                throw GameError.invalidMove
-//        }
-//        return location
-//    }
-//
-//
-//    func moveToGraveyard(from location: Location) throws -> Location {
-//        //        guard let _ = card(at: location) else {
-//        //            throw GameError.invalidMove
-//        //        }
-//        for (i, _) in graveyards.enumerated() {
-//
-//                let newLocation = Location.graveyard(i)
-//                try move(from: location, to: newLocation)
+//        switch hands.state {
+//        case .empty:
+//            let newLocation = Location.hand()
+//            try move(from: location, to: newLocation)
+//            hands.state = .card(card)
 //            return newLocation
+//
+//        case .card( _):
+//            throw GameError.invalidMove
 //        }
 //        return location
 //    }
     
+    func quickMove(card: Card, location: Location) {
+        let toLocation = Location.hand()
+    
+        do {
+        try move(card: card, to: toLocation)
+        } catch {}
+        
+    }
     
     func location(from card: Card) -> Location? {
         for (i, graveyard) in graveyards.enumerated() {

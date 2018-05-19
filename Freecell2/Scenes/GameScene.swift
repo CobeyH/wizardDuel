@@ -24,19 +24,32 @@ class GameScene: SKScene {
     override func sceneDidLoad() {
         super.sceneDidLoad()
         anchorPoint = CGPoint(x: 0, y: 1)
-        
-
+    
     }
 
-    // see if the hit node is a card in the battle field and if so rotate it
+    // If the hit node is a card in the battle field and if so rotate it
     @objc func tap(sender: NSClickGestureRecognizer) {
+        if sender.state == .ended {
+            let touchLocation: CGPoint = sender.location(in: sender.view)
+            let newTouchLocation = self.convertPoint(fromView: touchLocation)
+            if let playingCard = gameGraphics.cardFrom(position: newTouchLocation) {
+                if playingCard.heldBy == "Battlefield" {
+                gameGraphics.tapCard(card: playingCard)
+                }
+            }
+        }
+    }
+    
+    
+    
+    
+    @objc func doubleTap(sender: NSClickGestureRecognizer) {
         if sender.state == .ended {
             var touchLocation: CGPoint = sender.location(in: sender.view)
             touchLocation = self.convertPoint(fromView: touchLocation)
             if let playingCard = gameGraphics.cardFrom(position: touchLocation) {
-                gameGraphics.tapCard(card: playingCard)
+                game.quickMove(card: playingCard.card, location: Location.hand())
             }
-            
         }
     }
 
@@ -47,17 +60,16 @@ class GameScene: SKScene {
         gameGraphics.setup(width: size.width, height: size.height)
         gameGraphics.setupCards(gameDecks: game.deck)
         gameGraphics.addChildren(to: self)
-
         gameGraphics.setupBackground(to: self)
     }
 
 
     override func mouseDown(with event: NSEvent) {
-//        if (event.clickCount == 2) {
-//            doubleClick(at: event.location(in: self))
-//        } else {
+        if (event.clickCount == 2) {
+            doubleClick(at: event.location(in: self))
+        } else {
             touchDown(atPoint: event.location(in: self))
-//        }
+        }
     }
 
     override func mouseDragged(with event: NSEvent) {
@@ -90,26 +102,26 @@ class GameScene: SKScene {
     }
 
 
-//    private func doubleClick(at point: CGPoint) {
-//        guard
-//            let playingCard = gameGraphics.cardFrom(position: point),
-//            let location = game.location(from: playingCard.card),
-//            game.canMove(card: playingCard.card)
-//        else {
-//            return
-//        }
-//
-//        let currentPlayingCard = CurrentPlayingCard(playingCard: playingCard, startPosition: point, touchPoint: point, location: location)
-//
-//        do {
-//            let newLocation = try game.quickMove(from: location)
-//            gameGraphics.move(currentPlayingCard: currentPlayingCard, to: newLocation, gameDecks: game.decks)
-//        } catch {}
-//
-//        if game.isGameOver {
-//            gameIsWon()
-//        }
-//    }
+    private func doubleClick(at point: CGPoint) {
+        guard
+            let playingCard = gameGraphics.cardFrom(position: point),
+            let location = game.location(from: playingCard.card),
+            game.canMove(card: playingCard.card)
+        else {
+            return
+        }
+
+        let currentPlayingCard = CurrentPlayingCard(playingCard: playingCard, startPosition: point, touchPoint: point, location: location)
+
+        do {
+            game.quickMove(card: currentPlayingCard.playingCard.card, location: location)
+//            gameGraphics.move(currentPlayingCard: currentPlayingCard, to: newLocation, gameDecks: game.deck, gameBattleDeck: _, hand: _)
+        }
+
+        if game.isGameOver {
+            gameIsWon()
+        }
+    }
 
 
     private func touchMoved(toPoint pos: CGPoint) {
@@ -121,13 +133,13 @@ class GameScene: SKScene {
     private func touchUp(atPoint pos: CGPoint) {
         guard let currentPlayingCard = currentPlayingCard else { return }
         //Drop location is set as the location where the card is released.
-        if let dropLocation = gameGraphics.dropLocation(from: pos, currentPlayingCard: currentPlayingCard, game: game) {
+        if let dropLocation = gameGraphics.dropLocation(from: pos, playingCard: currentPlayingCard.playingCard, game: game) {
             do {
-
                 //Updates the model by removing the card from the origonal location and adding it to the new location.
                 try game.move(card: currentPlayingCard, to: dropLocation)
                 //Updates the view by moving the image to the correct animation
                 gameGraphics.move(currentPlayingCard: currentPlayingCard, to: dropLocation, gameDecks: game.deck, gameBattleDeck: game.battlefieldCells, hand: game.hands)
+                gameGraphics.updateCardStack(card: currentPlayingCard, gameBattleDeck: game.battlefieldCells, hand: game.hands)
             } catch GameError.invalidMove {
                 currentPlayingCard.returnToOriginalLocation()
                 print("Invalid Move")
@@ -146,14 +158,10 @@ class GameScene: SKScene {
         }
     }
     
-    
-
-
     private func requestNewGame() {
         guard let viewDelegate = viewDelegate, viewDelegate.newGame(currentGameState: game.state) else { return }
         newGame()
     }
-
 
     private func gameIsWon() {
         endAnimation.run(with: gameGraphics.cards, and: self)
@@ -163,7 +171,6 @@ class GameScene: SKScene {
 
 
 // MARK: - ViewControllerDegelate
-
 extension GameScene: ViewControllerDelegate {
     var gameState: Game.State {
         return game.state

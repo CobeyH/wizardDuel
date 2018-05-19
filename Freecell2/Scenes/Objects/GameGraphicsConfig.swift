@@ -25,9 +25,8 @@ struct GameGraphicsConfig {
     let backgroundColour = NSColor.init(white: 1.0, alpha: 0.2)
     let battlefieldColour = NSColor.init(white: 1.0, alpha: 0.05)
 
-    let handCount = 1
     let graveyardCount = 2
-    let deckCount = 1
+    
 
 
     mutating func getZIndex() -> CGFloat {

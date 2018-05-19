@@ -13,6 +13,8 @@ final class PlayingCard: SKSpriteNode {
     let card: Card
     var faceUp: Bool = false
     var tapped = false
+    var heldBy = "Deck"
+    
 
     //Creates a playing card Sprite which is assigned the texture of the back of the card. It inherits its other properties from the card struct
     init(card: Card, size: CGSize) {

@@ -7,11 +7,6 @@
 //
 
 final class Battlefield: MasterDeck {
-   
-    
-    
-    
-    
     
 }
     
