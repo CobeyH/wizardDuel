@@ -25,7 +25,7 @@ struct GameGraphics {
     mutating func setup(width: CGFloat, height: CGFloat) {
         let baseZPosition: CGFloat = config.zIndexIncrement
         
-        // Graveyards
+        // sets of the two Graveyards to the right of the deck
         for i in 0 ..< config.graveyardCount {
             let graveyard = SKSpriteNode(color: config.backgroundColour, size: config.cardSize)
             graveyard.anchorPoint = config.cardMiddle
@@ -34,27 +34,27 @@ struct GameGraphics {
             graveyards.append(graveyard)
         }
         
-        // Hand
+        // Sets up the hand at the bottom of the screen
             hands.color = config.backgroundColour
             hands.size = CGSize(width: config.cardSize.width * 5, height: config.cardSize.height)
             hands.anchorPoint = config.cardMiddle
             hands.position = CGPoint(x: -config.margin + 5 * config.offsetX, y: -config.margin - height + config.cardSize.height + config.offsetY)
             hands.zPosition = baseZPosition
 
-        // Deck
+        // Sets up the deck in the top left corner
             deck.color = config.backgroundColour
             deck.size = config.cardSize
             deck.anchorPoint = config.cardMiddle
             deck.position = CGPoint(x: -config.margin + config.offsetX, y: config.margin + config.offsetY)
             deck.zPosition = baseZPosition
        
-        // Labels
+        // Sets up all the labels for the deck count, graveyard count, etc.
         deckCount.fontSize = 40
         deckCount.fontColor = SKColor.black
         deckCount.position = CGPoint(x: -2 * config.margin, y: 2 * config.margin - config.cardSize.height)
         deckCount.zPosition = config.getZIndex()
         
-        //Battlefields
+        //Sets up all the graveyards in the arena
         for i in 0 ..< Int(width/config.cardSize.width - 1) {
             for j in 0 ..< Int(height/config.cardSize.height - 3) {
                 let battlefieldCell = SKSpriteNode(color: config.battlefieldColour, size: config.cardSize)
@@ -73,9 +73,8 @@ struct GameGraphics {
     }
     
 
-
+    //Adds all the sprite images to the deck to create a stack of cards
     mutating func setupCards(gameDecks: Deck) {
-        // Playing cards
         
             let deckPosition = deck.position
             for (i, gameCard) in gameDecks.cards.enumerated() {
@@ -104,7 +103,7 @@ struct GameGraphics {
         addCards(to: scene)
     }
 
-    //Creates the deck by adding all the cards to the deck
+    //Adds the cards sprites to the visual deck
     func addCards(to scene: SKScene) {
         for card in cards {
             scene.addChild(card)
@@ -122,7 +121,7 @@ struct GameGraphics {
         scene.addChild(background)
     }
 
-
+    //Returns the playingcards found at a specific location and returns the one with the greatest z position
     func cardFrom(position: CGPoint) -> PlayingCard? {
         var candidateCards: [PlayingCard] = []
         for card in cards {
@@ -153,10 +152,9 @@ struct GameGraphics {
         setupCards(gameDecks: gameDecks)
     }
     
+    //Rotates the card sideways if it is upright and turns it upright if it was sideways
     func tapCard(card: PlayingCard) {
-      
         let playingCard = card
-        
         if playingCard.tapped == false {
             playingCard.zRotation = CGFloat(Double.pi/2)
         }
@@ -167,13 +165,14 @@ struct GameGraphics {
     }
     
     
-    
+    //Orders the cards properly when a card is removed from the middle of a cell
     mutating func updateCardStack(card: CurrentPlayingCard, gameBattleDeck: [Battlefield], hand: Hand) {
         let location = card.location
         let playingCards = cardsInCell(location: location, gameBattleDeck: gameBattleDeck , hand: hand)
+        var i = 0
         switch location {
             case .battlefield(let value):
-                var i = 0
+                
                 let battlefield = battlefieldCells[value]
                 for playingCard in playingCards {
                     setActive(card: playingCard)
@@ -184,7 +183,6 @@ struct GameGraphics {
                 }
             
             case .hand():
-                var i = 0
                 for playingCard in playingCards {
                     setActive(card: playingCard)
                     let currentPlayingCard = CurrentPlayingCard(playingCard: playingCard, startPosition: playingCard.position, touchPoint: playingCard.anchorPoint, location: location)
@@ -198,7 +196,7 @@ struct GameGraphics {
         }
     }
        
-    
+    //Returns all the cards at a specific lacation in sorted order based on zPosition
     private mutating func cardsInCell(location: Location, gameBattleDeck: [Battlefield], hand: Hand) -> [PlayingCard] {
         var playingCards : [PlayingCard] = []
         
@@ -224,7 +222,8 @@ struct GameGraphics {
         return playingCards
     }
     
-    func move(currentPlayingCard: CurrentPlayingCard, to location: Location, gameDecks: Deck, gameBattleDeck: [Battlefield], hand: Hand) {
+    //Moves the images of the card to reflect the arrangment in the model
+    func move(currentPlayingCard: CurrentPlayingCard, to location: Location, gameDecks: Deck?, gameBattleDeck: [Battlefield]?, hand: Hand?) {
        let playingCard = currentPlayingCard.playingCard
         let newPosition: CGPoint
         switch location {
@@ -236,14 +235,14 @@ struct GameGraphics {
             playingCard.heldBy = "Graveyard"
             
         case .hand():
-            let cardCount = hand.cards.count - 1
+            let cardCount = hand!.cards.count - 1
             newPosition = CGPoint(x: -4 * config.offsetX + hands.position.x + CGFloat(cardCount) * config.cardSize.width, y: hands.position.y)
             playingCard.faceUp = true
             playingCard.heldBy = "Hand"
             
         case .deck():
             let gameDeck = gameDecks
-            let cardCount = gameDeck.cards.count - 1
+            let cardCount = gameDeck!.cards.count - 1
             let deckPosition = deck.position
             newPosition = CGPoint(x: deckPosition.x + CGFloat(cardCount)/4 - config.offsetX, y: deckPosition.y + CGFloat(cardCount)/4 - config.offsetY)
             playingCard.faceUp = false
@@ -251,7 +250,7 @@ struct GameGraphics {
             
         case .battlefield(let value):
             let battlefield = battlefieldCells[value]
-            let battleDeck = gameBattleDeck[value]
+            let battleDeck = gameBattleDeck![value]
             let cardCount = battleDeck.cards.count - 1
             let deckPosition = battlefield.position
             newPosition = CGPoint(x: deckPosition.x + config.cardSize.width/2 - config.offsetX, y: deckPosition.y - CGFloat(cardCount) * config.battlefierdSpacing - config.cardSize.height/2 - config.offsetY)
@@ -259,12 +258,12 @@ struct GameGraphics {
             playingCard.heldBy = "Battlefield"
         }
         
-        updateLabels(gameDeck: gameDecks)
+        updateLabels(gameDeck: gameDecks!)
         currentPlayingCard.move(to: newPosition)
     }
     
 
-
+    //Returns the location at the point passed in
     func dropLocation(from position: CGPoint, playingCard: PlayingCard, game: Game) -> Location? {
         for (i, graveyard) in graveyards.enumerated() {
             if graveyard.contains(position) {
@@ -311,43 +310,30 @@ struct GameGraphics {
         deckCount.text = "\(gameDeck.cards.count)"
     }
 
-
-//    func undo(move: Move, card: Card, gameDecks: Deck, battleDecks: [battlefield]) {
-//        print("game graphics, undo", move)
-//        let position = positionFrom(location: move.toLocation)
-//        print(position)
-//        let playingCard = findPlayingCard(from: card)
-//        let currentPlayingCard = CurrentPlayingCard(playingCard: playingCard, startPosition: playingCard.position, touchPoint: playingCard.position, location: move.toLocation)
-//        // TODO
-//        self.move(currentPlayingCard: currentPlayingCard, to: move.fromLocation, gameDecks: gameDecks, gameBattleDeck: battleDecks)
-//
-//    }
-
-
     // MARK: - Private
     
     
-    //Used in the undo method to determine the origonal location of the card
-    private func positionFrom(location: Location) -> CGPoint {
-        let position: CGPoint
-        switch location {
-        case .deck():
-            print("deck position")
-            position = deck.position
-        case .graveyard(let value):
-            let graveyard = graveyards[value]
-            print("graveyard position")
-            position = graveyard.position
-        case .hand():
-            print("hand position")
-            position = hands.position
-        case .battlefield(let value):
-            let battlefield = battlefieldCells[value]
-            print("battlefield position")
-            position = battlefield.position
-        }
-        return CGPoint(x: position.x + config.cardSize.width/2, y: position.y - config.cardSize.height/2)
-    }
+//    //Used in the undo method to determine the origonal location of the card
+//    private func positionFrom(location: Location) -> CGPoint {
+//        let position: CGPoint
+//        switch location {
+//        case .deck():
+//            print("deck position")
+//            position = deck.position
+//        case .graveyard(let value):
+//            let graveyard = graveyards[value]
+//            print("graveyard position")
+//            position = graveyard.position
+//        case .hand():
+//            print("hand position")
+//            position = hands.position
+//        case .battlefield(let value):
+//            let battlefield = battlefieldCells[value]
+//            print("battlefield position")
+//            position = battlefield.position
+//        }
+//        return CGPoint(x: position.x + config.cardSize.width/2, y: position.y - config.cardSize.height/2)
+//    }
 
 
     private func findPlayingCard(from card: Card) -> PlayingCard {

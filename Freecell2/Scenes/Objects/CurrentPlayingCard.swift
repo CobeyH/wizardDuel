@@ -15,7 +15,7 @@ struct CurrentPlayingCard {
     let touchPoint: CGPoint
     let location: Location
 
-    
+    //Used in the dragging of the card to show the consistant movement of the card
     func update(position: CGPoint) {
         playingCard.position = CGPoint(x: position.x - touchPoint.x, y: position.y - touchPoint.y)
     }

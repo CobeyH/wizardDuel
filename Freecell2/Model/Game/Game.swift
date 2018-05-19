@@ -21,26 +21,13 @@ class Game {
     let battlefieldCells: [Battlefield]
     let deck: Deck
     
-    private var moves = MoveHistory()
-
-    
-    
     // MARK: - Computed properties
     var isGameOver: Bool {
         return false
     }
     
-    
     var state: State {
-        if moves.noMovesMade {
-            return .notStarted
-        }
         return isGameOver ? .done : .playing
-    }
-    
-    
-    var lastMove: Move? {
-        return moves.lastMove
     }
     
     
@@ -54,14 +41,13 @@ class Game {
         self.new()
     }
     
-    
     // MARK: - Methods
     func new() {
         let cards = Card.deck().shuffled()
         graveyards.forEach({ $0.reset() })
+        battlefieldCells.forEach({ $0.reset() })
         hands.reset()
         deck.cards = cards
-        moves.clear()
     }
     
     
@@ -70,24 +56,20 @@ class Game {
             return false
         }
         switch location {
-        case .graveyard:
-            return true
-        case .hand:
-            return true
-        case .deck():
-           return deck.isBottom(card: card)
-        case .battlefield( _):
-            return true
-
+            case .deck():
+            return deck.isBottom(card: card)
+       
+                default:  return true
         }
     }
     
+    //Deletes the model card from an array and calls the move method to add the card to a new array.
     func move(card currentPlayingCard: CurrentPlayingCard, to toLocation: Location) throws {
          let card = currentPlayingCard.playingCard.card
            
         try move(card: card, to: toLocation)
         let fromLocation = currentPlayingCard.location
-        moves.add(move: Move(fromLocation: fromLocation, toLocation: toLocation))
+        
         
         switch fromLocation {
         case .deck():
@@ -105,33 +87,34 @@ class Game {
         }
     }
     
-//    func moveToHand(from location: Location) throws -> Location {
-//        guard let card = card(at: location) else {
-//            throw GameError.invalidMove
-//        }
-//
-//        switch hands.state {
-//        case .empty:
-//            let newLocation = Location.hand()
-//            try move(from: location, to: newLocation)
-//            hands.state = .card(card)
-//            return newLocation
-//
-//        case .card( _):
-//            throw GameError.invalidMove
-//        }
-//        return location
-//    }
-    
+    //Passes the card and location to the private move method
     func quickMove(card: Card, location: Location) {
         let toLocation = Location.hand()
-    
         do {
         try move(card: card, to: toLocation)
         } catch {}
         
     }
     
+    //returns the number of cards in a given array when passed a location.
+    func countCards(location: Location) -> Int {
+        switch location {
+        case .hand():
+            return hands.cards.count - 1
+            
+        case .deck():
+            return deck.cards.count - 1
+            
+        case .graveyard(let value):
+            let graveyard = graveyards[value]
+            return graveyard.cards.count - 1
+        case .battlefield(let value):
+            let battlefield = battlefieldCells[value]
+            return battlefield.cards.count - 1
+        }
+    }
+    
+    //Returns the location of a given card
     func location(from card: Card) -> Location? {
         for (i, graveyard) in graveyards.enumerated() {
             if graveyard.contains(card: card) {
@@ -156,16 +139,6 @@ class Game {
         return nil
     }
     
-    
-    func undo(move: Move) -> Card? {
-        print("game", undo)
-        guard let card = card(at: move.toLocation) else { return nil }
-        
-        //        moves.undo()
-        return card
-    }
-    
-    
     // MARK: - Private
     
     private func card(at location: Location) -> Card? {
@@ -187,7 +160,7 @@ class Game {
     }
     }
     
-    
+    //Implements the real adding of cards to the arrays in the model
     private func move(card: Card, to location: Location) throws {
         switch location {
         case .graveyard(let value):

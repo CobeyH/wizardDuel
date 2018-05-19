@@ -9,10 +9,13 @@
 import SpriteKit
 
 final class PlayingCard: SKSpriteNode {
-
+    //Holds the filename of the card
     let card: Card
+    //Faceup is true if the card has its art side up
     var faceUp: Bool = false
+    //Tapped is true when the card is horizantal in the battlefield
     var tapped = false
+    //A string indication of where the card currently is
     var heldBy = "Deck"
     
 
