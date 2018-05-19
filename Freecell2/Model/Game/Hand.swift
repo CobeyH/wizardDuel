@@ -6,9 +6,7 @@
 //  Copyright © 2017 Gary Kerr. All rights reserved.
 //
 
-final class Hand: MasterDeck {
-    
-    
+final class Hand: MasterDeck { 
     
 }
 
