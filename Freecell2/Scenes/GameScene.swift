@@ -15,6 +15,7 @@ class GameScene: SKScene {
 
     private let game = Game()
     private var gameGraphics = GameGraphics()
+    private var labels = Labels()
     private let endAnimation: EndAnimationProtocol = StandardEndAnimation()
     private var currentPlayingCard: CurrentPlayingCard?
     weak var viewDelegate: GameSceneDelegate?
@@ -26,13 +27,16 @@ class GameScene: SKScene {
     }
 
     override func didMove(to view: SKView) {
-        // https://stackoverflow.com/questions/39590602/scenedidload-being-called-twice
         super.didMove(to: view)
         self.size = view.bounds.size
         gameGraphics.setup(width: size.width, height: size.height)
         gameGraphics.setupCards(gameDecks: game.deck)
+        
+        labels.setUpLabels(width: size.width, height: size.height, to: self)
+        
         gameGraphics.addChildren(to: self)
         gameGraphics.setupBackground(to: self)
+        
     }
 
     // MARK: - Action Triggers
@@ -44,6 +48,18 @@ class GameScene: SKScene {
             touchDown(atPoint: event.location(in: self))
         }
     }
+    
+    //Triggers on mouse right click
+    override func rightMouseDown(with event: NSEvent) {
+        if let playingCard = gameGraphics.cardFrom(position: event.location(in: self)) {
+            if playingCard.heldBy != "Deck" {
+              labels.setCardDisplay(playingCard: playingCard)
+            }
+    
+        }
+        labels.cardDisplay.color = .clear
+    }
+
 
     //Triggers on mouse dragging
     override func mouseDragged(with event: NSEvent) {
@@ -61,7 +77,7 @@ class GameScene: SKScene {
     //Called when a single tap is detected. It taps the clicked card if it is on the battlefield
     private func touchDown(atPoint point: CGPoint) {
 
-        if gameGraphics.isNewGameTapped(point: point) {
+        if labels.isNewGameTapped(point: point) {
             requestNewGame()
             return
         }
@@ -117,6 +133,7 @@ class GameScene: SKScene {
         if game.isGameOver {
             gameIsWon()
         }
+        labels.update(gameDeck: game.deck)
     }
     
     //Called when the mouse is clicked twice. It calls the methods to move a card from the deck into the hand
@@ -128,26 +145,29 @@ class GameScene: SKScene {
             else {
                 return
         }
-        
-        let currentPlayingCard = CurrentPlayingCard(playingCard: playingCard, startPosition: point, touchPoint: point, location: location)
-        
-        do {
-            try game.move(card: currentPlayingCard, to: Location.hand())
+        if playingCard.heldBy == "Deck" {
+            let currentPlayingCard = CurrentPlayingCard(playingCard: playingCard, startPosition: point, touchPoint: point, location: location)
             
-        }catch {}
-        gameGraphics.move(currentPlayingCard: currentPlayingCard, to: Location.hand(), gameDecks: game.deck, gameBattleDeck: game.battlefieldCells, hand: game.hands)
-        gameGraphics.updateCardStack(card: currentPlayingCard, gameBattleDeck: game.battlefieldCells, hand: game.hands)
+            do {
+                try game.move(card: currentPlayingCard, to: Location.hand())
+                
+            }catch {}
+            gameGraphics.move(currentPlayingCard: currentPlayingCard, to: Location.hand(), gameDecks: game.deck, gameBattleDeck: game.battlefieldCells, hand: game.hands)
+            gameGraphics.updateCardStack(card: currentPlayingCard, gameBattleDeck: game.battlefieldCells, hand: game.hands)
+        }
+        labels.update(gameDeck: game.deck)
     }
-    
-    private func requestNewGame() {
-        guard let viewDelegate = viewDelegate, viewDelegate.newGame(currentGameState: game.state) else { return }
-        newGame()
-    }
+        
+        private func requestNewGame() {
+            guard let viewDelegate = viewDelegate, viewDelegate.newGame(currentGameState: game.state) else { return }
+            newGame()
+        }
 
-    private func gameIsWon() {
-        endAnimation.run(with: gameGraphics.cards, and: self)
-        viewDelegate?.gameDone()
-    }
+        private func gameIsWon() {
+            endAnimation.run(with: gameGraphics.cards, and: self)
+            viewDelegate?.gameDone()
+        }
+    
 }
 
 
@@ -158,7 +178,6 @@ extension GameScene: ViewControllerDelegate {
     var gameState: Game.State {
         return game.state
     }
-
 
     func newGame() {
         game.new()

@@ -17,9 +17,6 @@ struct GameGraphics {
     private var deck: SKSpriteNode = SKSpriteNode(color: .red, size: CGSize(width: 75, height: 40))
     private var battlefieldCells: [SKSpriteNode] = []
     
-    private var newGameButton: SKLabelNode = SKLabelNode(fontNamed: "planewalker")
-    private var deckCount = SKLabelNode(fontNamed: "planewalker")
-    
     var cards: [PlayingCard] = []
 
     mutating func setup(width: CGFloat, height: CGFloat) {
@@ -48,11 +45,7 @@ struct GameGraphics {
             deck.position = CGPoint(x: -config.margin + config.offsetX, y: config.margin + config.offsetY)
             deck.zPosition = baseZPosition
        
-        // Sets up all the labels for the deck count, graveyard count, etc.
-        deckCount.fontSize = 40
-        deckCount.fontColor = SKColor.black
-        deckCount.position = CGPoint(x: -2 * config.margin, y: 2 * config.margin - config.cardSize.height)
-        deckCount.zPosition = config.getZIndex()
+        
         
         //Sets up all the graveyards in the arena
         for i in 0 ..< Int(width/config.cardSize.width - 1) {
@@ -64,13 +57,8 @@ struct GameGraphics {
                 battlefieldCells.append(battlefieldCell)
             }
         }
-        // New game button
-        newGameButton.fontSize = 40
-        newGameButton.color = SKColor.black
-        newGameButton.text = "New Game"
-        newGameButton.position = CGPoint(x: width / 2, y: -130)
-        newGameButton.zPosition = baseZPosition
     }
+        
     
 
     //Adds all the sprite images to the deck to create a stack of cards
@@ -85,7 +73,6 @@ struct GameGraphics {
                 card.zPosition = config.getZIndex()
                 cards.append(card)
             }
-        
     }
 
     //Adds all the children to the scene
@@ -98,8 +85,6 @@ struct GameGraphics {
         }
         scene.addChild(hands)
         scene.addChild(deck)
-        scene.addChild(deckCount)
-        scene.addChild(newGameButton)
         addCards(to: scene)
     }
 
@@ -132,12 +117,6 @@ struct GameGraphics {
         candidateCards.sort(by: { $0.zPosition < $1.zPosition })
         return candidateCards.last
     }
-
-
-    func isNewGameTapped(point: CGPoint) -> Bool {
-        return newGameButton.contains(point)
-    }
-
 
     mutating func setActive(card: PlayingCard) {
         card.zPosition = config.getZIndex()
@@ -256,11 +235,11 @@ struct GameGraphics {
             newPosition = CGPoint(x: deckPosition.x + config.cardSize.width/2 - config.offsetX, y: deckPosition.y - CGFloat(cardCount) * config.battlefierdSpacing - config.cardSize.height/2 - config.offsetY)
             playingCard.faceUp = true
             playingCard.heldBy = "Battlefield"
+            
         }
-        
-        updateLabels(gameDeck: gameDecks!)
         currentPlayingCard.move(to: newPosition)
-    }
+        }
+
     
 
     //Returns the location at the point passed in
@@ -306,35 +285,7 @@ struct GameGraphics {
         return nil
     }
     
-    func updateLabels(gameDeck: Deck) {
-        deckCount.text = "\(gameDeck.cards.count)"
-    }
-
     // MARK: - Private
-    
-    
-//    //Used in the undo method to determine the origonal location of the card
-//    private func positionFrom(location: Location) -> CGPoint {
-//        let position: CGPoint
-//        switch location {
-//        case .deck():
-//            print("deck position")
-//            position = deck.position
-//        case .graveyard(let value):
-//            let graveyard = graveyards[value]
-//            print("graveyard position")
-//            position = graveyard.position
-//        case .hand():
-//            print("hand position")
-//            position = hands.position
-//        case .battlefield(let value):
-//            let battlefield = battlefieldCells[value]
-//            print("battlefield position")
-//            position = battlefield.position
-//        }
-//        return CGPoint(x: position.x + config.cardSize.width/2, y: position.y - config.cardSize.height/2)
-//    }
-
 
     private func findPlayingCard(from card: Card) -> PlayingCard {
         for playingCard in cards {
