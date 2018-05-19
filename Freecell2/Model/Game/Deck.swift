@@ -18,17 +18,17 @@ final class Deck: ContainsCard {
         self.cards = cards
     }
 
-
+    //Returns the model card that is on the top of the pile (the only valid card to move)
     var bottomCard: Card? {
         return cards.last
     }
 
-
+    
     var isEmpty: Bool {
         return cards.isEmpty
     }
 
-
+    //Removes the model card that is on the top of the pile
     func removeBottom() {
         let _ = cards.popLast()
     }
@@ -51,6 +51,7 @@ final class Deck: ContainsCard {
         return false
     }
 
+    //Adds a card to the model. This is a name which is stored in an array inside each cell.
     func add(card: Card) throws {
             cards.append(card)
     }
