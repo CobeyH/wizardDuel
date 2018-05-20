@@ -16,15 +16,7 @@ struct StandardEndAnimation: EndAnimationProtocol {
 
 
     func run(with cards: [PlayingCard], and scene: SKScene) {
-        var t = 0.0
-        let dt = 0.2
         addEdge(to: scene)
-        for card in sortKingsTop(cards: cards) {
-            let delayAction = SKAction.wait(forDuration: t)
-            let blockAction = SKAction.run({ self.addPhysicsBody(to: card) })
-            card.run(SKAction.sequence([delayAction, blockAction]))
-            t += dt
-        }
     }
 
 
@@ -57,10 +49,5 @@ struct StandardEndAnimation: EndAnimationProtocol {
         scene.physicsBody = SKPhysicsBody(edgeFrom: start, to: end)
         scene.physicsBody?.categoryBitMask = groundBitMask
         scene.physicsBody?.friction = 0
-    }
-
-
-    private func sortKingsTop(cards: [PlayingCard]) -> [PlayingCard] {
-        return cards.sorted(by: { $0.card.name > $1.card.name })
     }
 }

@@ -33,9 +33,9 @@ struct GameGraphics {
         
         // Sets up the hand at the bottom of the screen
             hands.color = config.backgroundColour
-            hands.size = CGSize(width: config.cardSize.width * 5, height: config.cardSize.height)
+            hands.size = CGSize(width: config.cardSize.width * 7, height: config.cardSize.height)
             hands.anchorPoint = config.cardMiddle
-            hands.position = CGPoint(x: -config.margin + 5 * config.offsetX, y: -config.margin - height + config.cardSize.height + config.offsetY)
+            hands.position = CGPoint(x: config.spacing + 7 * config.offsetX, y: -height + config.cardSize.height + config.offsetY)
             hands.zPosition = baseZPosition
 
         // Sets up the deck in the top left corner
@@ -45,14 +45,12 @@ struct GameGraphics {
             deck.position = CGPoint(x: -config.margin + config.offsetX, y: config.margin + config.offsetY)
             deck.zPosition = baseZPosition
        
-        
-        
-        //Sets up all the graveyards in the arena
-        for i in 0 ..< Int(width/config.cardSize.width - 1) {
+        //Sets up all the battlefields in the arena
+        for i in 0 ..< Int(width/config.cardSize.width - 4) {
             for j in 0 ..< Int(height/config.cardSize.height - 3) {
                 let battlefieldCell = SKSpriteNode(color: config.battlefieldColour, size: config.cardSize)
                 battlefieldCell.anchorPoint = config.cardMiddle
-                battlefieldCell.position = CGPoint(x: -config.margin + config.offsetX + (config.cardSize.width + config.spacing/2) * CGFloat(i), y: -config.cardSize.height + config.margin - 2 * config.spacing - (config.cardSize.height + config.spacing/2) * CGFloat(j) + config.offsetY)
+                battlefieldCell.position = CGPoint(x: config.spacing + config.offsetX + (config.cardSize.width + config.spacing/2) * CGFloat(i), y: -config.cardSize.height + config.margin - 2 * config.spacing - (config.cardSize.height + config.spacing/2) * CGFloat(j) + config.offsetY)
                 battlefieldCell.zPosition = baseZPosition
                 battlefieldCells.append(battlefieldCell)
             }
@@ -69,7 +67,7 @@ struct GameGraphics {
                 let card = PlayingCard(card: gameCard, size: config.cardSize)
                 card.anchorPoint = config.cardMiddle
                 card.size = config.cardSize
-                card.position = CGPoint(x: deckPosition.x + CGFloat(i/10), y: deckPosition.y + CGFloat(i/4))
+                card.position = CGPoint(x: deckPosition.x , y: deckPosition.y + CGFloat(i/4))
                 card.zPosition = config.getZIndex()
                 cards.append(card)
             }
@@ -145,30 +143,36 @@ struct GameGraphics {
     
     
     //Orders the cards properly when a card is removed from the middle of a cell
-    mutating func updateCardStack(card: CurrentPlayingCard, gameBattleDeck: [Battlefield], hand: Hand) {
-        let location = card.location
-        let playingCards = cardsInCell(location: location, gameBattleDeck: gameBattleDeck , hand: hand)
-        var i = 0
+    mutating func updateCardStack(card: CurrentPlayingCard, location: Location, gameBattleDeck: [Battlefield], hand: Hand) {
+        
+        var i : Double   = 0
         switch location {
             case .battlefield(let value):
-                
+                let playingCards = cardsInCell(location: location, gameBattleDeck: gameBattleDeck , hand: hand)
                 let battlefield = battlefieldCells[value]
                 for playingCard in playingCards {
                     setActive(card: playingCard)
                     let currentPlayingCard = CurrentPlayingCard(playingCard: playingCard, startPosition: playingCard.position, touchPoint: playingCard.anchorPoint, location: location)
-                    let position =  CGPoint(x: battlefield.position.x + config.cardSize.width/2 - config.offsetX, y: battlefield.position.y - CGFloat(i) * config.battlefierdSpacing - config.cardSize.height/2 - config.offsetY)
+                    let position = CGPoint(x: battlefield.position.x + config.cardSize.width/2 - config.offsetX, y: battlefield.position.y - CGFloat(i) * config.battlefierdSpacing - config.cardSize.height/2 - config.offsetY)
                     currentPlayingCard.move(to: position)
                     i = i + 1
                 }
             
             case .hand():
+                
+                let playingCards = cardsInCell(location: location, gameBattleDeck: gameBattleDeck , hand: hand)
+                let counter : Double = ((playingCards.count + 1) > 7) ? Double(playingCards.count) : 7.0
                 for playingCard in playingCards {
+
                     setActive(card: playingCard)
                     let currentPlayingCard = CurrentPlayingCard(playingCard: playingCard, startPosition: playingCard.position, touchPoint: playingCard.anchorPoint, location: location)
-                    let position =  CGPoint(x: -4 * config.offsetX + hands.position.x + CGFloat(i) * config.cardSize.width, y: hands.position.y)
-                    currentPlayingCard.move(to: position)
+                    
+                    
+                    let position =  CGPoint(x: config.offsetX + config.spacing + CGFloat((i * 7.0)/counter) * config.cardSize.width, y: hands.position.y)
                     i = i + 1
+                    currentPlayingCard.move(to: position)
             }
+            
             
             default: break
             
@@ -202,7 +206,7 @@ struct GameGraphics {
     }
     
     //Moves the images of the card to reflect the arrangment in the model
-    func move(currentPlayingCard: CurrentPlayingCard, to location: Location, gameDecks: Deck?, gameBattleDeck: [Battlefield]?, hand: Hand?) {
+    mutating func move(currentPlayingCard: CurrentPlayingCard, to location: Location, gameDecks: Deck?, gameBattleDeck: [Battlefield]?, hand: Hand?) {
        let playingCard = currentPlayingCard.playingCard
         let newPosition: CGPoint
         switch location {
@@ -215,9 +219,17 @@ struct GameGraphics {
             
         case .hand():
             let cardCount = hand!.cards.count - 1
-            newPosition = CGPoint(x: -4 * config.offsetX + hands.position.x + CGFloat(cardCount) * config.cardSize.width, y: hands.position.y)
+            if cardCount < 7 {
+                newPosition = CGPoint(x: -6 * config.offsetX + hands.position.x + CGFloat(cardCount) * config.cardSize.width, y: hands.position.y)
+            }
+            else {
+                newPosition = CGPoint(x: hands.position.x, y: hands.position.y)
+            }
             playingCard.faceUp = true
             playingCard.heldBy = "Hand"
+            currentPlayingCard.move(to: newPosition)
+            updateCardStack(card: currentPlayingCard, location: Location.hand(), gameBattleDeck: gameBattleDeck!, hand: hand!)
+            return
             
         case .deck():
             let gameDeck = gameDecks

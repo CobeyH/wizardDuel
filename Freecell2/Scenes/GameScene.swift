@@ -92,10 +92,7 @@ class GameScene: SKScene {
         let touchPoint = playingCard.convert(point, from: parent)
         gameGraphics.setActive(card: playingCard)
         currentPlayingCard = CurrentPlayingCard(playingCard: playingCard, startPosition: playingCard.position, touchPoint: touchPoint, location: location)
-        if playingCard.heldBy == "Battlefield" {
-            gameGraphics.tapCard(card: playingCard)
-            
-        }
+       
     }
 
 
@@ -116,7 +113,7 @@ class GameScene: SKScene {
                 try game.move(card: currentPlayingCard, to: dropLocation)
                 //Updates the view by moving the image to the correct animation
                 gameGraphics.move(currentPlayingCard: currentPlayingCard, to: dropLocation, gameDecks: game.deck, gameBattleDeck: game.battlefieldCells, hand: game.hands)
-                gameGraphics.updateCardStack(card: currentPlayingCard, gameBattleDeck: game.battlefieldCells, hand: game.hands)
+            
             } catch GameError.invalidMove {
                 currentPlayingCard.returnToOriginalLocation()
                 print("Invalid Move")
@@ -125,7 +122,7 @@ class GameScene: SKScene {
                 currentPlayingCard.returnToOriginalLocation()
             }
         } else {
-
+    
             currentPlayingCard.returnToOriginalLocation()
         }
         self.currentPlayingCard = nil
@@ -133,6 +130,7 @@ class GameScene: SKScene {
         if game.isGameOver {
             gameIsWon()
         }
+     
         labels.update(gameDeck: game.deck)
     }
     
@@ -153,7 +151,7 @@ class GameScene: SKScene {
                 
             }catch {}
             gameGraphics.move(currentPlayingCard: currentPlayingCard, to: Location.hand(), gameDecks: game.deck, gameBattleDeck: game.battlefieldCells, hand: game.hands)
-            gameGraphics.updateCardStack(card: currentPlayingCard, gameBattleDeck: game.battlefieldCells, hand: game.hands)
+            
         }
         labels.update(gameDeck: game.deck)
     }
@@ -167,14 +165,11 @@ class GameScene: SKScene {
             endAnimation.run(with: gameGraphics.cards, and: self)
             viewDelegate?.gameDone()
         }
-    
 }
 
 
 // MARK: - ViewControllerDegelate
 extension GameScene: ViewControllerDelegate {
-    
-    
     var gameState: Game.State {
         return game.state
     }
@@ -184,5 +179,4 @@ extension GameScene: ViewControllerDelegate {
         gameGraphics.newGame(gameDecks: game.deck)
         gameGraphics.addCards(to: self)
     }
-
 }
