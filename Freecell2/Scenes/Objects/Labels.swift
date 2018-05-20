@@ -17,9 +17,10 @@ class Labels {
     
     // Sets up all the labels for the deck count, graveyard count, etc.
     func setUpLabels(width: CGFloat, height: CGFloat, to scene: SKScene) {
-        deckCount.text = "New Game"
+        deckCount.text = "60"
         deckCount.fontSize = 40
         deckCount.fontColor = SKColor.black
+        
         deckCount.position = CGPoint(x: -2 * config.margin, y: 2 * config.margin - config.cardSize.height)
         deckCount.zPosition = config.getZIndex()
         scene.addChild(deckCount)
@@ -34,9 +35,9 @@ class Labels {
         
         //cardDisplay Node
         cardDisplay.color = .clear
-        cardDisplay.size = CGSize(width: config.cardSize.width * 1.5, height: config.cardSize.height * 1.5)
-        cardDisplay.anchorPoint = config.cardMiddle
-        cardDisplay.position = CGPoint(x: width + config.margin - config.offsetX, y: config.margin - config.cardSize.height - config.offsetY)
+        cardDisplay.size = CGSize(width: config.cardSize.width * 2, height: config.cardSize.height * 2)
+        cardDisplay.anchorPoint = CGPoint(x: 1, y: 1)
+        cardDisplay.position = CGPoint(x: width, y: 0)
         cardDisplay.zPosition = config.getZIndex()
         scene.addChild(cardDisplay)
     }
