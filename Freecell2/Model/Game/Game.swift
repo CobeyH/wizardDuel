@@ -98,7 +98,7 @@ class Game {
     
     //returns the number of cards in a given array when passed a location.
     func countCards(location: Location) -> Int {
-        switch location {
+    switch location {
         case .hand():
             return hands.cards.count - 1
             

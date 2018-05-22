@@ -261,6 +261,10 @@ struct GameGraphics {
             
             
         }
+        if playingCard.tapped {
+            tapCard(card: playingCard)
+            
+        }
         currentPlayingCard.move(to: newPosition)
         }
 
@@ -309,9 +313,7 @@ struct GameGraphics {
         return nil
     }
     
-    // MARK: - Private
-
-    private func findPlayingCard(from card: Card) -> PlayingCard {
+     func findPlayingCard(from card: Card) -> PlayingCard {
         for playingCard in cards {
             if playingCard.card == card {
                 return playingCard
@@ -319,6 +321,10 @@ struct GameGraphics {
         }
         fatalError("Couldn't find PlayingCard from Card")
     }
+    
+    // MARK: - Private
+
+    
     
     func update(gameDeck: Deck) {
         deckCount.text = "\(gameDeck.cards.count)"
