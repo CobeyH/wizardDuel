@@ -15,7 +15,6 @@ class ViewController: NSViewController {
     var statisticsStore: StatisticsStore!
     var statistics: Statistics!
     weak var delegate: ViewControllerDelegate?
-
     @IBOutlet var skView: SKView!
     
     override func viewDidLoad() {
@@ -41,7 +40,6 @@ class ViewController: NSViewController {
         application.runModal(for: window)
     }
 
-
     @IBAction func newGame(_ sender: NSMenuItem) {
         if newGame() {
             guard let delegate = delegate else { return }
@@ -49,8 +47,6 @@ class ViewController: NSViewController {
             delegate.newGame()
         }
     }
-
-
 
     // MARK: - Private
 
@@ -76,7 +72,6 @@ class ViewController: NSViewController {
         statistics = statisticsStore.load()
     }
 
-
     private func newGame() -> Bool {
         let alert = NSAlert()
         alert.alertStyle = .informational
@@ -90,7 +85,6 @@ class ViewController: NSViewController {
         }
     }
 }
-
 
 // MARK: - GameSceneDelegate
 

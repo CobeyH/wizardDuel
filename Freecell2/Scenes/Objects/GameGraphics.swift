@@ -13,23 +13,16 @@ struct GameGraphics {
     private var config = GameGraphicsConfig()
 
     private var graveyards: [SKSpriteNode] = []
-    private var hands: SKSpriteNode = SKSpriteNode(color: .red, size: CGSize(width: 75, height: 40))
-    private var deck: SKSpriteNode = SKSpriteNode(color: .red, size: CGSize(width: 75, height: 40))
+    var hands: SKSpriteNode = SKSpriteNode(color: .red, size: CGSize(width: 75, height: 40))
+    var deck: SKSpriteNode = SKSpriteNode(color: .red, size: CGSize(width: 75, height: 40))
     private var battlefieldCells: [SKSpriteNode] = []
+    var deckCount: SKLabelNode = SKLabelNode(fontNamed: "planewalker")
     
     var cards: [PlayingCard] = []
 
     mutating func setup(width: CGFloat, height: CGFloat) {
         let baseZPosition: CGFloat = config.zIndexIncrement
         
-        // sets of the two Graveyards to the right of the deck
-        for i in 0 ..< config.graveyardCount {
-            let graveyard = SKSpriteNode(color: config.backgroundColour, size: config.cardSize)
-            graveyard.anchorPoint = config.cardMiddle
-            graveyard.position = CGPoint(x: config.offsetX - config.margin + CGFloat(i + 1) * (config.cardSize.width + config.spacing), y: config.margin + config.offsetY)
-            graveyard.zPosition = baseZPosition
-            graveyards.append(graveyard)
-        }
         
         // Sets up the hand at the bottom of the screen
             hands.color = config.backgroundColour
@@ -42,8 +35,24 @@ struct GameGraphics {
             deck.color = config.backgroundColour
             deck.size = config.cardSize
             deck.anchorPoint = config.cardMiddle
-            deck.position = CGPoint(x: -config.margin + config.offsetX, y: config.margin + config.offsetY)
+            deck.position = CGPoint(x: hands.size.width + config.cardSize.width + config.offsetX, y: -config.offsetY - height)
             deck.zPosition = baseZPosition
+        
+        //Sets up the counter for the deck
+            deckCount.text = String(cards.count)
+            deckCount.fontSize = 40
+            deckCount.fontColor = SKColor.black
+            deckCount.zPosition = config.getZIndex()
+            deckCount.position = CGPoint(x: deck.position.x, y: deck.position.y + config.cardSize.height + config.offsetY + config.spacing)
+        
+        // sets of the two Graveyards to the right of the deck
+        for i in 0 ..< config.graveyardCount {
+            let graveyard = SKSpriteNode(color: config.backgroundColour, size: config.cardSize)
+            graveyard.anchorPoint = config.cardMiddle
+            graveyard.position = CGPoint(x: deck.position.x + CGFloat(i + 1) * (config.cardSize.width + 10), y: deck.position.y)
+            graveyard.zPosition = baseZPosition
+            graveyards.append(graveyard)
+        }
        
         //Sets up all the battlefields in the arena
         for i in 0 ..< Int(width/config.cardSize.width - 4) {
@@ -72,6 +81,7 @@ struct GameGraphics {
                 cards.append(card)
             }
     }
+    
 
     //Adds all the children to the scene
     func addChildren(to scene: SKScene) {
@@ -83,6 +93,7 @@ struct GameGraphics {
         }
         scene.addChild(hands)
         scene.addChild(deck)
+        scene.addChild(deckCount)
         addCards(to: scene)
     }
 
@@ -92,6 +103,8 @@ struct GameGraphics {
             scene.addChild(card)
         }
     }
+    
+    
     
     //Creates the background and sets its image
     func setupBackground(to scene: SKScene) {
@@ -115,6 +128,7 @@ struct GameGraphics {
         candidateCards.sort(by: { $0.zPosition < $1.zPosition })
         return candidateCards.last
     }
+    
 
     mutating func setActive(card: PlayingCard) {
         card.zPosition = config.getZIndex()
@@ -131,13 +145,10 @@ struct GameGraphics {
     
     //Rotates the card sideways if it is upright and turns it upright if it was sideways
     func tapCard(card: PlayingCard) {
-        let playingCard = card
-        if playingCard.tapped == false {
-            playingCard.zRotation = CGFloat(Double.pi/2)
-        }
-        else {
-            playingCard.zRotation = CGFloat(0)
-        }
+        let angle: Double = card.tapped ? Double.pi/2 : -Double.pi/2
+        let rotation = SKAction.rotate(byAngle: CGFloat(angle), duration: 0.0)
+        card.run(rotation)
+       
         card.tapped = card.tapped ? false : true
     }
     
@@ -248,6 +259,7 @@ struct GameGraphics {
             playingCard.faceUp = true
             playingCard.heldBy = "Battlefield"
             
+            
         }
         currentPlayingCard.move(to: newPosition)
         }
@@ -306,5 +318,9 @@ struct GameGraphics {
             }
         }
         fatalError("Couldn't find PlayingCard from Card")
+    }
+    
+    func update(gameDeck: Deck) {
+        deckCount.text = "\(gameDeck.cards.count)"
     }
 }

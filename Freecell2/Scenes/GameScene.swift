@@ -24,6 +24,7 @@ class GameScene: SKScene {
     override func sceneDidLoad() {
         super.sceneDidLoad()
         anchorPoint = CGPoint(x: 0, y: 1)
+        
     }
 
     override func didMove(to view: SKView) {
@@ -31,12 +32,13 @@ class GameScene: SKScene {
         self.size = view.bounds.size
         gameGraphics.setup(width: size.width, height: size.height)
         gameGraphics.setupCards(gameDecks: game.deck)
+        gameGraphics.setupBackground(to: self)
         
         labels.setUpLabels(width: size.width, height: size.height, to: self)
         
         gameGraphics.addChildren(to: self)
         gameGraphics.setupBackground(to: self)
-        
+    
     }
 
     // MARK: - Action Triggers
@@ -86,15 +88,18 @@ class GameScene: SKScene {
             let parent = playingCard.parent,
             let location = game.location(from: playingCard.card),
             game.canMove(card: playingCard.card)
+            
         else {
             return
+        }
+        if playingCard.heldBy == "Battlefield" {
+            gameGraphics.tapCard(card: playingCard)
         }
         let touchPoint = playingCard.convert(point, from: parent)
         gameGraphics.setActive(card: playingCard)
         currentPlayingCard = CurrentPlayingCard(playingCard: playingCard, startPosition: playingCard.position, touchPoint: touchPoint, location: location)
-       
+        
     }
-
 
     //Updates the position of the card as the card is being dragged
     private func touchMoved(toPoint pos: CGPoint) {
@@ -113,7 +118,7 @@ class GameScene: SKScene {
                 try game.move(card: currentPlayingCard, to: dropLocation)
                 //Updates the view by moving the image to the correct animation
                 gameGraphics.move(currentPlayingCard: currentPlayingCard, to: dropLocation, gameDecks: game.deck, gameBattleDeck: game.battlefieldCells, hand: game.hands)
-            
+                gameGraphics.updateCardStack(card: currentPlayingCard, location: currentPlayingCard.location, gameBattleDeck: game.battlefieldCells, hand: game.hands)
             } catch GameError.invalidMove {
                 currentPlayingCard.returnToOriginalLocation()
                 print("Invalid Move")
@@ -130,30 +135,62 @@ class GameScene: SKScene {
         if game.isGameOver {
             gameIsWon()
         }
-     
-        labels.update(gameDeck: game.deck)
+        
+        gameGraphics.update(gameDeck: game.deck)
+        
     }
     
     //Called when the mouse is clicked twice. It calls the methods to move a card from the deck into the hand
     func doubleTap(at point: CGPoint) {
+        let playingCard = gameGraphics.cardFrom(position: point)
+        
+        if playingCard!.heldBy == "Deck" {
+            for _ in 0...7 {
+            
+                    self.drawCard()
+                delay(2.0, closure: {})
+            }
+        }
+        
+    }
+    
+    func delay(_ delay:Double, closure:@escaping ()->()) {
+        DispatchQueue.main.asyncAfter(
+            deadline: DispatchTime.now() + Double(Int64(delay * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC), execute: closure)
+    }
+    
+    func drawCard() {
         guard
-            let playingCard = gameGraphics.cardFrom(position: point),
+            let playingCard = gameGraphics.cardFrom(position: gameGraphics.deck.position),
             let location = game.location(from: playingCard.card),
             game.canMove(card: playingCard.card)
+            
             else {
                 return
-        }
-        if playingCard.heldBy == "Deck" {
-            let currentPlayingCard = CurrentPlayingCard(playingCard: playingCard, startPosition: point, touchPoint: point, location: location)
+            }
+        gameGraphics.setActive(card: playingCard)
+        currentPlayingCard = CurrentPlayingCard(playingCard: playingCard, startPosition: playingCard.position, touchPoint: playingCard.anchorPoint, location: location)
+        let dropLocation = gameGraphics.dropLocation(from: gameGraphics.hands.position, playingCard: currentPlayingCard!.playingCard, game: game)
+        do {
+            //Updates the model by removing the card from the origonal location and adding it to the new location.
             
-            do {
-                try game.move(card: currentPlayingCard, to: Location.hand())
-                
-            }catch {}
-            gameGraphics.move(currentPlayingCard: currentPlayingCard, to: Location.hand(), gameDecks: game.deck, gameBattleDeck: game.battlefieldCells, hand: game.hands)
-            
+            try game.move(card: currentPlayingCard!, to: dropLocation!)
+            //Updates the view by moving the image to the correct animation
+            gameGraphics.move(currentPlayingCard: currentPlayingCard!, to: dropLocation!, gameDecks: game.deck, gameBattleDeck: game.battlefieldCells, hand: game.hands)
+            gameGraphics.updateCardStack(card: currentPlayingCard!, location: currentPlayingCard!.location, gameBattleDeck: game.battlefieldCells, hand: game.hands)
+        } catch GameError.invalidMove {
+            currentPlayingCard!.returnToOriginalLocation()
+            print("Invalid Move")
+        } catch {
+            // Something went wrong - don't know what
+            currentPlayingCard!.returnToOriginalLocation()
         }
-        labels.update(gameDeck: game.deck)
+        
+        
+    self.currentPlayingCard = nil
+    
+    gameGraphics.update(gameDeck: game.deck)
+        
     }
         
         private func requestNewGame() {
@@ -178,5 +215,8 @@ extension GameScene: ViewControllerDelegate {
         game.new()
         gameGraphics.newGame(gameDecks: game.deck)
         gameGraphics.addCards(to: self)
+
+       
     }
+
 }

@@ -12,18 +12,10 @@ class Labels {
     private var config = GameGraphicsConfig()
     
     var newGameButton: SKLabelNode = SKLabelNode(fontNamed: "planewalker")
-    var deckCount: SKLabelNode = SKLabelNode(fontNamed: "planewalker")
     var cardDisplay: SKSpriteNode = SKSpriteNode(color: .red, size: CGSize(width: 50, height: 50))
-    
     // Sets up all the labels for the deck count, graveyard count, etc.
     func setUpLabels(width: CGFloat, height: CGFloat, to scene: SKScene) {
-        deckCount.text = "60"
-        deckCount.fontSize = 40
-        deckCount.fontColor = SKColor.black
-        
-        deckCount.position = CGPoint(x: -2 * config.margin, y: 2 * config.margin - config.cardSize.height)
-        deckCount.zPosition = config.getZIndex()
-        scene.addChild(deckCount)
+       
         
         // New game button
         newGameButton.fontSize = 40
@@ -42,14 +34,16 @@ class Labels {
         scene.addChild(cardDisplay)
     }
     
+    func setDeckCountPosition(position: CGPoint) {
+        
+    }
+    
     
     func isNewGameTapped(point: CGPoint) -> Bool {
         return newGameButton.contains(point)
     }
     
-    func update(gameDeck: Deck) {
-        deckCount.text = "\(gameDeck.cards.count)"
-    }
+    
     
     func setCardDisplay(playingCard: PlayingCard) {
         cardDisplay.texture = SKTexture(imageNamed: "\(playingCard.name!).full.jpg")
