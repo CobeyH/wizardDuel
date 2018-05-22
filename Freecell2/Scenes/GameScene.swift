@@ -92,9 +92,7 @@ class GameScene: SKScene {
         else {
             return
         }
-        if playingCard.heldBy == "Battlefield" {
-            gameGraphics.tapCard(card: playingCard)
-        }
+       
         let touchPoint = playingCard.convert(point, from: parent)
         gameGraphics.setActive(card: playingCard)
         currentPlayingCard = CurrentPlayingCard(playingCard: playingCard, startPosition: playingCard.position, touchPoint: touchPoint, location: location)
@@ -135,7 +133,12 @@ class GameScene: SKScene {
         if game.isGameOver {
             gameIsWon()
         }
-        
+        let lengthX = pow((currentPlayingCard.startPosition.x - pos.x), 2)
+        let lengthY = pow((currentPlayingCard.startPosition.y - pos.y), 2)
+        let length: Bool = (lengthX + lengthY).squareRoot() <  20.0
+        if currentPlayingCard.playingCard.heldBy == "Battlefield" && length {
+            gameGraphics.tapCard(card: currentPlayingCard.playingCard)
+        }
         gameGraphics.update(gameDeck: game.deck)
         
     }
@@ -145,13 +148,8 @@ class GameScene: SKScene {
         let playingCard = gameGraphics.cardFrom(position: point)
         
         if playingCard!.heldBy == "Deck" {
-            for _ in 0...7 {
-            
-                    self.drawCard()
-                delay(2.0, closure: {})
-            }
+            self.drawCard()
         }
-        
     }
     
     func delay(_ delay:Double, closure:@escaping ()->()) {
@@ -160,14 +158,14 @@ class GameScene: SKScene {
     }
     
     func drawCard() {
+        let card = game.deck.bottomCard
+        let playingCard = gameGraphics.findPlayingCard(from: card!)
         guard
-            let playingCard = gameGraphics.cardFrom(position: gameGraphics.deck.position),
             let location = game.location(from: playingCard.card),
             game.canMove(card: playingCard.card)
             
-            else {
-                return
-            }
+            else { return }
+        
         gameGraphics.setActive(card: playingCard)
         currentPlayingCard = CurrentPlayingCard(playingCard: playingCard, startPosition: playingCard.position, touchPoint: playingCard.anchorPoint, location: location)
         let dropLocation = gameGraphics.dropLocation(from: gameGraphics.hands.position, playingCard: currentPlayingCard!.playingCard, game: game)
