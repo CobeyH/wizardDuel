@@ -225,7 +225,6 @@ struct GameGraphics {
         case .graveyard(let value):
             let graveyard = graveyards[value]
             newPosition = graveyard.position
-            playingCard.faceUp = true
             playingCard.heldBy = "Graveyard"
             
         case .hand():
@@ -236,7 +235,6 @@ struct GameGraphics {
             else {
                 newPosition = CGPoint(x: hands.position.x, y: hands.position.y)
             }
-            playingCard.faceUp = true
             playingCard.heldBy = "Hand"
             currentPlayingCard.move(to: newPosition)
             updateCardStack(card: currentPlayingCard, location: Location.hand(), gameBattleDeck: gameBattleDeck!, hand: hand!)
@@ -247,7 +245,6 @@ struct GameGraphics {
             let cardCount = gameDeck!.cards.count - 1
             let deckPosition = deck.position
             newPosition = CGPoint(x: deckPosition.x + CGFloat(cardCount)/4 - config.offsetX, y: deckPosition.y + CGFloat(cardCount)/4 - config.offsetY)
-            playingCard.faceUp = false
             playingCard.heldBy = "Deck"
             
         case .battlefield(let value):
@@ -256,7 +253,6 @@ struct GameGraphics {
             let cardCount = battleDeck.cards.count - 1
             let deckPosition = battlefield.position
             newPosition = CGPoint(x: deckPosition.x + config.cardSize.width/2 - config.offsetX, y: deckPosition.y - CGFloat(cardCount) * config.battlefierdSpacing - config.cardSize.height/2 - config.offsetY)
-            playingCard.faceUp = true
             playingCard.heldBy = "Battlefield"
             
             

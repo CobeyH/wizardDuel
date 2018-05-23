@@ -16,7 +16,6 @@ class GameScene: SKScene {
     private let game = Game()
     private var gameGraphics = GameGraphics()
     private var labels = Labels()
-    private let endAnimation: EndAnimationProtocol = StandardEndAnimation()
     private var currentPlayingCard: CurrentPlayingCard?
     weak var viewDelegate: GameSceneDelegate?
 
@@ -197,7 +196,7 @@ class GameScene: SKScene {
         }
 
         private func gameIsWon() {
-            endAnimation.run(with: gameGraphics.cards, and: self)
+            //Do something here when the game is finished
             viewDelegate?.gameDone()
         }
 }
