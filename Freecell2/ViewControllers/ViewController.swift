@@ -58,12 +58,32 @@ class ViewController: NSViewController {
                 scene.viewDelegate = self
                 view.presentScene(scene)
                 delegate = scene
-
+                let doubleTapGR = NSClickGestureRecognizer(target: self, action: #selector(doubleTap))
+                doubleTapGR.numberOfClicksRequired = 2
+                
+                
+                let tapGR = NSClickGestureRecognizer(target: self, action: #selector(tap))
+                
+                tapGR.canBePrevented(by: doubleTapGR)
+                view.addGestureRecognizer(tapGR)
+                view.addGestureRecognizer(doubleTapGR)
             }
             view.ignoresSiblingOrder = true
             view.showsFPS = true
             view.showsNodeCount = true
         }
+    }
+
+    @objc func tap(sender: NSClickGestureRecognizer) {
+        let scene = self.delegate as! GameScene
+        
+        scene.tap(sender: sender)
+    }
+    
+    @objc func doubleTap(sender: NSClickGestureRecognizer) {
+        let scene = self.delegate as! GameScene
+        
+        scene.doubleTap(sender: sender)
     }
 
     private func configureStatistics() {

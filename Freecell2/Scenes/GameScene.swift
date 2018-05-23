@@ -46,21 +46,28 @@ class GameScene: SKScene {
             var touchLocation: CGPoint = sender.location(in: sender.view)
             touchLocation = self.convertPoint(fromView: touchLocation)
             if let playingCard = gameGraphics.cardFrom(position: touchLocation) {
+                if playingCard.heldBy == "Battlefield" {
                 gameGraphics.tapCard(card: playingCard)
             }
-            
+            }
         }
     }
     
     @objc func doubleTap(sender: NSClickGestureRecognizer) {
         if sender.state == .ended {
             var touchLocation: CGPoint = sender.location(in: sender.view)
+            
             touchLocation = self.convertPoint(fromView: touchLocation)
-            if let playingCard = gameGraphics.cardFrom(position: touchLocation) {
-                game.quickMove(card: playingCard.card, location: Location.hand())
+            
+            let playingCard = gameGraphics.cardFrom(position: touchLocation)
+            
+            if playingCard!.heldBy == "Deck" {
+                self.drawCard()
+            }
+            
             }
         }
-    }
+    
 
     // MARK: - Action Triggers
     //Triggered when the mouse is pressed down. It is only used to call other methods depending on the number of clicks
