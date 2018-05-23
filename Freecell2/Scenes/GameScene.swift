@@ -39,6 +39,28 @@ class GameScene: SKScene {
         gameGraphics.setupBackground(to: self)
     
     }
+    
+    // see if the hit node is a card in the battle field and if so rotate it
+    @objc func tap(sender: NSClickGestureRecognizer) {
+        if sender.state == .ended {
+            var touchLocation: CGPoint = sender.location(in: sender.view)
+            touchLocation = self.convertPoint(fromView: touchLocation)
+            if let playingCard = gameGraphics.cardFrom(position: touchLocation) {
+                gameGraphics.tapCard(card: playingCard)
+            }
+            
+        }
+    }
+    
+    @objc func doubleTap(sender: NSClickGestureRecognizer) {
+        if sender.state == .ended {
+            var touchLocation: CGPoint = sender.location(in: sender.view)
+            touchLocation = self.convertPoint(fromView: touchLocation)
+            if let playingCard = gameGraphics.cardFrom(position: touchLocation) {
+                game.quickMove(card: playingCard.card, location: Location.hand())
+            }
+        }
+    }
 
     // MARK: - Action Triggers
     //Triggered when the mouse is pressed down. It is only used to call other methods depending on the number of clicks
