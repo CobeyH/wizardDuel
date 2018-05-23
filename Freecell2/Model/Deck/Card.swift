@@ -15,7 +15,7 @@ struct Card {
     static func deck() -> [Card] {
         var cards: [Card] = []
         //creates a bundle with all the lines of text from a passed in file.
-        if let fileURL = Bundle.main.url(forResource: "testDeck", withExtension: "txt") {
+        if let fileURL = Bundle.main.url(forResource: "testDeck2", withExtension: "txt") {
             do {
                 //Content is a string containing the contents of the file. Each line seperated by /n.
                 let content = try String(contentsOf: fileURL, encoding: String.Encoding.utf8)
