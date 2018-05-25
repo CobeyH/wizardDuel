@@ -76,7 +76,6 @@ class ViewController: NSViewController {
 
     @objc func tap(sender: NSClickGestureRecognizer) {
         let scene = self.delegate as! GameScene
-        
         scene.tap(sender: sender)
     }
     
