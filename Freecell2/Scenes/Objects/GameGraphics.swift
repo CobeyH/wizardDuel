@@ -41,9 +41,9 @@ struct GameGraphics {
         //Sets up the counter for the deck
             deckCount.text = String(cards.count)
             deckCount.fontSize = 40
-            deckCount.fontColor = SKColor.black
+            deckCount.fontColor = SKColor.white
             deckCount.zPosition = config.getZIndex()
-            deckCount.position = CGPoint(x: deck.position.x, y: deck.position.y + config.cardSize.height + config.offsetY + config.spacing)
+            deckCount.position = CGPoint(x: deck.position.x, y: deck.position.y + config.cardSize.height + config.offsetY + 1.5 * config.spacing)
         
         // sets of the two Graveyards to the right of the deck
         for i in 0 ..< config.graveyardCount {
@@ -65,10 +65,9 @@ struct GameGraphics {
             }
         }
     }
-        
     
 
-    //Adds all the sprite images to the deck to create a stack of cards
+    //Adds all the sprite images of the cards to the deck to create a stack of cards
     mutating func setupCards(gameDecks: Deck) {
         
             let deckPosition = deck.position
@@ -105,7 +104,6 @@ struct GameGraphics {
     }
     
     
-    
     //Creates the background and sets its image
     func setupBackground(to scene: SKScene) {
         let backgroundTexture = SKTexture(imageNamed: config.backgroundName)
@@ -116,6 +114,9 @@ struct GameGraphics {
         background.zPosition = -5
         scene.addChild(background)
     }
+    
+  
+    
 
     //Returns the playingcards found at a specific location and returns the one with the greatest z position
     func cardFrom(position: CGPoint) -> PlayingCard? {
@@ -141,6 +142,16 @@ struct GameGraphics {
         }
         cards = []
         setupCards(gameDecks: gameDecks)
+    }
+    
+    //Untaps all of the cards when the new game button is pressed
+    func newTurn() {
+        for playingCard in cards {
+            if playingCard.tapped {
+                tapCard(card: playingCard)
+                
+            }
+        }
     }
     
     //Rotates the card sideways if it is upright and turns it upright if it was sideways

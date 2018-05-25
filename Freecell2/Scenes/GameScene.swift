@@ -45,6 +45,16 @@ class GameScene: SKScene {
         if sender.state == .ended {
             var touchLocation: CGPoint = sender.location(in: sender.view)
             touchLocation = self.convertPoint(fromView: touchLocation)
+            
+            if labels.isNewGameTapped(point: touchLocation) {
+                requestNewGame()
+                return
+            }
+            if labels.isNewTurnTapped(point: touchLocation) {
+                gameGraphics.newTurn()
+                return
+            }
+            
             if let playingCard = gameGraphics.cardFrom(position: touchLocation) {
                 if playingCard.heldBy == "Battlefield" {
                 gameGraphics.tapCard(card: playingCard)
@@ -72,11 +82,11 @@ class GameScene: SKScene {
     // MARK: - Action Triggers
     //Triggered when the mouse is pressed down. It is only used to call other methods depending on the number of clicks
     override func mouseDown(with event: NSEvent) {
-        if (event.clickCount == 2) {
-            doubleTap(at: event.location(in: self))
-        } else {
+//        if (event.clickCount == 2) {
+//            doubleTap(at: event.location(in: self))
+//        } else {
             touchDown(atPoint: event.location(in: self))
-        }
+//        }
     }
     
     //Triggers on mouse right click
@@ -101,16 +111,20 @@ class GameScene: SKScene {
         touchUp(atPoint: event.location(in: self))
     }
 
-    
+     
     // MARK: - Touch Responders
 
     //Called when a single tap is detected. It taps the clicked card if it is on the battlefield
     private func touchDown(atPoint point: CGPoint) {
 
-        if labels.isNewGameTapped(point: point) {
-            requestNewGame()
-            return
-        }
+//        if labels.isNewGameTapped(point: point) {
+//            requestNewGame()
+//            return
+//        }
+//        if labels.isNewTurnTapped(point: point) {
+//            gameGraphics.newTurn()
+//            return
+//        }
         guard
             let playingCard = gameGraphics.cardFrom(position: point),
             let parent = playingCard.parent,
