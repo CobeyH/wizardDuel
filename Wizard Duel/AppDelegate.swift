@@ -8,6 +8,7 @@
 
 
 import Cocoa
+import FirebaseCore
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
