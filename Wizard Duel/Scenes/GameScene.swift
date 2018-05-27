@@ -243,6 +243,9 @@ extension GameScene: ViewControllerDelegate {
         game.new()
         gameGraphics.newGame(gameDecks: game.deck)
         gameGraphics.addCards(to: self)
+        for _ in 0..<7 {
+            drawCard()
+        }
 
        
     }

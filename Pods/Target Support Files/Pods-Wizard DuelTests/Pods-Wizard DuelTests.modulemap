@@ -1,0 +1,6 @@
+framework module Pods_Wizard_DuelTests {
+  umbrella header "Pods-Wizard DuelTests-umbrella.h"
+
+  export *
+  module * { export * }
+}

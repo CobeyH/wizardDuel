@@ -46,7 +46,7 @@ class Game {
         let cards = Card.deck().shuffled()
         graveyards.forEach({ $0.reset() })
         battlefieldCells.forEach({ $0.reset() })
-        hands.reset()
+        hands.cards = []
         deck.cards = cards
     }
     
