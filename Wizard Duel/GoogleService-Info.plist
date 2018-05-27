@@ -11,7 +11,7 @@
 	<key>REVERSED_CLIENT_ID</key>
 	<string>com.googleusercontent.apps.854360338643-thfsfp0vtls11fiodk1thdlklqurfnbm</string>
 	<key>API_KEY</key>
-	<string>AIzaSyAmXYjiZOx2QQg9plnjZyA7dx8v-rU1ceQ</string>
+	<string>test</string>
 	<key>GCM_SENDER_ID</key>
 	<string>854360338643</string>
 	<key>PLIST_VERSION</key>
@@ -23,15 +23,15 @@
 	<key>STORAGE_BUCKET</key>
 	<string>wizardduels-69386.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
-	<true></true>
+	<true/>
 	<key>IS_ANALYTICS_ENABLED</key>
-	<false></false>
+	<false/>
 	<key>IS_APPINVITE_ENABLED</key>
-	<false></false>
+	<false/>
 	<key>IS_GCM_ENABLED</key>
-	<true></true>
+	<true/>
 	<key>IS_SIGNIN_ENABLED</key>
-	<true></true>
+	<true/>
 	<key>GOOGLE_APP_ID</key>
 	<string>1:854360338643:ios:b96ef1feb0a94d75</string>
 	<key>DATABASE_URL</key>

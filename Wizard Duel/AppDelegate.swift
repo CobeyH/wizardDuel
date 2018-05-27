@@ -19,7 +19,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         FirebaseApp.configure()
 
-        Auth.auth().signIn(withEmail: "chlobey1@gmail.com", password: "acrug3rok") { (user, error) in
+        Auth.auth().signIn(withEmail: "unknown@gmail.com", password: "test") { (user, error) in
             if error != nil {
                 print("Error logging in")
             } else {
