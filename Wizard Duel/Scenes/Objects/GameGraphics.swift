@@ -55,11 +55,11 @@ struct GameGraphics {
         }
        
         //Sets up all the battlefields in the arena
-        for i in 0 ..< Int(width/config.cardSize.width - 4) {
-            for j in 0 ..< Int(height/config.cardSize.height - 3) {
+        for i in 0 ..< Int(width/config.cardSize.width/2) {
+            for j in 0 ..< 3 {
                 let battlefieldCell = SKSpriteNode(color: config.battlefieldColour, size: config.cardSize)
                 battlefieldCell.anchorPoint = config.cardMiddle
-                battlefieldCell.position = CGPoint(x: config.spacing + config.offsetX + (config.cardSize.width + config.spacing/2) * CGFloat(i), y: -config.cardSize.height + config.margin - 2 * config.spacing - (config.cardSize.height + config.spacing/2) * CGFloat(j) + config.offsetY)
+                battlefieldCell.position = CGPoint(x: config.offsetX + (config.cardSize.width + config.spacing/2) * CGFloat(i), y:   -(config.cardSize.height + config.spacing/2) * CGFloat(j) + config.offsetY)
                 battlefieldCell.zPosition = baseZPosition
                 battlefieldCells.append(battlefieldCell)
             }
@@ -113,6 +113,18 @@ struct GameGraphics {
         background.anchorPoint = CGPoint(x: 0, y: 1)
         background.zPosition = -5
         scene.addChild(background)
+        
+        let hLine = SKSpriteNode(color: .white, size: CGSize(width: scene.size.width, height: 3))
+        hLine.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+        hLine.position = CGPoint(x: scene.size.width/2, y: -scene.size.height/2 + config.cardSize.height/2)
+        hLine.zPosition = -4
+        scene.addChild(hLine)
+        
+        let vLine = SKSpriteNode(color: .white, size: CGSize(width: 3, height: scene.size.height))
+        vLine.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+        vLine.position = CGPoint(x: scene.size.width/2, y: -scene.size.height/2)
+        vLine.zPosition = -4
+        scene.addChild(vLine)
     }
     
   

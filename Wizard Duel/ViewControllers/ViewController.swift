@@ -89,6 +89,8 @@ class ViewController: NSViewController {
         
         scene.doubleTap(sender: sender)
     }
+    
+    
 
     private func configureStatistics() {
         let userDefaults = UserDefaults.standard

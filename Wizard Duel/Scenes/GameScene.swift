@@ -8,6 +8,8 @@
 
 import SpriteKit
 import GameplayKit
+import FirebaseDatabase
+import FirebaseAuth
 
 class GameScene: SKScene {
 
@@ -48,6 +50,7 @@ class GameScene: SKScene {
             
             if labels.isNewGameTapped(point: touchLocation) {
                 requestNewGame()
+                
                 return
             }
             if labels.isNewTurnTapped(point: touchLocation) {
@@ -58,9 +61,11 @@ class GameScene: SKScene {
             if let playingCard = gameGraphics.cardFrom(position: touchLocation) {
                 if playingCard.heldBy == "Battlefield" {
                 gameGraphics.tapCard(card: playingCard)
+                    
             }
             }
         }
+        
     }
     
     @objc func doubleTap(sender: NSClickGestureRecognizer) {
@@ -74,10 +79,52 @@ class GameScene: SKScene {
             if playingCard.heldBy == "Deck" {
                 self.drawCard()
             }
-            
+                updateDatabase(playingCard: playingCard)
             }
         }
+        
         }
+    
+    func databaseDeck() {
+         let cardDeck = Database.database().reference().child("Deck")
+        for card in game.deck.cards {
+            let cardDictionary = ["Sender": Auth.auth().currentUser?.email,"Card": card.fileName]
+            cardDeck.childByAutoId().setValue(cardDictionary) {
+                (error, reference) in
+                if error != nil {
+                    print(error!)
+                }
+                else {
+                    print("Card Saved")
+                }
+        }
+    }
+    }
+    
+    func updateDatabase(playingCard: PlayingCard) {
+        let cardUpdate = Database.database().reference().child("Updates")
+        let location = game.location(from: playingCard.card)
+        let updateDictionary = ["Sender": Auth.auth().currentUser?.email,"Card": playingCard.card.fileName]
+        cardUpdate.childByAutoId().setValue(updateDictionary) {
+            (error, reference) in
+            if error != nil {
+                print(error!)
+            }
+            else {
+                print("Update Saved")
+            }
+        }
+    }
+    
+    func retrieveUpdates() {
+        let cardUpdate = Database.database().reference().child("Updates")
+        cardUpdate.observe(.childAdded) { (snapshot) in
+            let snapshotValue = snapshot.value as! Dictionary<String,String>
+            let cardName = snapshotValue["Card"]!
+            let sender = snapshotValue["Sender"]!
+            print(cardName, sender)
+        }
+    }
     
 
     // MARK: - Action Triggers
@@ -246,7 +293,7 @@ extension GameScene: ViewControllerDelegate {
         for _ in 0..<7 {
             drawCard()
         }
-
+        databaseDeck()
        
     }
 
