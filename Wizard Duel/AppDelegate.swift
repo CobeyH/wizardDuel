@@ -16,26 +16,25 @@ import FirebaseDatabase
 class AppDelegate: NSObject, NSApplicationDelegate {
     
     func applicationDidFinishLaunching(_ aNotification: Notification) {
-
+        
+        
         FirebaseApp.configure()
         
         
         let login = loginInfo()
-
+        
         Auth.auth().signIn(withEmail: login.username, password: login.password) { (user, error) in
             if error != nil {
                 print(error!)
             } else {
                 print("login Successful")
                 let myDataBase = Database.database().reference()
+            }
+            
+        }  
+        
+        func applicationWillTerminate(_ aNotification: Notification) {
+            // Insert code here to tear down your application
         }
-        
-    }
-        
-        
-    func applicationWillTerminate(_ aNotification: Notification) {
-        // Insert code here to tear down your application
-    }
     }
 }
-
