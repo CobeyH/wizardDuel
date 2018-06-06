@@ -32,6 +32,10 @@ final class Deck: ContainsCard {
     func removeBottom() {
         let _ = cards.popLast()
     }
+    
+    func removeCard(card: Card) {
+        cards.remove(at: cards.index(of: card)!)
+    }
 
 
     func isBottom(card: Card) -> Bool {

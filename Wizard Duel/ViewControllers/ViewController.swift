@@ -21,6 +21,8 @@ class ViewController: NSViewController {
         super.viewDidLoad()
         configureScene()
         configureStatistics()
+        
+      
     }
 
     
@@ -78,6 +80,8 @@ class ViewController: NSViewController {
             view.showsNodeCount = true
         }
     }
+    
+    
 
     @objc func tap(sender: NSClickGestureRecognizer) {
         let scene = self.delegate as! GameScene

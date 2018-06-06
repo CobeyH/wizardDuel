@@ -1,6 +1,5 @@
 //
 //  GameGraphics.swift
-//  Freegraveyard2
 //
 //  Created by gary on 31/08/2017.
 //  Copyright © 2017 Gary Kerr. All rights reserved.
@@ -9,41 +8,48 @@
 import SpriteKit
 
 struct GameGraphics {
-
+    
     private var config = GameGraphicsConfig()
-
+    
     private var graveyards: [SKSpriteNode] = []
     var hands: SKSpriteNode = SKSpriteNode(color: .red, size: CGSize(width: 75, height: 40))
     var deck: SKSpriteNode = SKSpriteNode(color: .red, size: CGSize(width: 75, height: 40))
-    private var battlefieldCells: [SKSpriteNode] = []
+    var allBattlefields: [[SKSpriteNode]] = [[], [], [], []]
     var deckCount: SKLabelNode = SKLabelNode(fontNamed: "planewalker")
+    var diceSpawner: SKSpriteNode = SKSpriteNode(color: .red, size: CGSize(width: 75, height: 40))
     
     var cards: [PlayingCard] = []
-
+    
     mutating func setup(width: CGFloat, height: CGFloat) {
         let baseZPosition: CGFloat = config.zIndexIncrement
         
         
         // Sets up the hand at the bottom of the screen
-            hands.color = config.backgroundColour
-            hands.size = CGSize(width: config.cardSize.width * 7, height: config.cardSize.height)
-            hands.anchorPoint = config.cardMiddle
-            hands.position = CGPoint(x: config.spacing + 7 * config.offsetX, y: -height + config.cardSize.height + config.offsetY)
-            hands.zPosition = baseZPosition
-
-        // Sets up the deck in the top left corner
-            deck.color = config.backgroundColour
-            deck.size = config.cardSize
-            deck.anchorPoint = config.cardMiddle
-            deck.position = CGPoint(x: hands.size.width + config.cardSize.width + config.offsetX, y: -config.offsetY - height)
-            deck.zPosition = baseZPosition
+        hands.color = config.backgroundColour
+        hands.size = CGSize(width: config.cardSize.width * 7, height: config.cardSize.height)
+        hands.anchorPoint = config.cardMiddle
+        hands.position = CGPoint(x: config.spacing + 7 * config.offsetX, y: -height + config.cardSize.height + config.offsetY)
+        hands.zPosition = baseZPosition
+        
+        // Sets up the deck in bottom right corner
+        deck.color = config.backgroundColour
+        deck.size = config.cardSize
+        deck.anchorPoint = config.cardMiddle
+        deck.position = CGPoint(x: hands.size.width + config.cardSize.width + config.offsetX, y: -config.offsetY - height)
+        deck.zPosition = baseZPosition
         
         //Sets up the counter for the deck
-            deckCount.text = String(cards.count)
-            deckCount.fontSize = 40
-            deckCount.fontColor = SKColor.white
-            deckCount.zPosition = config.getZIndex()
-            deckCount.position = CGPoint(x: deck.position.x, y: deck.position.y + config.cardSize.height + config.offsetY + 1.5 * config.spacing)
+        deckCount.text = String(cards.count)
+        deckCount.fontSize = 40
+        deckCount.fontColor = SKColor.white
+        deckCount.zPosition = config.getZIndex()
+        deckCount.position = CGPoint(x: deck.position.x, y: deck.position.y + config.cardSize.height + config.offsetY + 1.5 * config.spacing)
+        
+        //Sets up the dice
+        diceSpawner.texture = SKTexture(imageNamed: "dice1")
+        diceSpawner.size = CGSize(width: 30, height: 30)
+        diceSpawner.position = CGPoint(x: deck.position.x + config.cardSize.width*3, y: -height + diceSpawner.size.height/2)
+        diceSpawner.anchorPoint = CGPoint(x:0.5, y:0.5)
         
         // sets of the two Graveyards to the right of the deck
         for i in 0 ..< config.graveyardCount {
@@ -53,49 +59,56 @@ struct GameGraphics {
             graveyard.zPosition = baseZPosition
             graveyards.append(graveyard)
         }
-       
+        
+        
         //Sets up all the battlefields in the arena
-        for i in 0 ..< Int(width/config.cardSize.width/2) {
-            for j in 0 ..< 3 {
-                let battlefieldCell = SKSpriteNode(color: config.battlefieldColour, size: config.cardSize)
-                battlefieldCell.anchorPoint = config.cardMiddle
-                battlefieldCell.position = CGPoint(x: config.offsetX + (config.cardSize.width + config.spacing/2) * CGFloat(i), y:   -(config.cardSize.height + config.spacing/2) * CGFloat(j) + config.offsetY)
-                battlefieldCell.zPosition = baseZPosition
-                battlefieldCells.append(battlefieldCell)
+        let startPositions: [CGPoint] = [CGPoint(x: config.cardSize.width, y: -height/2 - config.offsetY), CGPoint(x: config.cardSize.width, y: 0), CGPoint(x: width/2, y: 0), CGPoint(x: width/2, y: -height/2 - config.offsetY) ]
+        for k in 0 ..< 4 {
+            for i in 0 ..< 7 {
+                for j in 0 ..< 3 {
+                    let battlefieldCell = SKSpriteNode(color: config.battlefieldColour, size: config.cardSize)
+                    battlefieldCell.anchorPoint = config.cardMiddle
+                    battlefieldCell.position = CGPoint(x: startPositions[k].x + config.offsetX + (config.cardSize.width + config.spacing/2) * CGFloat(i), y: -(config.cardSize.height + config.spacing/2) * CGFloat(j) + startPositions[k].y - config.cardSize.height/2)
+                    battlefieldCell.zPosition = baseZPosition
+                    allBattlefields[k].append(battlefieldCell)
+                }
             }
         }
     }
     
-
+    
     //Adds all the sprite images of the cards to the deck to create a stack of cards
     mutating func setupCards(gameDecks: Deck) {
         
-            let deckPosition = deck.position
-            for (i, gameCard) in gameDecks.cards.enumerated() {
-                let card = PlayingCard(card: gameCard, size: config.cardSize)
-                card.anchorPoint = config.cardMiddle
-                card.size = config.cardSize
-                card.position = CGPoint(x: deckPosition.x , y: deckPosition.y + CGFloat(i/4))
-                card.zPosition = config.getZIndex()
-                cards.append(card)
-            }
+        let deckPosition = deck.position
+        for (i, gameCard) in gameDecks.cards.enumerated() {
+            let card = PlayingCard(card: gameCard, size: config.cardSize)
+            card.anchorPoint = config.cardMiddle
+            card.size = config.cardSize
+            card.position = CGPoint(x: deckPosition.x , y: deckPosition.y + CGFloat(i/4))
+            card.zPosition = config.getZIndex()
+            cards.append(card)
+        }
     }
     
-
+    
     //Adds all the children to the scene
     func addChildren(to scene: SKScene) {
         for graveyard in graveyards {
             scene.addChild(graveyard)
         }
-        for battlefieldCell in battlefieldCells {
-            scene.addChild(battlefieldCell)
+        for battlefieldArray in allBattlefields {
+            for battlefieldCell in battlefieldArray {
+                scene.addChild(battlefieldCell)
+            }
         }
+        scene.addChild(diceSpawner)
         scene.addChild(hands)
         scene.addChild(deck)
         scene.addChild(deckCount)
         addCards(to: scene)
     }
-
+    
     //Adds the cards sprites to the visual deck
     func addCards(to scene: SKScene) {
         for card in cards {
@@ -127,9 +140,9 @@ struct GameGraphics {
         scene.addChild(vLine)
     }
     
-  
     
-
+    
+    
     //Returns the playingcards found at a specific location and returns the one with the greatest z position
     func cardFrom(position: CGPoint) -> PlayingCard? {
         var candidateCards: [PlayingCard] = []
@@ -142,12 +155,12 @@ struct GameGraphics {
         return candidateCards.last
     }
     
-
+    
     mutating func setActive(card: PlayingCard) {
         card.zPosition = config.getZIndex()
     }
-
-
+    
+    
     mutating func newGame(gameDecks: Deck) {
         for card in cards {
             card.removeFromParent()
@@ -171,77 +184,110 @@ struct GameGraphics {
         let angle: Double = card.tapped ? Double.pi/2 : -Double.pi/2
         let rotation = SKAction.rotate(byAngle: CGFloat(angle), duration: 0.0)
         card.run(rotation)
-       
+        
         card.tapped = card.tapped ? false : true
+    }
+    
+    //Moves the card onto the battlefield for searching the deck
+    mutating func displayDeck() {
+        let startPos = CGPoint(x:deck.position.x + config.cardSize.width/2 - config.offsetX, y: -config.offsetY - config.cardSize.height * 2)
+        //Checks if each card in Cards is in the deck and if so moves them to be displayed
+        for (i,card) in cards.enumerated() {
+            if card.heldBy == "Deck" {
+                setActive(card: card)
+                let currentPlayingCard = CurrentPlayingCard(playingCard: card, startPosition: card.position, touchPoint: card.anchorPoint, location: .deck())
+                //NOTE: This is integer division to reset the cards to the top of the column every 30 cards
+                let j : Int = i/30
+                let posX = startPos.x + CGFloat(j) * config.cardSize.width
+                let posY = startPos.y - CGFloat(i) * config.battlefierdSpacing + config.battlefierdSpacing * CGFloat(30 * j)
+                let position = CGPoint(x: posX, y: posY)
+                currentPlayingCard.move(to: position)
+            }
+        }
+    }
+    
+    mutating func reconstructDeck() {
+        for (i,card) in cards.enumerated() {
+            if card.heldBy == "Deck" {
+                setActive(card: card)
+                let currentPlayingCard = CurrentPlayingCard(playingCard: card, startPosition: card.position, touchPoint: card.anchorPoint, location: .deck())
+                let position = CGPoint(x: deck.position.x, y: deck.position.y + CGFloat(i/4))
+                currentPlayingCard.move(to: position)
+                currentPlayingCard.playingCard.texture = SKTexture(imageNamed: "cardback")
+            }
+        }
     }
     
     
     //Orders the cards properly when a card is removed from the middle of a cell
-    mutating func updateCardStack(card: CurrentPlayingCard, location: Location, gameBattleDeck: [Battlefield], hand: Hand) {
+    mutating func updateCardStack(card: CurrentPlayingCard, location: Location, gameBattleDeck: [[Battlefield]], hand: Hand) {
         
         var i : Double   = 0
         switch location {
-            case .battlefield(let value):
-                let playingCards = cardsInCell(location: location, gameBattleDeck: gameBattleDeck , hand: hand)
-                let battlefield = battlefieldCells[value]
-                for playingCard in playingCards {
-                    setActive(card: playingCard)
-                    let currentPlayingCard = CurrentPlayingCard(playingCard: playingCard, startPosition: playingCard.position, touchPoint: playingCard.anchorPoint, location: location)
-                    let position = CGPoint(x: battlefield.position.x + config.cardSize.width/2 - config.offsetX, y: battlefield.position.y - CGFloat(i) * config.battlefierdSpacing - config.cardSize.height/2 - config.offsetY)
-                    currentPlayingCard.move(to: position)
-                    i = i + 1
-                }
+        case .battlefield(let field, let stack):
+            let playingCards = cardsInCell(location: location, gameBattleDeck: gameBattleDeck , hand: hand)
+            let battlefield = allBattlefields[field]
+            let stack = battlefield[stack]
+            for playingCard in playingCards {
+                setActive(card: playingCard)
+                let currentPlayingCard = CurrentPlayingCard(playingCard: playingCard, startPosition: playingCard.position, touchPoint: playingCard.anchorPoint, location: location)
+                let position = CGPoint(x: stack.position.x + config.cardSize.width/2 - config.offsetX, y: stack.position.y - CGFloat(i) * config.battlefierdSpacing - config.cardSize.height/2 - config.offsetY)
+                currentPlayingCard.move(to: position)
+                i = i + 1
+            }
             
-            case .hand():
+        case .hand():
+            
+            let playingCards = cardsInCell(location: location, gameBattleDeck: gameBattleDeck , hand: hand)
+            let counter : Double = ((playingCards.count + 1) > 7) ? Double(playingCards.count) : 7.0
+            for playingCard in playingCards {
                 
-                let playingCards = cardsInCell(location: location, gameBattleDeck: gameBattleDeck , hand: hand)
-                let counter : Double = ((playingCards.count + 1) > 7) ? Double(playingCards.count) : 7.0
-                for playingCard in playingCards {
-
-                    setActive(card: playingCard)
-                    let currentPlayingCard = CurrentPlayingCard(playingCard: playingCard, startPosition: playingCard.position, touchPoint: playingCard.anchorPoint, location: location)
-                    
-                    
-                    let position =  CGPoint(x: config.offsetX + config.spacing + CGFloat((i * 7.0)/counter) * config.cardSize.width, y: hands.position.y)
-                    i = i + 1
-                    currentPlayingCard.move(to: position)
+                setActive(card: playingCard)
+                let currentPlayingCard = CurrentPlayingCard(playingCard: playingCard, startPosition: playingCard.position, touchPoint: playingCard.anchorPoint, location: location)
+                
+                
+                let position =  CGPoint(x: config.offsetX + config.spacing + CGFloat((i * 7.0)/counter) * config.cardSize.width, y: hands.position.y)
+                i = i + 1
+                currentPlayingCard.move(to: position)
             }
             
             
-            default: break
+        default: break
             
         }
     }
-       
+    
     //Returns all the cards at a specific lacation in sorted order based on zPosition
-    private mutating func cardsInCell(location: Location, gameBattleDeck: [Battlefield], hand: Hand) -> [PlayingCard] {
+    private mutating func cardsInCell(location: Location, gameBattleDeck: [[Battlefield]], hand: Hand) -> [PlayingCard] {
         var playingCards : [PlayingCard] = []
         
-            switch location {
-    
-            case .battlefield(let value):
-            let battlefieldCards = gameBattleDeck[value]
-                for card in cards {
-                    if battlefieldCards.contains(card: card.card) {
-                        playingCards.append(card)
-                    }
+        switch location {
+            
+        case .battlefield(let field, let stack):
+            let gameDeck = gameBattleDeck[field]
+            let battlefieldCards = gameDeck[stack]
+            
+            for card in cards {
+                if battlefieldCards.contains(card: card.card) {
+                    playingCards.append(card)
                 }
-        
-            case .hand():
-                for card in cards {
-                    if hand.contains(card: card.card) {
-                        playingCards.append(card)
-                    }
             }
-            default: break
+            
+        case .hand():
+            for card in cards {
+                if hand.contains(card: card.card) {
+                    playingCards.append(card)
+                }
+            }
+        default: break
         }
         playingCards.sort(by: { $0.zPosition < $1.zPosition })
         return playingCards
     }
     
     //Moves the images of the card to reflect the arrangment in the model
-    mutating func move(currentPlayingCard: CurrentPlayingCard, to location: Location, gameDecks: Deck?, gameBattleDeck: [Battlefield]?, hand: Hand?) {
-       let playingCard = currentPlayingCard.playingCard
+    mutating func move(currentPlayingCard: CurrentPlayingCard, to location: Location, gameDecks: Deck?, gameBattleDeck: [[Battlefield]]?, hand: Hand?) {
+        let playingCard = currentPlayingCard.playingCard
         let newPosition: CGPoint
         switch location {
             
@@ -270,11 +316,13 @@ struct GameGraphics {
             newPosition = CGPoint(x: deckPosition.x, y: deckPosition.y + CGFloat(cardCount)/4)
             playingCard.heldBy = "Deck"
             
-        case .battlefield(let value):
-            let battlefield = battlefieldCells[value]
-            let battleDeck = gameBattleDeck![value]
-            let cardCount = battleDeck.cards.count - 1
-            let deckPosition = battlefield.position
+        case .battlefield(let field, let stack):
+            let graphicsField = allBattlefields[field]
+            let graphicsStack = graphicsField[stack]
+            let modelField = gameBattleDeck![field]
+            let modelStack = modelField[stack]
+            let cardCount = modelStack.cards.count - 1
+            let deckPosition = graphicsStack.position
             newPosition = CGPoint(x: deckPosition.x + config.cardSize.width/2 - config.offsetX, y: deckPosition.y - CGFloat(cardCount) * config.battlefierdSpacing - config.cardSize.height/2 - config.offsetY)
             playingCard.heldBy = "Battlefield"
             
@@ -285,10 +333,10 @@ struct GameGraphics {
             
         }
         currentPlayingCard.move(to: newPosition)
-        }
-
+    }
     
-
+    
+    
     //Returns the location at the point passed in
     func dropLocation(from position: CGPoint, playingCard: PlayingCard, game: Game) -> Location? {
         for (i, graveyard) in graveyards.enumerated() {
@@ -317,22 +365,23 @@ struct GameGraphics {
             }
         }
         
-            if deck.contains(position) {
-                
-                
-                    return .deck()
-                
-            }
+        if deck.contains(position) {
+            return .deck()
+            
+        }
         
-        for (i, battlefield) in battlefieldCells.enumerated() {
-            if battlefield.contains(position) {
-                    return .battlefield(i)
+        for (i, battlefield) in allBattlefields.enumerated() {
+            for (j, stack) in battlefield.enumerated() {
+            if stack.contains(position) {
+                return .battlefield(i, j)
             }
+        }
         }
         return nil
     }
     
-     func findPlayingCard(from card: Card) -> PlayingCard {
+    
+    func findPlayingCard(from card: Card) -> PlayingCard {
         for playingCard in cards {
             if playingCard.card == card {
                 return playingCard
@@ -342,10 +391,11 @@ struct GameGraphics {
     }
     
     // MARK: - Private
-
+    
     
     
     func update(gameDeck: Deck) {
         deckCount.text = "\(gameDeck.cards.count)"
     }
+    
 }

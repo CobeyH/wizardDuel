@@ -18,7 +18,7 @@ class Game {
     
     private let graveyards: [Graveyard]
     let hands: Hand
-    let battlefieldCells: [Battlefield]
+    var allBattlefields: [[Battlefield]] = [[],[],[],[]]
     let deck: Deck
     
     // MARK: - Computed properties
@@ -36,7 +36,10 @@ class Game {
     init() {
         graveyards = [Graveyard(), Graveyard()]
         hands = Hand()
-        battlefieldCells = (0 ... 54).map({ _ in Battlefield() })
+        
+        for i in 0...3 {
+            allBattlefields[i] = (0 ... 50).map({ _ in Battlefield() })
+        }
         deck = Deck()
         self.new()
     }
@@ -45,7 +48,9 @@ class Game {
     func new() {
         let cards = Card.deck().shuffled()
         graveyards.forEach({ $0.reset() })
-        battlefieldCells.forEach({ $0.reset() })
+        for i in 0...3 {
+            allBattlefields[i].forEach({ $0.reset() })
+        }
         hands.cards = []
         deck.cards = cards
     }
@@ -57,9 +62,10 @@ class Game {
         }
         switch location {
             case .deck():
-            return deck.isBottom(card: card)
+//            return deck.isBottom(card: card)
+            return true
        
-                default:  return true
+                default: return true
         }
     }
     
@@ -73,16 +79,17 @@ class Game {
         
         switch fromLocation {
         case .deck():
-            deck.removeBottom()
+            deck.removeCard(card: card)
         case .graveyard(let value):
             let graveyard = graveyards[value]
             graveyard.removeBottom()
         case .hand():
             hands.removeCard(card: card)
             
-        case .battlefield(let value):
-            let battlefield = battlefieldCells[value]
-            battlefield.removeCard(card: card)
+        case .battlefield(let field, let stack):
+            let battlefield = allBattlefields[field]
+            let stack = battlefield[stack]
+            stack.removeCard(card: card)
 
         }
     }
@@ -108,9 +115,10 @@ class Game {
         case .graveyard(let value):
             let graveyard = graveyards[value]
             return graveyard.cards.count - 1
-        case .battlefield(let value):
-            let battlefield = battlefieldCells[value]
-            return battlefield.cards.count - 1
+        case .battlefield(let field, let stack):
+            let battlefield = allBattlefields[field]
+            let stack = battlefield[stack]
+            return stack.cards.count - 1
         }
     }
     
@@ -131,9 +139,11 @@ class Game {
                 return Location.deck()
             }
         
-        for (i, battlefield) in battlefieldCells.enumerated() {
-            if battlefield.contains(card: card) {
-                return Location.battlefield(i)
+        for (i,battlefield) in allBattlefields.enumerated() {
+            for (j,stack) in battlefield.enumerated() {
+                if stack.contains(card: card) {
+                    return Location.battlefield(i,j)
+                }
             }
         }
         return nil
@@ -155,9 +165,10 @@ class Game {
             }
         case .deck():
             return deck.bottomCard
-        case .battlefield(let value):
-        return battlefieldCells[value].bottomCard
-    }
+        case .battlefield(let field, let stack):
+            let battlefield = allBattlefields[field]
+        return battlefield[stack].bottomCard
+        }
     }
     
     //Implements the real adding of cards to the arrays in the model
@@ -170,9 +181,10 @@ class Game {
             try hands.add(card: card)
         case .deck():
             try deck.add(card: card)
-        case .battlefield(let value):
-            let battlefield = battlefieldCells[value]
-            try battlefield.add(card: card)
+        case .battlefield(let field, let stack):
+            let battlefield = allBattlefields[field]
+            let stack = battlefield[stack]
+            try stack.add(card: card)
         }
         
     }

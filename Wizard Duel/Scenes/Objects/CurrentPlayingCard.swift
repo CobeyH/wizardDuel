@@ -28,13 +28,7 @@ struct CurrentPlayingCard {
     }
     
     func setTexture() {
-        let texture: SKTexture
-        if playingCard.heldBy == "Deck" {
-            texture = SKTexture(imageNamed: "cardback")
-        }
-        else {
-            texture = SKTexture(imageNamed: playingCard.card.fileName)
-        }
+        let texture = SKTexture(imageNamed: playingCard.card.fileName)
         playingCard.texture = texture
         
     }

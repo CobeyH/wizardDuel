@@ -57,6 +57,10 @@ class GameScene: SKScene {
                 gameGraphics.newTurn()
                 return
             }
+//            if gameGraphics.isDiceTapped(point: touchLocation) {
+//               game.createDice()
+//                gameGraphics.createDice()
+//            }
             
             if let playingCard = gameGraphics.cardFrom(position: touchLocation) {
                 if playingCard.heldBy == "Battlefield" {
@@ -79,41 +83,33 @@ class GameScene: SKScene {
             if playingCard.heldBy == "Deck" {
                 self.drawCard()
             }
-                updateDatabase(playingCard: playingCard)
             }
         }
         
         }
     
-    func databaseDeck() {
-         let cardDeck = Database.database().reference().child("Deck")
-        for card in game.deck.cards {
-            let cardDictionary = ["Sender": Auth.auth().currentUser?.email,"Card": card.fileName]
-            cardDeck.childByAutoId().setValue(cardDictionary) {
+    // MARK: - Database
+    func updateDatabase(playingCard: PlayingCard) {
+        let cardUpdate = Database.database().reference().child("Updates")
+        if let location = game.location(from: playingCard.card) {
+        if case .battlefield(let field, let stack) = location {
+            let updateDictionary = ["Sender": Auth.auth().currentUser?.email,"Card": playingCard.card.fileName, "Field": String(field), "Stack": String(stack)]
+            cardUpdate.childByAutoId().setValue(updateDictionary) {
                 (error, reference) in
                 if error != nil {
                     print(error!)
                 }
                 else {
-                    print("Card Saved")
+                    print("Update Saved")
                 }
-        }
-    }
-    }
-    
-    func updateDatabase(playingCard: PlayingCard) {
-        let cardUpdate = Database.database().reference().child("Updates")
-        let location = game.location(from: playingCard.card)
-        let updateDictionary = ["Sender": Auth.auth().currentUser?.email,"Card": playingCard.card.fileName]
-        cardUpdate.childByAutoId().setValue(updateDictionary) {
-            (error, reference) in
-            if error != nil {
-                print(error!)
             }
-            else {
-                print("Update Saved")
+            
+            
+            } else {
+            debugPrint("Not a location update, returning…")
             }
         }
+        
     }
     
     func retrieveUpdates() {
@@ -135,8 +131,9 @@ class GameScene: SKScene {
     
     //Triggers on mouse right click
     override func rightMouseDown(with event: NSEvent) {
-        if let playingCard = gameGraphics.cardFrom(position: event.location(in: self)) {
-            if playingCard.heldBy != "Deck" {
+        let position = event.location(in: self)
+        if let playingCard = gameGraphics.cardFrom(position: position) {
+            if playingCard.texture != SKTexture(imageNamed: "cardback") {
               labels.setCardDisplay(playingCard: playingCard)
             }
     
@@ -153,6 +150,23 @@ class GameScene: SKScene {
     //Triggers when the mouse is released
     override func mouseUp(with event: NSEvent) {
         touchUp(atPoint: event.location(in: self))
+    }
+    
+    override func keyDown(with event: NSEvent) {
+        switch event.modifierFlags.intersection(.deviceIndependentFlagsMask) {
+        case [.command] where event.characters == "f":
+            print("Command-F")
+            gameGraphics.displayDeck()
+        default:
+            break
+        }
+        if let firstCharacter = event.characters?.first {
+            if firstCharacter == "\u{1b}" {
+                print("Esc")
+                gameGraphics.reconstructDeck()
+            }
+        }
+        
     }
 
      
@@ -192,8 +206,8 @@ class GameScene: SKScene {
                 
                 try game.move(card: currentPlayingCard, to: dropLocation)
                 //Updates the view by moving the image to the correct animation
-                gameGraphics.move(currentPlayingCard: currentPlayingCard, to: dropLocation, gameDecks: game.deck, gameBattleDeck: game.battlefieldCells, hand: game.hands)
-                gameGraphics.updateCardStack(card: currentPlayingCard, location: currentPlayingCard.location, gameBattleDeck: game.battlefieldCells, hand: game.hands)
+                gameGraphics.move(currentPlayingCard: currentPlayingCard, to: dropLocation, gameDecks: game.deck, gameBattleDeck: game.allBattlefields, hand: game.hands)
+                gameGraphics.updateCardStack(card: currentPlayingCard, location: currentPlayingCard.location, gameBattleDeck: game.allBattlefields, hand: game.hands)
             } catch GameError.invalidMove {
                 currentPlayingCard.returnToOriginalLocation()
                 print("Invalid Move")
@@ -215,6 +229,9 @@ class GameScene: SKScene {
         let length: Bool = (lengthX + lengthY).squareRoot() <  20.0
         if currentPlayingCard.playingCard.heldBy == "Battlefield" && length {
             gameGraphics.tapCard(card: currentPlayingCard.playingCard)
+        }
+        else if currentPlayingCard.playingCard.heldBy == "Battlefield" {
+            updateDatabase(playingCard: currentPlayingCard.playingCard)
         }
         gameGraphics.update(gameDeck: game.deck)
         
@@ -251,8 +268,8 @@ class GameScene: SKScene {
             
             try game.move(card: currentPlayingCard!, to: dropLocation!)
             //Updates the view by moving the image to the correct animation
-            gameGraphics.move(currentPlayingCard: currentPlayingCard!, to: dropLocation!, gameDecks: game.deck, gameBattleDeck: game.battlefieldCells, hand: game.hands)
-            gameGraphics.updateCardStack(card: currentPlayingCard!, location: currentPlayingCard!.location, gameBattleDeck: game.battlefieldCells, hand: game.hands)
+            gameGraphics.move(currentPlayingCard: currentPlayingCard!, to: dropLocation!, gameDecks: game.deck, gameBattleDeck: game.allBattlefields, hand: game.hands)
+            gameGraphics.updateCardStack(card: currentPlayingCard!, location: currentPlayingCard!.location, gameBattleDeck: game.allBattlefields, hand: game.hands)
         } catch GameError.invalidMove {
             currentPlayingCard!.returnToOriginalLocation()
             print("Invalid Move")
@@ -285,6 +302,29 @@ extension GameScene: ViewControllerDelegate {
     var gameState: Game.State {
         return game.state
     }
+    
+    func importDeck() {
+        let dialog = NSOpenPanel()
+        dialog.title = "Choose a deck"
+        dialog.showsResizeIndicator = true
+        dialog.showsHiddenFiles = false
+        dialog.canChooseDirectories = false
+        dialog.allowedFileTypes = ["txt"]
+        if dialog.runModal() == NSApplication.ModalResponse.OK {
+            do {
+        let fileURL = dialog.url
+            if fileURL != nil {
+                let content: String = try String(contentsOf: fileURL!, encoding: String.Encoding.utf8)
+                print(content)
+            }
+        else {
+            print("Could not find file")
+        }
+            } catch {
+                print("Unknown Error Occured while opening file")
+            }
+        }
+    }
 
     func newGame() {
         game.new()
@@ -292,8 +332,10 @@ extension GameScene: ViewControllerDelegate {
         gameGraphics.addCards(to: self)
         for _ in 0..<7 {
             drawCard()
+            
         }
-        databaseDeck()
+        importDeck()
+        
        
     }
 
