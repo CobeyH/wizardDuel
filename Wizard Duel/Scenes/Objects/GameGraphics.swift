@@ -9,6 +9,7 @@ import SpriteKit
 
 struct GameGraphics {
     
+    //MARK: - Initalizers
     private var config = GameGraphicsConfig()
     
     private var graveyards: [SKSpriteNode] = []
@@ -19,7 +20,9 @@ struct GameGraphics {
     var diceSpawner: SKSpriteNode = SKSpriteNode(color: .red, size: CGSize(width: 75, height: 40))
     
     var cards: [PlayingCard] = []
+    var dices: [PlayingDice] = []
     
+    //MARK: - Setup Methods
     mutating func setup(width: CGFloat, height: CGFloat) {
         let baseZPosition: CGFloat = config.zIndexIncrement
         
@@ -127,21 +130,54 @@ struct GameGraphics {
         background.zPosition = -5
         scene.addChild(background)
         
-        let hLine = SKSpriteNode(color: .white, size: CGSize(width: scene.size.width, height: 3))
-        hLine.anchorPoint = CGPoint(x: 0.5, y: 0.5)
-        hLine.position = CGPoint(x: scene.size.width/2, y: -scene.size.height/2 + config.cardSize.height/2)
-        hLine.zPosition = -4
-        scene.addChild(hLine)
-        
-        let vLine = SKSpriteNode(color: .white, size: CGSize(width: 3, height: scene.size.height))
-        vLine.anchorPoint = CGPoint(x: 0.5, y: 0.5)
-        vLine.position = CGPoint(x: scene.size.width/2, y: -scene.size.height/2)
-        vLine.zPosition = -4
-        scene.addChild(vLine)
+//        let hLine = SKSpriteNode(color: .white, size: CGSize(width: scene.size.width, height: 3))
+//        hLine.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+//        hLine.position = CGPoint(x: scene.size.width/2, y: -scene.size.height/2 + config.cardSize.height/2)
+//        hLine.zPosition = -4
+//        scene.addChild(hLine)
+//        
+//        let vLine = SKSpriteNode(color: .white, size: CGSize(width: 3, height: scene.size.height))
+//        vLine.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+//        vLine.position = CGPoint(x: scene.size.width/2, y: -scene.size.height/2)
+//        vLine.zPosition = -4
+//        scene.addChild(vLine)
     }
     
+    //MARK: - Dice
     
+    mutating func newDice(to scene: SKScene) {
+        let dice = Dice(maxValue: 6)
+        let playingDice = PlayingDice(dice: dice, size: config.diceSize)
+        playingDice.zPosition = config.getZIndex()
+        scene.addChild(playingDice)
+        dices.append(playingDice)
+        playingDice.update(position: diceSpawner.position)
+    }
     
+    mutating func deleteDice(to scene: SKScene, toDelete: PlayingDice) {
+        for dice in dices {
+           if dice == toDelete {
+            dice.removeFromParent()
+            dices.remove(at: dices.index(of: toDelete)!)
+            }
+        }
+    }
+    
+    func isDiceTapped(point: CGPoint) -> Bool{
+        if diceSpawner.contains(point) {
+            return true
+        }
+        else { return false}
+    }
+    
+    func findDice(point: CGPoint) -> PlayingDice? {
+        for dice in dices {
+            if dice.contains(point) {
+                return dice
+            }
+        }
+        return nil
+    }
     
     //Returns the playingcards found at a specific location and returns the one with the greatest z position
     func cardFrom(position: CGPoint) -> PlayingCard? {

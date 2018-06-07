@@ -11,9 +11,7 @@ import GameplayKit
 import FirebaseDatabase
 import FirebaseAuth
 
-class GameScene: SKScene {
-
-    // MARK: - Properties
+class GameScene: SKScene {   // MARK: - Properties
 
     private let game = Game()
     private var gameGraphics = GameGraphics()
@@ -57,10 +55,10 @@ class GameScene: SKScene {
                 gameGraphics.newTurn()
                 return
             }
-//            if gameGraphics.isDiceTapped(point: touchLocation) {
-//               game.createDice()
-//                gameGraphics.createDice()
-//            }
+            if let playingDice = gameGraphics.findDice(point: touchLocation) {
+                playingDice.dice.diceUp()
+                playingDice.setTexture()
+            }
             
             if let playingCard = gameGraphics.cardFrom(position: touchLocation) {
                 if playingCard.heldBy == "Battlefield" {
@@ -138,13 +136,26 @@ class GameScene: SKScene {
             }
     
         }
+        else {
+            labels.cardDisplay.texture = nil
+        }
         labels.cardDisplay.color = .clear
+        if let playingDice = gameGraphics.findDice(point: position) {
+            playingDice.dice.diceDown()
+            if playingDice.dice.value < 1 {
+                gameGraphics.deleteDice(to: self, toDelete: playingDice)
+            }
+            else {
+                playingDice.setTexture()
+            }
+        }
     }
 
 
     //Triggers on mouse dragging
     override func mouseDragged(with event: NSEvent) {
         touchMoved(toPoint: event.location(in: self))
+        moveDice(atPoint: event.location(in: self))
     }
 
     //Triggers when the mouse is released
@@ -172,14 +183,17 @@ class GameScene: SKScene {
      
     // MARK: - Touch Responders
 
-    //Called when a single tap is detected. It taps the clicked card if it is on the battlefield
+    //Called when a single tap is detected. It sets the tapped card to active in order it initiate a movement of the card.
     private func touchDown(atPoint point: CGPoint) {
+        if gameGraphics.isDiceTapped(point: point) {
+            gameGraphics.newDice(to: self)
+        }
         guard
             let playingCard = gameGraphics.cardFrom(position: point),
             let parent = playingCard.parent,
             let location = game.location(from: playingCard.card),
             game.canMove(card: playingCard.card)
-            
+        
         else {
             return
         }
@@ -188,6 +202,12 @@ class GameScene: SKScene {
         gameGraphics.setActive(card: playingCard)
         currentPlayingCard = CurrentPlayingCard(playingCard: playingCard, startPosition: playingCard.position, touchPoint: touchPoint, location: location)
         
+    }
+    
+    private func moveDice(atPoint point: CGPoint) {
+        if let dice = gameGraphics.findDice(point: point) {
+            dice.update(position: point)
+        }
     }
 
     //Updates the position of the card as the card is being dragged
