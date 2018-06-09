@@ -109,8 +109,20 @@ class ViewController: NSViewController {
         alert.informativeText = "Do you want to start a new game?"
         alert.addButton(withTitle: "Yes")
         alert.addButton(withTitle: "No")
+        let textField = NSTextField(frame:NSMakeRect(0,0,200,20))
+        let defaultName = UserDefaults.standard.string(forKey: "PlayerName")
+        if let defaultName = defaultName {
+            textField.stringValue = defaultName
+        }
+        textField.placeholderString = "Player Name"
+        alert.accessoryView = textField
         switch alert.runModal() {
-        case .alertFirstButtonReturn: return true
+        case .alertFirstButtonReturn:
+            let newName = textField.stringValue
+            if newName.count > 0 {
+                UserDefaults.standard.set(newName, forKey: "PlayerName")
+            }
+            return true
         default: return false
         }
     }
