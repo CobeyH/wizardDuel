@@ -7,34 +7,34 @@
 	<key>AD_UNIT_ID_FOR_INTERSTITIAL_TEST</key>
 	<string>ca-app-pub-3940256099942544/4411468910</string>
 	<key>CLIENT_ID</key>
-	<string>854360338643-thfsfp0vtls11fiodk1thdlklqurfnbm.apps.googleusercontent.com</string>
+	<string>375866287338-gpfrif28obkskkiie5m30vcbe33hnq0q.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.854360338643-thfsfp0vtls11fiodk1thdlklqurfnbm</string>
+	<string>com.googleusercontent.apps.375866287338-gpfrif28obkskkiie5m30vcbe33hnq0q</string>
 	<key>API_KEY</key>
-	<string>test</string>
+	<string>AIzaSyB-Bjh10iON2U4AWDo56YuNkil78VwWVeM</string>
 	<key>GCM_SENDER_ID</key>
-	<string>854360338643</string>
+	<string>375866287338</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.CobeyHollier.WizardDuel</string>
 	<key>PROJECT_ID</key>
-	<string>wizardduels-69386</string>
+	<string>wizardduel-6e5bb</string>
 	<key>STORAGE_BUCKET</key>
-	<string>wizardduels-69386.appspot.com</string>
+	<string>wizardduel-6e5bb.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
-	<true/>
+	<true></true>
 	<key>IS_ANALYTICS_ENABLED</key>
-	<false/>
+	<false></false>
 	<key>IS_APPINVITE_ENABLED</key>
-	<false/>
+	<false></false>
 	<key>IS_GCM_ENABLED</key>
-	<true/>
+	<true></true>
 	<key>IS_SIGNIN_ENABLED</key>
-	<true/>
+	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:854360338643:ios:b96ef1feb0a94d75</string>
+	<string>1:375866287338:ios:b96ef1feb0a94d75</string>
 	<key>DATABASE_URL</key>
-	<string>https://wizardduels-69386.firebaseio.com</string>
+	<string>https://wizardduel-6e5bb.firebaseio.com</string>
 </dict>
 </plist>
