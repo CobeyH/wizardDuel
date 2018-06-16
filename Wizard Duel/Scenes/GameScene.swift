@@ -19,7 +19,7 @@ class GameScene: SKScene {
     private var labels = Labels()
     private var currentPlayingCard: CurrentPlayingCard?
     weak var viewDelegate: GameSceneDelegate?
-    private let playerNumber: Int = 0
+    private var playerNumber = 0
 
     // MARK: - Lifecycle
     override func sceneDidLoad() {
@@ -93,7 +93,7 @@ class GameScene: SKScene {
         let cardUpdate = Database.database().reference().child("Updates")
         if let location = game.location(from: playingCard.card) {
         if case .battlefield(let field, let stack) = location {
-            let updateDictionary = ["Sender": Auth.auth().currentUser?.email,"Card": playingCard.card.fileName, "Field": String(field), "Stack": String(stack)]
+            let updateDictionary = ["Sender": String(playerNumber),"Card": playingCard.card.fileName, "Field": String(field), "Stack": String(stack)]
             cardUpdate.childByAutoId().setValue(updateDictionary) {
                 (error, reference) in
                 if error != nil {
@@ -112,31 +112,29 @@ class GameScene: SKScene {
         
     }
     
-    
+    //Adds the player to the database when they join the game
     func updatePlayer(_ player: String) {
+    
+        //Creates a new child database to store the players names.
         let playerUpdate = Database.database().reference().child("players")
-        
-        
+        //Accesses the database a sigle time to retrieve the players names.
         playerUpdate.observeSingleEvent(of: .value, with: { (snapshot) in
-            // Get user value
-            if let value = snapshot.value {
-                
-            print(value)
+            self.playerNumber = Int(snapshot.childrenCount)
+            let playerDictonary = ["player": player, "playNumber": String(self.playerNumber)]
+            playerUpdate.childByAutoId().setValue(playerDictonary) {
+                (error, reference) in
+                if error != nil {
+                    print(error!)
+                }
+                else {
+                    print("Player Saved")
+                }
             }
-            
         }) { (error) in
             print(error.localizedDescription)
         }
         
-                playerUpdate.childByAutoId().setValue(player) {
-                    (error, reference) in
-                    if error != nil {
-                        print(error!)
-                    }
-                    else {
-                        print("Player Saved")
-                    }
-                }
+        
         
     }
     
@@ -146,7 +144,13 @@ class GameScene: SKScene {
             let snapshotValue = snapshot.value as! Dictionary<String,String>
             let cardName = snapshotValue["Card"]!
             let sender = snapshotValue["Sender"]!
+            let stack = snapshotValue["Stack"]!
             print(cardName, sender)
+            let fieldNumber = (4 + Int(sender)! - self.playerNumber) % 4
+            self.gameGraphics.addFromDatabase(name: cardName, field: fieldNumber, stack: Int(stack)!)
+            
+            
+            
         }
     }
     

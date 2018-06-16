@@ -179,6 +179,8 @@ struct GameGraphics {
         return nil
     }
     
+    //MARK: Helpers
+    
     //Returns the playingcards found at a specific location and returns the one with the greatest z position
     func cardFrom(position: CGPoint) -> PlayingCard? {
         var candidateCards: [PlayingCard] = []
@@ -371,6 +373,14 @@ struct GameGraphics {
         currentPlayingCard.move(to: newPosition)
     }
     
+    mutating func addFromDatabase(name: String, field: Int, stack: Int) {
+        let gameCard = Card(name: name, cardID: Int(Date.timeIntervalBetween1970AndReferenceDate))
+        let card = PlayingCard(card: gameCard, size: config.cardSize)
+        card.anchorPoint = config.cardMiddle
+        card.size = config.cardSize
+        card.position = allBattlefields[field][stack].position
+        card.zPosition = config.getZIndex()
+    }
     
     
     //Returns the location at the point passed in
