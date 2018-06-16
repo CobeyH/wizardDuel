@@ -10,6 +10,7 @@ import SpriteKit
 import GameplayKit
 import FirebaseDatabase
 import FirebaseAuth
+import FirebaseCore
 
 class GameScene: SKScene {
     // MARK: - Properties
@@ -25,6 +26,21 @@ class GameScene: SKScene {
     override func sceneDidLoad() {
         super.sceneDidLoad()
         anchorPoint = CGPoint(x: 0, y: 1)
+        
+        FirebaseApp.configure()
+        
+        let login = loginInfo()
+        
+        Auth.auth().signIn(withEmail: login.username, password: login.password) { (user, error) in
+            if error != nil {
+                print(error!)
+            } else {
+                print("login Successful")
+            }
+            
+        }
+        
+        retrieveUpdates()
         
     }
 
@@ -145,10 +161,11 @@ class GameScene: SKScene {
             let cardName = snapshotValue["Card"]!
             let sender = snapshotValue["Sender"]!
             let stack = snapshotValue["Stack"]!
+            let relativeField = snapshotValue["Field"]!
             print(cardName, sender)
-            let fieldNumber = (4 + Int(sender)! - self.playerNumber) % 4
-            self.gameGraphics.addFromDatabase(name: cardName, field: fieldNumber, stack: Int(stack)!)
-            
+            let fieldNumber = (4 + Int(sender)! - self.playerNumber + Int(relativeField)!) % 4
+            let card = self.gameGraphics.addFromDatabase(name: cardName, field: fieldNumber, stack: Int(stack)!)
+            self.addChild(card)
             
             
         }
