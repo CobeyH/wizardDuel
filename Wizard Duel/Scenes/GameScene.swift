@@ -11,13 +11,15 @@ import GameplayKit
 import FirebaseDatabase
 import FirebaseAuth
 
-class GameScene: SKScene {   // MARK: - Properties
+class GameScene: SKScene {
+    // MARK: - Properties
 
     private let game = Game()
     private var gameGraphics = GameGraphics()
     private var labels = Labels()
     private var currentPlayingCard: CurrentPlayingCard?
     weak var viewDelegate: GameSceneDelegate?
+    private let playerNumber: Int = 0
 
     // MARK: - Lifecycle
     override func sceneDidLoad() {
@@ -107,6 +109,34 @@ class GameScene: SKScene {   // MARK: - Properties
             debugPrint("Not a location update, returning…")
             }
         }
+        
+    }
+    
+    
+    func updatePlayer(_ player: String) {
+        let playerUpdate = Database.database().reference().child("players")
+        
+        
+        playerUpdate.observeSingleEvent(of: .value, with: { (snapshot) in
+            // Get user value
+            if let value = snapshot.value {
+                
+            print(value)
+            }
+            
+        }) { (error) in
+            print(error.localizedDescription)
+        }
+        
+                playerUpdate.childByAutoId().setValue(player) {
+                    (error, reference) in
+                    if error != nil {
+                        print(error!)
+                    }
+                    else {
+                        print("Player Saved")
+                    }
+                }
         
     }
     
@@ -323,30 +353,9 @@ extension GameScene: ViewControllerDelegate {
         return game.state
     }
     
-    func importDeck() {
-        let dialog = NSOpenPanel()
-        dialog.title = "Choose a deck"
-        dialog.showsResizeIndicator = true
-        dialog.showsHiddenFiles = false
-        dialog.canChooseDirectories = false
-        dialog.allowedFileTypes = ["txt"]
-        if dialog.runModal() == NSApplication.ModalResponse.OK {
-            do {
-        let fileURL = dialog.url
-            if fileURL != nil {
-                let content: String = try String(contentsOf: fileURL!, encoding: String.Encoding.utf8)
-                print(content)
-            }
-        else {
-            print("Could not find file")
-        }
-            } catch {
-                print("Unknown Error Occured while opening file")
-            }
-        }
-    }
 
     func newGame() {
+        
         game.new()
         gameGraphics.newGame(gameDecks: game.deck)
         gameGraphics.addCards(to: self)
@@ -354,9 +363,14 @@ extension GameScene: ViewControllerDelegate {
             drawCard()
             
         }
-        importDeck()
         
-       
+        if let playerName = UserDefaults.standard.string(forKey: "PlayerName") {
+            updatePlayer(playerName)
+        }
+        else {
+            print("No Player Name")
+        }
+        
     }
 
 }
