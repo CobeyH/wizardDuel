@@ -296,10 +296,6 @@ class GameScene: SKScene {
             currentPlayingCard.returnToOriginalLocation()
         }
         
-
-        if game.isGameOver {
-            gameIsWon()
-        }
         let lengthX = pow((currentPlayingCard.startPosition.x - pos.x), 2)
         let lengthY = pow((currentPlayingCard.startPosition.y - pos.y), 2)
         let length: Bool = (lengthX + lengthY).squareRoot() <  20.0
@@ -367,10 +363,6 @@ class GameScene: SKScene {
             newGame()
         }
 
-        private func gameIsWon() {
-            //Do something here when the game is finished
-            viewDelegate?.gameDone()
-        }
 }
 
 

@@ -12,17 +12,13 @@ import GameplayKit
 
 class ViewController: NSViewController {
 
-    var statisticsStore: StatisticsStore!
-    var statistics: Statistics!
     weak var delegate: ViewControllerDelegate?
     @IBOutlet var skView: SKView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configureScene()
-        configureStatistics()
         
-      
     }
 
     
@@ -45,7 +41,7 @@ class ViewController: NSViewController {
     @IBAction func newGame(_ sender: NSMenuItem) {
         if newGame() {
             guard let delegate = delegate else { return }
-            if delegate.gameState == .playing { updateStatistics(with: .playing) }
+            
             delegate.newGame()
         }
     }
@@ -93,14 +89,6 @@ class ViewController: NSViewController {
         
         scene.doubleTap(sender: sender)
     }
-    
-    
-
-    private func configureStatistics() {
-        let userDefaults = UserDefaults.standard
-        statisticsStore = StatisticsStore(userDefaults: userDefaults)
-        statistics = statisticsStore.load()
-    }
 
     private func newGame() -> Bool {
         let alert = NSAlert()
@@ -131,23 +119,16 @@ class ViewController: NSViewController {
 // MARK: - GameSceneDelegate
 
 extension ViewController: GameSceneDelegate {
+    
     func newGame(currentGameState: Game.State) -> Bool {
         if newGame() {
-            if currentGameState == .playing { updateStatistics(with: .playing) }
+            
             return true
-        } else {
-            return false
+       
         }
+        return false
     }
 
 
-    func gameDone() {
-        updateStatistics(with: .done)
-    }
-
-
-    private func updateStatistics(with gameState: Game.State) {
-        statistics.update(with: gameState)
-        statisticsStore.save(statistics: statistics)
-    }
+    
 }

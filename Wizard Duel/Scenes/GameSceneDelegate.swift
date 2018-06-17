@@ -8,5 +8,5 @@
 
 protocol GameSceneDelegate: class {
     func newGame(currentGameState: Game.State) -> Bool
-    func gameDone()
+    
 }
