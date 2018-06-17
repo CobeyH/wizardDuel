@@ -19,6 +19,7 @@ struct GameGraphics {
     var deckCount: SKLabelNode = SKLabelNode(fontNamed: "planewalker")
     var diceSpawner: SKSpriteNode = SKSpriteNode(color: .red, size: CGSize(width: 75, height: 40))
     
+    
     var cards: [PlayingCard] = []
     var dices: [PlayingDice] = []
     
@@ -62,6 +63,11 @@ struct GameGraphics {
             graveyard.zPosition = baseZPosition
             graveyards.append(graveyard)
         }
+        
+        let dataExtract = SKSpriteNode(color: config.backgroundColour, size: config.cardSize)
+        dataExtract.anchorPoint = config.cardMiddle
+        dataExtract.position = CGPoint(x: -100, y: 100)
+        dataExtract.zPosition = baseZPosition
         
         
         //Sets up all the battlefields in the arena
@@ -363,7 +369,10 @@ struct GameGraphics {
             let deckPosition = graphicsStack.position
             newPosition = CGPoint(x: deckPosition.x + config.cardSize.width/2 - config.offsetX, y: deckPosition.y - CGFloat(cardCount) * config.battlefierdSpacing - config.cardSize.height/2 - config.offsetY)
             playingCard.heldBy = "Battlefield"
-            
+        case .dataExtract():
+            print("Error in move: Called dataExtract")
+            newPosition = CGPoint(x:0, y:0)
+        
             
         }
         if playingCard.tapped {
@@ -380,6 +389,7 @@ struct GameGraphics {
         card.size = config.cardSize
         card.position = CGPoint(x: -100, y: 100)
         card.zPosition = config.getZIndex()
+        cards.append(card)
         scene.addChild(card)
         setActive(card: card)
         

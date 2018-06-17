@@ -109,7 +109,7 @@ class GameScene: SKScene {
         let cardUpdate = Database.database().reference().child("Updates")
         if let location = game.location(from: playingCard.card) {
         if case .battlefield(let field, let stack) = location {
-            let updateDictionary = ["Sender": String(playerNumber),"Card": playingCard.card.fileName, "Field": String(field), "Stack": String(stack)]
+            let updateDictionary = ["Sender": String(playerNumber),"Card": playingCard.card.name, "Field": String(field), "Stack": String(stack)]
             cardUpdate.childByAutoId().setValue(updateDictionary) {
                 (error, reference) in
                 if error != nil {
@@ -119,7 +119,6 @@ class GameScene: SKScene {
                     print("Update Saved")
                 }
             }
-            
             
             } else {
             debugPrint("Not a location update, returning…")
@@ -166,10 +165,11 @@ class GameScene: SKScene {
             if sender != self.playerNumber {
                 let fieldNumber = (4 + sender! - self.playerNumber + Int(relativeField)!) % 4
                 let card = self.gameGraphics.addFromDatabase(name: cardName, field: fieldNumber, stack: stack!, scene: self)
-                self.gameGraphics.setActive(card: card)
-                //This is a confusing line of code. The location.hand() is never used but a value must be passed.
-                self.currentPlayingCard = CurrentPlayingCard(playingCard: card, startPosition: card.position, touchPoint: card.position, location: Location.hand())
-                self.currentPlayingCard?.move(to: self.gameGraphics.allBattlefields[fieldNumber][stack!].position)
+            
+                self.currentPlayingCard = CurrentPlayingCard(playingCard: card, startPosition: card.position, touchPoint: card.position, location: Location.dataExtract())
+            self.touchUp(atPoint: self.gameGraphics.allBattlefields[fieldNumber][stack!].position)
+            
+            
             }
             
         }
@@ -216,6 +216,7 @@ class GameScene: SKScene {
     //Triggers when the mouse is released
     override func mouseUp(with event: NSEvent) {
         touchUp(atPoint: event.location(in: self))
+        
     }
     
     override func keyDown(with event: NSEvent) {
@@ -294,7 +295,7 @@ class GameScene: SKScene {
     
             currentPlayingCard.returnToOriginalLocation()
         }
-        self.currentPlayingCard = nil
+        
 
         if game.isGameOver {
             gameIsWon()
@@ -305,10 +306,11 @@ class GameScene: SKScene {
         if currentPlayingCard.playingCard.heldBy == "Battlefield" && length {
             gameGraphics.tapCard(card: currentPlayingCard.playingCard)
         }
-        else if currentPlayingCard.playingCard.heldBy == "Battlefield" {
+        if currentPlayingCard.playingCard.heldBy == "Battlefield" && currentPlayingCard.startPosition != CGPoint(x: -100, y: 100){
             updateDatabase(playingCard: currentPlayingCard.playingCard)
         }
         gameGraphics.update(gameDeck: game.deck)
+        self.currentPlayingCard = nil
         
     }
     

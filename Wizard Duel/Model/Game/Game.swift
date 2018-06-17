@@ -20,6 +20,7 @@ class Game {
     let hands: Hand
     var allBattlefields: [[Battlefield]] = [[],[],[],[]]
     let deck: Deck
+    let dataExtract: MasterDeck
     
     // MARK: - Computed properties
     var isGameOver: Bool {
@@ -36,6 +37,7 @@ class Game {
     init() {
         graveyards = [Graveyard(), Graveyard()]
         hands = Hand()
+        dataExtract = MasterDeck()
         
         for i in 0...3 {
             allBattlefields[i] = (0 ... 50).map({ _ in Battlefield() })
@@ -90,7 +92,8 @@ class Game {
             let battlefield = allBattlefields[field]
             let stack = battlefield[stack]
             stack.removeCard(card: card)
-
+        case .dataExtract():
+            dataExtract.removeBottom()
         }
     }
     
@@ -119,6 +122,7 @@ class Game {
             let battlefield = allBattlefields[field]
             let stack = battlefield[stack]
             return stack.cards.count - 1
+    default: return 0
         }
     }
     
@@ -168,6 +172,7 @@ class Game {
         case .battlefield(let field, let stack):
             let battlefield = allBattlefields[field]
         return battlefield[stack].bottomCard
+        default: return nil
         }
     }
     
@@ -185,6 +190,8 @@ class Game {
             let battlefield = allBattlefields[field]
             let stack = battlefield[stack]
             try stack.add(card: card)
+        case .dataExtract():
+            try dataExtract.add(card: card)
         }
         
     }
