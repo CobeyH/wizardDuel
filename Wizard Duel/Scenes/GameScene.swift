@@ -159,14 +159,18 @@ class GameScene: SKScene {
         cardUpdate.observe(.childAdded) { (snapshot) in
             let snapshotValue = snapshot.value as! Dictionary<String,String>
             let cardName = snapshotValue["Card"]!
-            let sender = snapshotValue["Sender"]!
+            let sender = Int(snapshotValue["Sender"]!)
             let stack = snapshotValue["Stack"]!
             let relativeField = snapshotValue["Field"]!
-            print(cardName, sender)
-            let fieldNumber = (4 + Int(sender)! - self.playerNumber + Int(relativeField)!) % 4
-            let card = self.gameGraphics.addFromDatabase(name: cardName, field: fieldNumber, stack: Int(stack)!)
-            self.addChild(card)
-            
+        
+            if sender != self.playerNumber {
+                let fieldNumber = (4 + sender! - self.playerNumber + Int(relativeField)!) % 4
+                let card = self.gameGraphics.addFromDatabase(name: cardName, field: fieldNumber, stack: Int(stack)!, scene: self)
+                self.gameGraphics.setActive(card: card)
+                //This is a confusing line of code. The location.hand() is never used but a value must be passed.
+                self.currentPlayingCard = CurrentPlayingCard(playingCard: card, startPosition: card.position, touchPoint: card.position, location: Location.hand())
+                currentPlayingCard?.move(to: self.gameGraphics.allBattlefields[field][stack].position)
+            }
             
         }
     }

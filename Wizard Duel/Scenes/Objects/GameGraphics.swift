@@ -373,13 +373,16 @@ struct GameGraphics {
         currentPlayingCard.move(to: newPosition)
     }
     
-    mutating func addFromDatabase(name: String, field: Int, stack: Int) -> PlayingCard {
+    mutating func addFromDatabase(name: String, field: Int, stack: Int, scene: SKScene) -> PlayingCard {
         let gameCard = Card(name: name, cardID: Int(Date.timeIntervalBetween1970AndReferenceDate))
         let card = PlayingCard(card: gameCard, size: config.cardSize)
         card.anchorPoint = config.cardMiddle
         card.size = config.cardSize
-        card.position = allBattlefields[field][stack].position
+        card.position = CGPoint(x: -100, y: 100)
         card.zPosition = config.getZIndex()
+        scene.addChild(card)
+        setActive(card: card)
+        
         return card
     }
     
