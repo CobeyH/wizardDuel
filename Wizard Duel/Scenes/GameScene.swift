@@ -108,20 +108,23 @@ class GameScene: SKScene {
     func updateDatabase(playingCard: PlayingCard) {
         let cardUpdate = Database.database().reference().child("Updates")
         if let location = game.location(from: playingCard.card) {
-        if case .battlefield(let field, let stack) = location {
-            let updateDictionary = ["Sender": String(playerNumber),"Card": playingCard.card.name, "Field": String(field), "Stack": String(stack)]
-            cardUpdate.childByAutoId().setValue(updateDictionary) {
-                (error, reference) in
-                if error != nil {
-                    print(error!)
+            if case .battlefield(let field, let stack) = location {
+                let updateDictionary = ["Sender": String(playerNumber),"Card": playingCard.card.name, "Field": String(field), "Stack": String(stack)]
+                cardUpdate.childByAutoId().setValue(updateDictionary) {
+                    (error, reference) in
+                    playingCard.databaseRef = reference
+                    if error != nil {
+                        print(error!)
+                    }
+                    else {
+                        print("Update Saved")
+                    }
                 }
-                else {
-                    print("Update Saved")
-                }
+                
             }
             
-            } else {
-            debugPrint("Not a location update, returning…")
+        else {
+            
             }
         }
         
@@ -303,7 +306,7 @@ class GameScene: SKScene {
         if currentPlayingCard.playingCard.heldBy == "Battlefield" && length {
             gameGraphics.tapCard(card: currentPlayingCard.playingCard)
         }
-            if currentPlayingCard.playingCard.heldBy == "Battlefield" && currentPlayingCard.startPosition != CGPoint(x: -100, y: 100) {
+            if currentPlayingCard.startPosition != CGPoint(x: -100, y: 100) {
             updateDatabase(playingCard: currentPlayingCard.playingCard)
         }
         gameGraphics.update(gameDeck: game.deck)
@@ -320,10 +323,6 @@ class GameScene: SKScene {
         }
     }
     
-    func delay(_ delay:Double, closure:@escaping ()->()) {
-        DispatchQueue.main.asyncAfter(
-            deadline: DispatchTime.now() + Double(Int64(delay * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC), execute: closure)
-    }
     
     func drawCard() {
         let card = game.deck.bottomCard

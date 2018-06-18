@@ -91,7 +91,7 @@ struct GameGraphics {
         
         let deckPosition = deck.position
         for (i, gameCard) in gameDecks.cards.enumerated() {
-            let card = PlayingCard(card: gameCard, size: config.cardSize)
+            let card = PlayingCard(card: gameCard, size: config.cardSize, databaseRef: nil)
             card.anchorPoint = config.cardMiddle
             card.size = config.cardSize
             card.position = CGPoint(x: deckPosition.x , y: deckPosition.y + CGFloat(i/4))
@@ -384,7 +384,7 @@ struct GameGraphics {
     
     mutating func addFromDatabase(name: String, field: Int, stack: Int, scene: SKScene) -> PlayingCard {
         let gameCard = Card(name: name, cardID: Int(Date.timeIntervalBetween1970AndReferenceDate))
-        let card = PlayingCard(card: gameCard, size: config.cardSize)
+        let card = PlayingCard(card: gameCard, size: config.cardSize, databaseRef: nil)
         card.anchorPoint = config.cardMiddle
         card.size = config.cardSize
         card.position = CGPoint(x: -100, y: 100)
