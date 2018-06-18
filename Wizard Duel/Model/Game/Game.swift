@@ -35,7 +35,7 @@ class Game {
     // MARK: - Initialisers
     
     init() {
-        graveyards = [Graveyard(), Graveyard()]
+        graveyards = [Graveyard(), Graveyard(), Graveyard()]
         hands = Hand()
         dataExtract = MasterDeck()
         
@@ -49,9 +49,9 @@ class Game {
     // MARK: - Methods
     func new() {
         let cards = Card.deck().shuffled()
-        graveyards.forEach({ $0.reset() })
+        graveyards.forEach({ $0.cards = [] })
         for i in 0...3 {
-            allBattlefields[i].forEach({ $0.reset() })
+            allBattlefields[i].forEach({ $0.cards = [] })
         }
         hands.cards = []
         deck.cards = cards

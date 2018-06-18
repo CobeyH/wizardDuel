@@ -276,7 +276,8 @@ class GameScene: SKScene {
     private func touchUp(atPoint pos: CGPoint) {
         guard let currentPlayingCard = currentPlayingCard else { return }
         //Drop location is set as the location where the card is released.
-        if let dropLocation = gameGraphics.dropLocation(from: pos, playingCard: currentPlayingCard.playingCard, game: game) {
+        if let middlePos = gameGraphics.cardFrom(position: pos)?.position {
+            if let dropLocation = gameGraphics.dropLocation(from: middlePos, playingCard: currentPlayingCard.playingCard, game: game) {
             do {
                 //Updates the model by removing the card from the origonal location and adding it to the new location.
                 
@@ -302,12 +303,12 @@ class GameScene: SKScene {
         if currentPlayingCard.playingCard.heldBy == "Battlefield" && length {
             gameGraphics.tapCard(card: currentPlayingCard.playingCard)
         }
-        if currentPlayingCard.playingCard.heldBy == "Battlefield" && currentPlayingCard.startPosition != CGPoint(x: -100, y: 100){
+            if currentPlayingCard.playingCard.heldBy == "Battlefield" && currentPlayingCard.startPosition != CGPoint(x: -100, y: 100) {
             updateDatabase(playingCard: currentPlayingCard.playingCard)
         }
         gameGraphics.update(gameDeck: game.deck)
         self.currentPlayingCard = nil
-        
+        }
     }
     
     //Called when the mouse is clicked twice. It calls the methods to move a card from the deck into the hand

@@ -28,7 +28,7 @@ struct GameGraphicsConfig {
     let battlefieldColour = NSColor.init(white: 1.0, alpha: 0.05)
     let numberOfBackgrounds = 2
 
-    let graveyardCount = 2
+    let graveyardCount = 3
     
 
 
