@@ -18,11 +18,6 @@
 		03F7197320B0A16900B70122 /* Labels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03F7197220B0A16900B70122 /* Labels.swift */; };
 		03FACC6C20CB83AE00BC8F89 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 03FACC6B20CB83AE00BC8F89 /* GoogleService-Info.plist */; };
 		4E004E481F57797B00F12974 /* Move.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E004E471F57797B00F12974 /* Move.swift */; };
-		4E004E4D1F57816C00F12974 /* Statistics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E004E4C1F57816C00F12974 /* Statistics.swift */; };
-		4E004E4F1F57832300F12974 /* StreakState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E004E4E1F57832300F12974 /* StreakState.swift */; };
-		4E004E511F57838F00F12974 /* Total.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E004E501F57838F00F12974 /* Total.swift */; };
-		4E004E531F5783BB00F12974 /* Streaks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E004E521F5783BB00F12974 /* Streaks.swift */; };
-		4E004E551F57859D00F12974 /* StatisticsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E004E541F57859D00F12974 /* StatisticsStore.swift */; };
 		4E2E3F0B1F5627A000BF0862 /* ContainsCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E2E3F0A1F5627A000BF0862 /* ContainsCard.swift */; };
 		4E2E3F0D1F56288E00BF0862 /* Resetable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E2E3F0C1F56288E00BF0862 /* Resetable.swift */; };
 		4E2E3F0F1F5628B600BF0862 /* HasState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E2E3F0E1F5628B600BF0862 /* HasState.swift */; };
@@ -45,7 +40,6 @@
 		4E71F2531F439933002E66D3 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 4E71F2521F439933002E66D3 /* GameScene.sks */; };
 		4E7B17841F5AFAB100D771FC /* GameResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E7B17831F5AFAB100D771FC /* GameResult.swift */; };
 		4E984C0E1F58D48E00FD8BD7 /* GameSceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E984C0D1F58D48E00FD8BD7 /* GameSceneDelegate.swift */; };
-		4EA1E2921F66005C0061E64D /* StatisticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EA1E2911F66005C0061E64D /* StatisticsViewController.swift */; };
 		4EA1E2951F6609DB0061E64D /* ViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EA1E2941F6609DB0061E64D /* ViewControllerDelegate.swift */; };
 		4EE685EA1F578EB80005984F /* GameGraphics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EE685E91F578EB80005984F /* GameGraphics.swift */; };
 		4EE685EC1F578F210005984F /* GameGraphicsConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EE685EB1F578F210005984F /* GameGraphicsConfig.swift */; };
@@ -82,11 +76,6 @@
 		03FACC6B20CB83AE00BC8F89 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		3387709838450F9C408FB1E9 /* Pods-Wizard Duel.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Wizard Duel.release.xcconfig"; path = "Pods/Target Support Files/Pods-Wizard Duel/Pods-Wizard Duel.release.xcconfig"; sourceTree = "<group>"; };
 		4E004E471F57797B00F12974 /* Move.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Move.swift; sourceTree = "<group>"; };
-		4E004E4C1F57816C00F12974 /* Statistics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Statistics.swift; sourceTree = "<group>"; };
-		4E004E4E1F57832300F12974 /* StreakState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakState.swift; sourceTree = "<group>"; };
-		4E004E501F57838F00F12974 /* Total.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Total.swift; sourceTree = "<group>"; };
-		4E004E521F5783BB00F12974 /* Streaks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Streaks.swift; sourceTree = "<group>"; };
-		4E004E541F57859D00F12974 /* StatisticsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsStore.swift; sourceTree = "<group>"; };
 		4E2E3F0A1F5627A000BF0862 /* ContainsCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainsCard.swift; sourceTree = "<group>"; };
 		4E2E3F0C1F56288E00BF0862 /* Resetable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Resetable.swift; sourceTree = "<group>"; };
 		4E2E3F0E1F5628B600BF0862 /* HasState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HasState.swift; sourceTree = "<group>"; };
@@ -114,7 +103,6 @@
 		4E71F2521F439933002E66D3 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
 		4E7B17831F5AFAB100D771FC /* GameResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameResult.swift; sourceTree = "<group>"; };
 		4E984C0D1F58D48E00FD8BD7 /* GameSceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSceneDelegate.swift; sourceTree = "<group>"; };
-		4EA1E2911F66005C0061E64D /* StatisticsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsViewController.swift; sourceTree = "<group>"; };
 		4EA1E2941F6609DB0061E64D /* ViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerDelegate.swift; sourceTree = "<group>"; };
 		4EE685E91F578EB80005984F /* GameGraphics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameGraphics.swift; sourceTree = "<group>"; };
 		4EE685EB1F578F210005984F /* GameGraphicsConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameGraphicsConfig.swift; sourceTree = "<group>"; };
@@ -159,18 +147,6 @@
 				5D27772C1DEEFEF61388F285 /* Pods_Wizard_DuelTests.framework */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		4E004E4B1F57814200F12974 /* Statistics */ = {
-			isa = PBXGroup;
-			children = (
-				4E004E4C1F57816C00F12974 /* Statistics.swift */,
-				4E004E541F57859D00F12974 /* StatisticsStore.swift */,
-				4E004E521F5783BB00F12974 /* Streaks.swift */,
-				4E004E4E1F57832300F12974 /* StreakState.swift */,
-				4E004E501F57838F00F12974 /* Total.swift */,
-			);
-			path = Statistics;
 			sourceTree = "<group>";
 		};
 		4E2E3F091F56266700BF0862 /* Scenes */ = {
@@ -253,7 +229,6 @@
 			children = (
 				4E71F1E41F4388AB002E66D3 /* Deck */,
 				4E71F1E51F4388B8002E66D3 /* Game */,
-				4E004E4B1F57814200F12974 /* Statistics */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -316,7 +291,6 @@
 		4EA1E2931F66006C0061E64D /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				4EA1E2911F66005C0061E64D /* StatisticsViewController.swift */,
 				4E396E881EF3DF8600F8696A /* ViewController.swift */,
 				4EA1E2941F6609DB0061E64D /* ViewControllerDelegate.swift */,
 			);
@@ -543,7 +517,6 @@
 				4E71F1F01F438A3C002E66D3 /* Shuffle.swift in Sources */,
 				4EF3F2971F485D7A004197A8 /* Location.swift in Sources */,
 				4E71F1F91F43913E002E66D3 /* GameError.swift in Sources */,
-				4E004E511F57838F00F12974 /* Total.swift in Sources */,
 				4EF3F29B1F489690004197A8 /* State.swift in Sources */,
 				4E2E3F0F1F5628B600BF0862 /* HasState.swift in Sources */,
 				4E2E3F0B1F5627A000BF0862 /* ContainsCard.swift in Sources */,
@@ -553,8 +526,6 @@
 				4EE685EC1F578F210005984F /* GameGraphicsConfig.swift in Sources */,
 				4E004E481F57797B00F12974 /* Move.swift in Sources */,
 				4E396E871EF3DF8600F8696A /* GameScene.swift in Sources */,
-				4EA1E2921F66005C0061E64D /* StatisticsViewController.swift in Sources */,
-				4E004E531F5783BB00F12974 /* Streaks.swift in Sources */,
 				036EE1E220C85E3200A768A0 /* PlayingDice.swift in Sources */,
 				4E71F1E71F43891E002E66D3 /* Hand.swift in Sources */,
 				4EE685EA1F578EB80005984F /* GameGraphics.swift in Sources */,
@@ -569,10 +540,7 @@
 				0303327720A6026E00C7594B /* PlayingCard.swift in Sources */,
 				4EF3F2991F48795D004197A8 /* CurrentPlayingCard.swift in Sources */,
 				03F7197320B0A16900B70122 /* Labels.swift in Sources */,
-				4E004E551F57859D00F12974 /* StatisticsStore.swift in Sources */,
-				4E004E4D1F57816C00F12974 /* Statistics.swift in Sources */,
 				4E71F1E31F438893002E66D3 /* Card.swift in Sources */,
-				4E004E4F1F57832300F12974 /* StreakState.swift in Sources */,
 				03F157B220BC856D000301EB /* LoginInfo.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
