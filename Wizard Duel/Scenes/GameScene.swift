@@ -110,26 +110,18 @@ class GameScene: SKScene {
         let cardUpdate = Database.database().reference().child("Updates")
         if let location = game.location(from: playingCard.card) {
             if case .battlefield(let field, let stack) = location {
-                let updateDictionary = ["Sender": String(playerNumber),"Card": playingCard.card.name, "Field": String(field), "Stack": String(stack)]
                 let reference = playingCard.databaseRef ?? cardUpdate.childByAutoId()
-                playingCard.databaseRef = reference
-                    reference.setValue(updateDictionary) {
-                    (error, reference) in
-                    if error != nil {
-                        print(error!)
-                    }
-                    else {
-                        print("Update Saved")
-                    }
+                let updateDictionary = ["Sender": String(playerNumber),"Card": playingCard.card.name, "Field": String(field), "Stack": String(stack)]
+                if playingCard.databaseRef == nil {
+                    playingCard.databaseRef = reference
+                    reference.setValue(updateDictionary)
                 }
-                
-            }
-            
-        else {
-            
+                else {
+                    
+                    reference.updateChildValues(updateDictionary)
+                }
             }
         }
-        
     }
     
     //Adds the player to the database when they join the game
@@ -183,17 +175,17 @@ class GameScene: SKScene {
         if sender != self.playerNumber {
             let fieldNumber = (4 + sender! - self.playerNumber + Int(relativeField)!) % 4
             var foundCard = false
-            for playingCard in self.gameGraphics.cards {
-                if playingCard.databaseRef != nil {
-                    if playingCard.databaseRef! == snapshot.ref {
-                        let card = playingCard
-                        foundCard = true
-                        self.currentPlayingCard = CurrentPlayingCard(playingCard: card, startPosition: card.position, touchPoint: card.position, location: Location.dataExtract())
-                    }
+            for playingCard in self.gameGraphics.cards.reversed() {
+                if let databaseRef = playingCard.databaseRef, databaseRef == snapshot.ref {
+                    
+                    foundCard = true
+                    self.currentPlayingCard = CurrentPlayingCard(playingCard: playingCard, startPosition: playingCard.position, touchPoint: playingCard.position, location: Location.dataExtract())
+                    
                 }
             }
             if foundCard == false {
                 let card = self.gameGraphics.addFromDatabase(name: cardName, field: fieldNumber, stack: stack!, scene: self)
+                card.databaseRef = snapshot.ref
                 self.currentPlayingCard = CurrentPlayingCard(playingCard: card, startPosition: card.position, touchPoint: card.position, location: Location.dataExtract())
             }
             
