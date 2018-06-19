@@ -162,6 +162,19 @@ class GameScene: SKScene {
             self.processUpdate(snapshot: snapshot)
         })
         
+        cardUpdate.observe(.childRemoved, with: { (snapshot) in
+            let snapshotValue = snapshot.value as! Dictionary<String,String>
+            let sender = Int(snapshotValue["Sender"]!)
+            let stack = Int(snapshotValue["Stack"]!)
+            let relativeField = Int(snapshotValue["Field"]!)
+            let fieldNumber = self.findField(sender: sender!, relativeField: relativeField!)
+            for playingCard in self.gameGraphics.cards.reversed() {
+                if playingCard.databaseRef == snapshot.key {
+                    self.gameGraphics.deleteCard(playingCard: playingCard)
+                    self.game.allBattlefields[fieldNumber][stack!].removeCard(card: playingCard.card)
+                }
+            }
+        })
     }
     
     
@@ -174,7 +187,7 @@ class GameScene: SKScene {
         let relativeField = Int(snapshotValue["Field"]!)
         
         if sender != self.playerNumber {
-            let fieldNumber = (4 + sender! - self.playerNumber + relativeField!) % 4
+            let fieldNumber = findField(sender: sender!, relativeField: relativeField!)
             var foundCard = false
             for (playingCard) in self.gameGraphics.cards.reversed() {
                 if let databaseRef = playingCard.databaseRef, databaseRef == snapshot.key {
@@ -200,6 +213,10 @@ class GameScene: SKScene {
             
             }
         
+    }
+    
+    private func findField(sender: Int, relativeField: Int) -> Int {
+        return (4 + sender - self.playerNumber + relativeField) % 4
     }
     
     

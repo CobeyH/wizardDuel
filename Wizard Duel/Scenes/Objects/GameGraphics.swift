@@ -396,6 +396,11 @@ struct GameGraphics {
         return card
     }
     
+    mutating func deleteCard(playingCard: PlayingCard) {
+        playingCard.removeFromParent()
+        cards.remove(at: cards.index(of: playingCard)!)
+    }
+    
     
     //Returns the location at the point passed in
     func dropLocation(from position: CGPoint, playingCard: PlayingCard, game: Game) -> Location? {
