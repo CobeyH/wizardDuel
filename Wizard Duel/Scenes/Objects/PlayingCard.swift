@@ -16,10 +16,10 @@ final class PlayingCard: SKSpriteNode {
     var tapped = false
     //A string indication of where the card currently is
     var heldBy = "Deck"
-    var databaseRef: DatabaseReference?
+    var databaseRef: String?
 
     //Creates a playing card Sprite which is assigned the texture of the back of the card. It inherits its other properties from the card struct
-    init(card: Card, size: CGSize, databaseRef: DatabaseReference?) {
+    init(card: Card, size: CGSize, databaseRef: String?) {
         let texture = SKTexture(imageNamed: "cardback")
         self.card = card
         self.databaseRef = databaseRef
