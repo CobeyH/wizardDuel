@@ -38,7 +38,12 @@ class MasterDeck: ContainsCard, HasState, Resetable {
     }
     
     func removeCard(card: Card) {
-        cards.remove(at: cards.index(of: card)!)
+        if let index =  cards.index(of: card) {
+            cards.remove(at: index)
+        }
+        else {
+            print("Failed to remove \(card.name)")
+        }
     }
     
     

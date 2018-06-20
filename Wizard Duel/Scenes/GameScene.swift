@@ -14,14 +14,15 @@ import FirebaseCore
 
 class GameScene: SKScene {
     // MARK: - Properties
-
+    
     private let game = Game()
     private var gameGraphics = GameGraphics()
     private var labels = Labels()
     private var currentPlayingCard: CurrentPlayingCard?
     weak var viewDelegate: GameSceneDelegate?
     private var playerNumber = 0
-
+    
+    
     // MARK: - Lifecycle
     override func sceneDidLoad() {
         super.sceneDidLoad()
@@ -43,7 +44,7 @@ class GameScene: SKScene {
         retrieveUpdates()
         
     }
-
+    
     override func didMove(to view: SKView) {
         super.didMove(to: view)
         self.size = view.bounds.size
@@ -55,7 +56,6 @@ class GameScene: SKScene {
         
         gameGraphics.addChildren(to: self)
         gameGraphics.setupBackground(to: self)
-    
     }
     
     // see if the hit node is a card in the battle field and if so rotate it
@@ -80,12 +80,12 @@ class GameScene: SKScene {
             
             if let playingCard = gameGraphics.cardFrom(position: touchLocation) {
                 if playingCard.heldBy == "Battlefield" {
-                gameGraphics.tapCard(card: playingCard)
+                    gameGraphics.tapCard(card: playingCard)
+                    Database.database().reference().child("Updates").child(playingCard.databaseRef!).updateChildValues(["Tapped": String(playingCard.tapped)])
                     
-            }
+                }
             }
         }
-        
     }
     
     @objc func doubleTap(sender: NSClickGestureRecognizer) {
@@ -95,14 +95,13 @@ class GameScene: SKScene {
             touchLocation = self.convertPoint(fromView: touchLocation)
             
             if let playingCard = gameGraphics.cardFrom(position: touchLocation) {
-            
-            if playingCard.heldBy == "Deck" {
-                self.drawCard()
-            }
+                
+                if playingCard.heldBy == "Deck" {
+                    self.drawCard()
+                }
             }
         }
-        
-        }
+    }
     
     // MARK: - Database
     //Sends a card and location to the database when a card is moved
@@ -113,10 +112,10 @@ class GameScene: SKScene {
             if case .battlefield(let field, let stack) = location {
                 //If the card is already in the database it should keep its old ID but if it is new it should be assigned a new ID
                 let cardID = playingCard.databaseRef ?? cardUpdate.childByAutoId().key
-                let updateDictionary = ["Sender": String(playerNumber),"Card": playingCard.card.name, "Field": String(field), "Stack": String(stack)]
+                let updateDictionary = ["Sender": String(playerNumber),"Card": playingCard.card.name, "Field": String(field), "Stack": String(stack), "Tapped": String(playingCard.tapped)]
                 if playingCard.databaseRef == nil {
                     playingCard.databaseRef = cardID
-                cardUpdate.child(cardID).setValue(updateDictionary)
+                    cardUpdate.child(cardID).setValue(updateDictionary)
                 }
                 else {
                     cardUpdate.child(cardID).updateChildValues(updateDictionary)
@@ -127,9 +126,10 @@ class GameScene: SKScene {
     
     //Adds the player to the database when they join the game
     func updatePlayer(_ player: String) {
-    
+        
         //Creates a new child database to store the players names.
-        let playerUpdate = Database.database().reference().child("players")
+        let databaseRef = Database.database().reference()
+        let playerUpdate = databaseRef.child("players")
         //Accesses the database a sigle time to retrieve the players names.
         playerUpdate.observeSingleEvent(of: .value, with: { (snapshot) in
             self.playerNumber = Int(snapshot.childrenCount)
@@ -146,9 +146,7 @@ class GameScene: SKScene {
         }) { (error) in
             print(error.localizedDescription)
         }
-        
-        
-        
+        databaseRef.child("Updates").removeValue()
     }
     
     func retrieveUpdates() {
@@ -163,56 +161,70 @@ class GameScene: SKScene {
         })
         
         cardUpdate.observe(.childRemoved, with: { (snapshot) in
-            let snapshotValue = snapshot.value as! Dictionary<String,String>
-            let sender = Int(snapshotValue["Sender"]!)
-            let stack = Int(snapshotValue["Stack"]!)
-            let relativeField = Int(snapshotValue["Field"]!)
-            let fieldNumber = self.findField(sender: sender!, relativeField: relativeField!)
-            for playingCard in self.gameGraphics.cards.reversed() {
-                if playingCard.databaseRef == snapshot.key {
-                    self.gameGraphics.deleteCard(playingCard: playingCard)
-                    self.game.allBattlefields[fieldNumber][stack!].removeCard(card: playingCard.card)
+            if let snapshotValue = snapshot.value as? Dictionary<String,String> {
+                let sender = Int(snapshotValue["Sender"]!)
+                let stack = Int(snapshotValue["Stack"]!)
+                let relativeField = Int(snapshotValue["Field"]!)
+                if sender != self.playerNumber {
+                    let fieldNumber = self.findField(sender: sender!, relativeField: relativeField!)
+                    for playingCard in self.gameGraphics.cards.reversed() {
+                        if playingCard.databaseRef == snapshot.key {
+                            self.gameGraphics.deleteCard(playingCard: playingCard)
+                            self.game.allBattlefields[fieldNumber][stack!].removeCard(card: playingCard.card)
+                        }
+                    }
                 }
             }
         })
     }
     
-    
-    
     func processUpdate(snapshot: DataSnapshot) {
-        let snapshotValue = snapshot.value as! Dictionary<String,String>
-        let cardName = snapshotValue["Card"]!
-        let sender = Int(snapshotValue["Sender"]!)
-        let stack = Int(snapshotValue["Stack"]!)
-        let relativeField = Int(snapshotValue["Field"]!)
-        
-        if sender != self.playerNumber {
-            let fieldNumber = findField(sender: sender!, relativeField: relativeField!)
-            var foundCard = false
-            for (playingCard) in self.gameGraphics.cards.reversed() {
-                if let databaseRef = playingCard.databaseRef, databaseRef == snapshot.key {
+        if let snapshotValue = snapshot.value as? Dictionary<String,String> {
+            if let cardName = snapshotValue["Card"],
+                let sender = Int(snapshotValue["Sender"]!),
+                let stack = Int(snapshotValue["Stack"]!),
+                let relativeField = Int(snapshotValue["Field"]!),
+                let cardTapped = Bool(snapshotValue["Tapped"]!) {
+                
+                let fieldNumber = findField(sender: sender, relativeField: relativeField)
+                var currentPlayingCard: CurrentPlayingCard?
+                
+                if sender != self.playerNumber {
+                    var playingCard = self.gameGraphics.cards.filter({
+                        let databaseRef = $0.databaseRef
+                        return databaseRef == snapshot.key
+                    }).first
                     
-                    foundCard = true
-                    var battlefieldPoint : CGPoint
-                    var battlefieldLocation : Location
-                    battlefieldPoint = playingCard.position
-                    battlefieldLocation = self.gameGraphics.dropLocation(from: battlefieldPoint, playingCard: playingCard, game: self.game)!
-                    
-                    
-                    self.currentPlayingCard = CurrentPlayingCard(playingCard: playingCard, startPosition: playingCard.position, touchPoint: playingCard.position, location: battlefieldLocation)
-                    self.touchUp(atPoint: self.gameGraphics.allBattlefields[fieldNumber][stack!].position)
-                    
+                    if let playingCard = playingCard {
+                        
+                        if let previousLocation = self.gameGraphics.dropLocation(from: playingCard.position, playingCard: playingCard, game: self.game) {
+                            currentPlayingCard = CurrentPlayingCard(playingCard: playingCard, startPosition: playingCard.position, touchPoint: playingCard.position, location: previousLocation)
+                        }
+                    } else {
+                        playingCard = self.gameGraphics.addFromDatabase(name: cardName, field: fieldNumber, stack: stack, scene: self)
+                        if let playingCard = playingCard {
+                            playingCard.databaseRef = snapshot.key
+                            currentPlayingCard = CurrentPlayingCard(playingCard: playingCard, startPosition: playingCard.position, touchPoint: playingCard.position, location: Location.dataExtract())
+                        }
+                    }
+                    if let currentPlayingCard = currentPlayingCard {
+                        let battlefieldLocation = Location.battlefield(fieldNumber, stack)
+                        self.moveLocation(currentPlayingCard: currentPlayingCard, location:  battlefieldLocation)
+                        
+                        if currentPlayingCard.playingCard.tapped != cardTapped {
+                            self.gameGraphics.tapCard(card: currentPlayingCard.playingCard)
+                            
+                        }
+                    } else {
+                        print("Error: Card not found or created")
+                    }
                 }
             }
-            if foundCard == false {
-                let card = self.gameGraphics.addFromDatabase(name: cardName, field: fieldNumber, stack: stack!, scene: self)
-                card.databaseRef = snapshot.key
-                self.currentPlayingCard = CurrentPlayingCard(playingCard: card, startPosition: card.position, touchPoint: card.position, location: Location.dataExtract())
-                self.touchUp(atPoint: self.gameGraphics.allBattlefields[fieldNumber][stack!].position)
-            }
-            
-            }
-        
+        }
+    }
+    
+    private func deleteFromDatabase() {
+        Database.database().reference().child("Updates").child((currentPlayingCard?.playingCard.databaseRef)!).removeValue()
     }
     
     private func findField(sender: Int, relativeField: Int) -> Int {
@@ -220,11 +232,11 @@ class GameScene: SKScene {
     }
     
     
-
+    
     // MARK: - Action Triggers
     //Triggered when the mouse is pressed down. It is only used to call other methods depending on the number of clicks
     override func mouseDown(with event: NSEvent) {
-            touchDown(atPoint: event.location(in: self))
+        touchDown(atPoint: event.location(in: self))
     }
     
     //Triggers on mouse right click
@@ -232,9 +244,9 @@ class GameScene: SKScene {
         let position = event.location(in: self)
         if let playingCard = gameGraphics.cardFrom(position: position) {
             if playingCard.texture != SKTexture(imageNamed: "cardback") {
-              labels.setCardDisplay(playingCard: playingCard)
+                labels.setCardDisplay(playingCard: playingCard)
             }
-    
+            
         }
         else {
             labels.cardDisplay.texture = nil
@@ -250,14 +262,14 @@ class GameScene: SKScene {
             }
         }
     }
-
-
+    
+    
     //Triggers on mouse dragging
     override func mouseDragged(with event: NSEvent) {
         touchMoved(toPoint: event.location(in: self))
         moveDice(atPoint: event.location(in: self))
     }
-
+    
     //Triggers when the mouse is released
     override func mouseUp(with event: NSEvent) {
         touchUp(atPoint: event.location(in: self))
@@ -269,6 +281,9 @@ class GameScene: SKScene {
         case [.command] where event.characters == "f":
             print("Command-F")
             gameGraphics.displayDeck()
+        case [.command] where event.characters == "c":
+            Database.database().reference().child("players").removeValue()
+            
         default:
             break
         }
@@ -280,10 +295,10 @@ class GameScene: SKScene {
         }
         
     }
-
-     
+    
+    
     // MARK: - Touch Responders
-
+    
     //Called when a single tap is detected. It sets the tapped card to active in order it initiate a movement of the card.
     private func touchDown(atPoint point: CGPoint) {
         if gameGraphics.isDiceTapped(point: point) {
@@ -294,11 +309,11 @@ class GameScene: SKScene {
             let parent = playingCard.parent,
             let location = game.location(from: playingCard.card),
             game.canMove(card: playingCard.card)
-        
-        else {
-            return
+            
+            else {
+                return
         }
-       
+        
         let touchPoint = playingCard.convert(point, from: parent)
         gameGraphics.setActive(card: playingCard)
         currentPlayingCard = CurrentPlayingCard(playingCard: playingCard, startPosition: playingCard.position, touchPoint: touchPoint, location: location)
@@ -310,26 +325,31 @@ class GameScene: SKScene {
             dice.update(position: point)
         }
     }
-
+    
     //Updates the position of the card as the card is being dragged
     private func touchMoved(toPoint pos: CGPoint) {
         guard let currentPlayingCard = currentPlayingCard else { return }
         currentPlayingCard.update(position: pos)
     }
-
+    
     //Called when the mouse is clicked once. It calls the move function when a card has been dragged and released to a new location
     private func touchUp(atPoint pos: CGPoint) {
         guard let currentPlayingCard = currentPlayingCard else { return }
         //Drop location is set as the location where the card is released.
         
-            if let dropLocation = gameGraphics.dropLocation(from: pos, playingCard: currentPlayingCard.playingCard, game: game) {
+        if let dropLocation = gameGraphics.dropLocation(from: pos, playingCard: currentPlayingCard.playingCard, game: game) {
             do {
                 //Updates the model by removing the card from the origonal location and adding it to the new location.
-                
                 try game.move(card: currentPlayingCard, to: dropLocation)
                 //Updates the view by moving the image to the correct animation
                 gameGraphics.move(currentPlayingCard: currentPlayingCard, to: dropLocation, gameDecks: game.deck, gameBattleDeck: game.allBattlefields, hand: game.hands)
                 gameGraphics.updateCardStack(card: currentPlayingCard, location: currentPlayingCard.location, gameBattleDeck: game.allBattlefields, hand: game.hands)
+                
+                
+                if currentPlayingCard.playingCard.heldBy != "Battlefield" {
+                    deleteFromDatabase()
+                }
+                
             } catch GameError.invalidMove {
                 currentPlayingCard.returnToOriginalLocation()
                 print("Invalid Move")
@@ -337,8 +357,9 @@ class GameScene: SKScene {
                 // Something went wrong - don't know what
                 currentPlayingCard.returnToOriginalLocation()
             }
+            
         } else {
-    
+            
             currentPlayingCard.returnToOriginalLocation()
         }
         
@@ -346,13 +367,38 @@ class GameScene: SKScene {
         let lengthY = pow((currentPlayingCard.startPosition.y - pos.y), 2)
         let length: Bool = (lengthX + lengthY).squareRoot() <  20.0
         if currentPlayingCard.playingCard.heldBy == "Battlefield" && length {
-            gameGraphics.tapCard(card: currentPlayingCard.playingCard)
+            let playingCard = currentPlayingCard.playingCard
+            gameGraphics.tapCard(card: playingCard)
+            Database.database().reference().child("Updates").child(playingCard.databaseRef!).updateChildValues(["Tapped": playingCard.tapped])
+            
         }
-            if currentPlayingCard.touchPoint != currentPlayingCard.startPosition {
+        if currentPlayingCard.touchPoint != currentPlayingCard.startPosition {
             updateDatabase(playingCard: currentPlayingCard.playingCard)
         }
+        
         gameGraphics.update(gameDeck: game.deck)
         self.currentPlayingCard = nil
+        
+    }
+    
+    func moveLocation(currentPlayingCard: CurrentPlayingCard, location: Location) {
+        do {
+            //Updates the model by removing the card from the origonal location and adding it to the new location.
+            try game.move(card: currentPlayingCard, to: location)
+            //Updates the view by moving the image to the correct animation
+            gameGraphics.move(currentPlayingCard: currentPlayingCard, to: location, gameDecks: game.deck, gameBattleDeck: game.allBattlefields, hand: game.hands)
+//            gameGraphics.updateCardStack(card: currentPlayingCard, location: currentPlayingCard.location, gameBattleDeck: game.allBattlefields, hand: game.hands)
+            
+        } catch GameError.invalidMove {
+            currentPlayingCard.returnToOriginalLocation()
+            print("Invalid Move")
+    }
+        catch {
+            // Something went wrong - don't know what
+            currentPlayingCard.returnToOriginalLocation()
+        }
+        gameGraphics.update(gameDeck: game.deck)
+        
         
     }
     
@@ -394,17 +440,17 @@ class GameScene: SKScene {
         }
         
         
-    self.currentPlayingCard = nil
-    
-    gameGraphics.update(gameDeck: game.deck)
+        self.currentPlayingCard = nil
+        
+        gameGraphics.update(gameDeck: game.deck)
         
     }
-        
-        private func requestNewGame() {
-            guard let viewDelegate = viewDelegate, viewDelegate.newGame(currentGameState: game.state) else { return }
-            newGame()
-        }
-
+    
+    private func requestNewGame() {
+        guard let viewDelegate = viewDelegate, viewDelegate.newGame(currentGameState: game.state) else { return }
+        newGame()
+    }
+    
 }
 
 
@@ -414,7 +460,7 @@ extension GameScene: ViewControllerDelegate {
         return game.state
     }
     
-
+    
     func newGame() {
         
         game.new()
@@ -433,5 +479,5 @@ extension GameScene: ViewControllerDelegate {
         }
         
     }
-
+    
 }
