@@ -188,7 +188,6 @@ class GameScene: SKScene {
                 let cardTapped = Bool(snapshotValue["Tapped"]!) {
                 
                 let fieldNumber = findField(sender: sender, relativeField: relativeField)
-                var currentPlayingCard: CurrentPlayingCard?
                 
                 if sender != self.playerNumber {
                     var playingCard = self.gameGraphics.cards.filter({
@@ -196,19 +195,20 @@ class GameScene: SKScene {
                         return databaseRef == snapshot.key
                     }).first
                     
+                    var location = Location.dataExtract()
+                    
                     if let playingCard = playingCard {
-                        
                         if let previousLocation = self.gameGraphics.dropLocation(from: playingCard.position, playingCard: playingCard, game: self.game) {
-                            currentPlayingCard = CurrentPlayingCard(playingCard: playingCard, startPosition: playingCard.position, touchPoint: playingCard.position, location: previousLocation)
+                            location = previousLocation
                         }
                     } else {
-                        playingCard = self.gameGraphics.addFromDatabase(name: cardName, field: fieldNumber, stack: stack, scene: self)
-                        if let playingCard = playingCard {
-                            playingCard.databaseRef = snapshot.key
-                            currentPlayingCard = CurrentPlayingCard(playingCard: playingCard, startPosition: playingCard.position, touchPoint: playingCard.position, location: Location.dataExtract())
-                        }
+                        let newPlayingCard = self.gameGraphics.addFromDatabase(name: cardName, field: fieldNumber, stack: stack, scene: self)
+                        newPlayingCard.databaseRef = snapshot.key
+                        playingCard = newPlayingCard
                     }
-                    if let currentPlayingCard = currentPlayingCard {
+                    
+                    if let playingCard = playingCard {
+                        let currentPlayingCard = CurrentPlayingCard(playingCard: playingCard, startPosition: playingCard.position, touchPoint: playingCard.position, location: location)
                         let battlefieldLocation = Location.battlefield(fieldNumber, stack)
                         self.moveLocation(currentPlayingCard: currentPlayingCard, location:  battlefieldLocation)
                         
