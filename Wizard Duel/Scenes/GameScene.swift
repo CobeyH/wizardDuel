@@ -82,8 +82,7 @@ class GameScene: SKScene {
             if let playingCard = gameGraphics.cardFrom(position: touchLocation) {
                 if playingCard.heldBy == "Battlefield" {
                     gameGraphics.tapCard(card: playingCard)
-                    Database.database().reference().child("Updates").child(playingCard.databaseRef!).updateChildValues(["Tapped": String(playingCard.tapped)])
-                    
+                    Database.database().reference().child("Updates").child(playingCard.databaseRef!).updateChildValues(["Tapped": String(playingCard.tapped), "Sender": String(playerNumber)])
                 }
             }
         }
@@ -112,14 +111,14 @@ class GameScene: SKScene {
         if let location = game.location(from: playingCard.card) {
             if case .battlefield(let field, let stack) = location {
                 //If the card is already in the database it should keep its old ID but if it is new it should be assigned a new ID
-                let cardID = playingCard.databaseRef ?? cardUpdate.childByAutoId().key
+                let databaseRef = playingCard.databaseRef ?? cardUpdate.childByAutoId().key
                 let updateDictionary = ["Sender": String(playerNumber),"Card": playingCard.card.name, "Field": String(field), "Stack": String(stack), "Tapped": String(playingCard.tapped)]
                 if playingCard.databaseRef == nil {
-                    playingCard.databaseRef = cardID
-                    cardUpdate.child(cardID).setValue(updateDictionary)
+                    playingCard.databaseRef = databaseRef
+                    cardUpdate.child(databaseRef).setValue(updateDictionary)
                 }
                 else {
-                    cardUpdate.child(cardID).updateChildValues(updateDictionary)
+                    cardUpdate.child(databaseRef).updateChildValues(updateDictionary)
                 }
             }
         }
@@ -348,28 +347,11 @@ class GameScene: SKScene {
         //Drop location is set as the location where the card is released.
         let startHeldBy = currentPlayingCard.playingCard.heldBy
         if let dropLocation = gameGraphics.dropLocation(from: pos, playingCard: currentPlayingCard.playingCard, game: game) {
-            do {
-                //Updates the model by removing the card from the origonal location and adding it to the new location.
-                try game.move(card: currentPlayingCard, to: dropLocation)
-                //Updates the view by moving the image to the correct animation
-                gameGraphics.move(currentPlayingCard: currentPlayingCard, to: dropLocation, gameDecks: game.deck, gameBattleDeck: game.allBattlefields, hand: game.hands)
-                gameGraphics.updateCardStack(card: currentPlayingCard, location: currentPlayingCard.location, gameBattleDeck: game.allBattlefields, hand: game.hands)
-                
-                
-                if currentPlayingCard.playingCard.heldBy != "Battlefield" && startHeldBy == "Battlefield" {
-                    deleteFromDatabase()
-                }
-                
-            } catch GameError.invalidMove {
-                currentPlayingCard.returnToOriginalLocation()
-                print("Invalid Move")
-            } catch {
-                // Something went wrong - don't know what
-                currentPlayingCard.returnToOriginalLocation()
+            moveLocation(currentPlayingCard: currentPlayingCard, location: dropLocation)
+            if currentPlayingCard.playingCard.heldBy != "Battlefield" && startHeldBy == "Battlefield" {
+                deleteFromDatabase()
             }
-            
         } else {
-            
             currentPlayingCard.returnToOriginalLocation()
         }
         
@@ -386,7 +368,6 @@ class GameScene: SKScene {
             updateDatabase(playingCard: currentPlayingCard.playingCard)
         }
         
-        gameGraphics.update(gameDeck: game.deck)
         self.currentPlayingCard = nil
         
     }
@@ -397,12 +378,11 @@ class GameScene: SKScene {
             try game.move(card: currentPlayingCard, to: location)
             //Updates the view by moving the image to the correct animation
             gameGraphics.move(currentPlayingCard: currentPlayingCard, to: location, gameDecks: game.deck, gameBattleDeck: game.allBattlefields, hand: game.hands)
-//            gameGraphics.updateCardStack(card: currentPlayingCard, location: currentPlayingCard.location, gameBattleDeck: game.allBattlefields, hand: game.hands)
-            
+            gameGraphics.updateCardStack(card: currentPlayingCard, location: currentPlayingCard.location, gameBattleDeck: game.allBattlefields, hand: game.hands)
         } catch GameError.invalidMove {
             currentPlayingCard.returnToOriginalLocation()
             print("Invalid Move")
-    }
+        }
         catch {
             // Something went wrong - don't know what
             currentPlayingCard.returnToOriginalLocation()

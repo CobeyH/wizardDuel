@@ -11,7 +11,12 @@ import SpriteKit
 
 struct Card {
     var name: String
-    var cardID: Int
+    var cardID: String
+    
+    init(name: String) {
+        self.cardID = NSUUID().uuidString
+        self.name = name
+    }
     
     static func deck() -> [Card] {
         var deckURL : URL?
@@ -48,7 +53,6 @@ func cardsFromFile(url: URL?) -> [Card] {
             
             //Loops through the array of text lines and splits them after the number of cards. Then splits the number of cards and card name
             //into two variables.
-            var i = 0
             for (cardInfo) in cardInfos {
                 if cardInfo.count > 3 {
                     let cardInfoArray = cardInfo.split(separator: " ", maxSplits: 1)
@@ -57,8 +61,7 @@ func cardsFromFile(url: URL?) -> [Card] {
                         
                         //Appends each card to the deck x times where x is the numberOfCards specified.
                         for _ in 0..<numberOfCards {
-                            cards.append(Card(name: cardName, cardID: i))
-                            i = i + 1
+                            cards.append(Card(name: cardName))
                         }
                     }
                 }

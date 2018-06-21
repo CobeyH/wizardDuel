@@ -387,7 +387,7 @@ struct GameGraphics {
     }
     
     mutating func addFromDatabase(name: String, field: Int, stack: Int, scene: SKScene) -> PlayingCard {
-        let gameCard = Card(name: name, cardID: Int(Date.timeIntervalBetween1970AndReferenceDate))
+        let gameCard = Card(name: name)
         let card = PlayingCard(card: gameCard, size: config.cardSize, databaseRef: nil)
         card.anchorPoint = config.cardMiddle
         card.size = config.cardSize
