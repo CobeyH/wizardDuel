@@ -76,6 +76,7 @@ class GameScene: SKScene {
             if let playingDice = gameGraphics.findDice(point: touchLocation) {
                 playingDice.dice.diceUp()
                 playingDice.setTexture()
+                return
             }
             
             if let playingCard = gameGraphics.cardFrom(position: touchLocation) {
@@ -242,16 +243,7 @@ class GameScene: SKScene {
     //Triggers on mouse right click
     override func rightMouseDown(with event: NSEvent) {
         let position = event.location(in: self)
-        if let playingCard = gameGraphics.cardFrom(position: position) {
-            if playingCard.texture != SKTexture(imageNamed: "cardback") {
-                labels.setCardDisplay(playingCard: playingCard)
-            }
-            
-        }
-        else {
-            labels.cardDisplay.texture = nil
-        }
-        labels.cardDisplay.color = .clear
+        
         if let playingDice = gameGraphics.findDice(point: position) {
             playingDice.dice.diceDown()
             if playingDice.dice.value < 1 {
@@ -260,7 +252,18 @@ class GameScene: SKScene {
             else {
                 playingDice.setTexture()
             }
+            return
         }
+        
+        if let playingCard = gameGraphics.cardFrom(position: position) {
+            if playingCard.texture != SKTexture(imageNamed: "cardback") {
+                labels.setCardDisplay(playingCard: playingCard)
+            }
+        }
+        else {
+            labels.cardDisplay.texture = nil
+        }
+        labels.cardDisplay.color = .clear
     }
     
     
@@ -293,7 +296,6 @@ class GameScene: SKScene {
                 gameGraphics.reconstructDeck()
             }
         }
-        
     }
     
     
@@ -303,6 +305,12 @@ class GameScene: SKScene {
     private func touchDown(atPoint point: CGPoint) {
         if gameGraphics.isDiceTapped(point: point) {
             gameGraphics.newDice(to: self)
+        }
+        if let dice = gameGraphics.findDice(point: point) {
+            gameGraphics.setDiceActive(dice: dice)
+        }
+        if gameGraphics.findDice(point: point) != nil {
+            return
         }
         guard
             let playingCard = gameGraphics.cardFrom(position: point),
@@ -329,14 +337,16 @@ class GameScene: SKScene {
     //Updates the position of the card as the card is being dragged
     private func touchMoved(toPoint pos: CGPoint) {
         guard let currentPlayingCard = currentPlayingCard else { return }
-        currentPlayingCard.update(position: pos)
+        if gameGraphics.findDice(point: pos) == nil {
+            currentPlayingCard.update(position: pos)
+        }
     }
     
     //Called when the mouse is clicked once. It calls the move function when a card has been dragged and released to a new location
     private func touchUp(atPoint pos: CGPoint) {
         guard let currentPlayingCard = currentPlayingCard else { return }
         //Drop location is set as the location where the card is released.
-        
+        let startHeldBy = currentPlayingCard.playingCard.heldBy
         if let dropLocation = gameGraphics.dropLocation(from: pos, playingCard: currentPlayingCard.playingCard, game: game) {
             do {
                 //Updates the model by removing the card from the origonal location and adding it to the new location.
@@ -346,7 +356,7 @@ class GameScene: SKScene {
                 gameGraphics.updateCardStack(card: currentPlayingCard, location: currentPlayingCard.location, gameBattleDeck: game.allBattlefields, hand: game.hands)
                 
                 
-                if currentPlayingCard.playingCard.heldBy != "Battlefield" {
+                if currentPlayingCard.playingCard.heldBy != "Battlefield" && startHeldBy == "Battlefield" {
                     deleteFromDatabase()
                 }
                 

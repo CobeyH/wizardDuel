@@ -15,13 +15,13 @@ struct GameGraphicsConfig {
     let offsetX = CGFloat(96.956/2)
     let offsetY = -CGFloat(134.78/2)
     
-    let diceSize = CGSize(width: 30, height: 30)
+    let diceSize = CGSize(width: 40, height: 40)
     
     let spacing: CGFloat = 20
     let battlefierdSpacing: CGFloat = 16
     let margin: CGFloat = -40
     var zIndex: CGFloat = 10
-    let zIndexIncrement: CGFloat = 5
+    let zIndexIncrement: CGFloat = 2
 
     let backgroundName =  "background1"
     let backgroundColour = NSColor.init(white: 1.0, alpha: 0.2)

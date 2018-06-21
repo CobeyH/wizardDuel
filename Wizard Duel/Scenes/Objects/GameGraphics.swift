@@ -204,6 +204,10 @@ struct GameGraphics {
         card.zPosition = config.getZIndex()
     }
     
+    mutating func setDiceActive(dice: PlayingDice) {
+        dice.zPosition = config.getZIndex()
+    }
+    
     
     mutating func newGame(gameDecks: Deck) {
         for card in cards {
