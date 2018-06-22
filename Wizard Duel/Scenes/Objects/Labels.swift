@@ -11,20 +11,14 @@ import SpriteKit
 class Labels {
     private var config = GameGraphicsConfig()
     
-    var newGameButton: SKLabelNode = SKLabelNode(fontNamed: "planewalker")
+    var shuffleDeck: SKLabelNode = SKLabelNode(fontNamed: "planewalker")
     var newTurnButton: SKLabelNode = SKLabelNode(fontNamed: "planewalker")
     var cardDisplay: SKSpriteNode = SKSpriteNode(color: .red, size: CGSize(width: 50, height: 50))
     // Sets up all the labels for the deck count, graveyard count, etc.
     func setUpLabels(width: CGFloat, height: CGFloat, to scene: SKScene) {
        
         
-        // New game button
-        newGameButton.fontSize = 40
-        newGameButton.color = SKColor.black
-        newGameButton.text = "New Game"
-        newGameButton.position = CGPoint(x: width / 2, y: -130)
-        newGameButton.zPosition = 5
-        scene.addChild(newGameButton)
+       
         
         //cardDisplay Label
         cardDisplay.color = .clear
@@ -39,14 +33,22 @@ class Labels {
         cardDisplay.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         newTurnButton.color = SKColor.black
         newTurnButton.text = "New Turn"
-        newTurnButton.position = CGPoint(x: width/2 + config.cardSize.width * 5, y: -height - config.margin)
+        newTurnButton.position = CGPoint(x: width/2 + config.cardSize.width * 5, y: -height - config.margin + 50)
         newTurnButton.zPosition = 5
         scene.addChild(newTurnButton)
+        
+        //Shuffle Dek Dutton
+        shuffleDeck.fontSize = 30
+        shuffleDeck.color = SKColor.black
+        shuffleDeck.text = "Shuffle"
+        shuffleDeck.position = CGPoint(x: newTurnButton.position.x, y: newTurnButton.position.y - 50)
+        shuffleDeck.zPosition = 5
+        scene.addChild(shuffleDeck)
     }
     
     
-    func isNewGameTapped(point: CGPoint) -> Bool {
-        return newGameButton.contains(point)
+    func isShuffleTapped(point: CGPoint) -> Bool {
+        return shuffleDeck.contains(point)
     }
     
     func isNewTurnTapped(point: CGPoint) -> Bool {

@@ -43,7 +43,7 @@ class Game {
             allBattlefields[i] = (0 ... 50).map({ _ in Battlefield() })
         }
         deck = Deck()
-        self.new()
+        
     }
     
     // MARK: - Methods

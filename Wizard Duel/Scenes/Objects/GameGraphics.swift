@@ -6,6 +6,8 @@
 //
 
 import SpriteKit
+import FirebaseDatabase
+
 
 struct GameGraphics {
     
@@ -217,14 +219,23 @@ struct GameGraphics {
         setupCards(gameDecks: gameDecks)
     }
     
-    //Untaps all of the cards when the new game button is pressed
-    func newTurn() {
+    //Untaps all of the cards when the new turn button is pressed
+    func newTurn(sender: Int) -> [PlayingCard] {
+        let database = Database.database().reference().child("Updates")
+        var tappedCards: [PlayingCard] = []
         for playingCard in cards {
-            if playingCard.tapped {
-                tapCard(card: playingCard)
-                
+            if let databaseRef = playingCard.databaseRef {
+                database.child(databaseRef).observe(.value, with: { (snapshot) in
+                    if let snapshotValue = snapshot.value as? Dictionary<String,String> {
+                        if playingCard.tapped && Int(snapshotValue["Sender"]!) == sender {
+                            self.tapCard(card: playingCard)
+                            tappedCards.append(playingCard)
+                        }
+                    }
+                })
             }
         }
+        return tappedCards
     }
     
     //Rotates the card sideways if it is upright and turns it upright if it was sideways
@@ -240,7 +251,9 @@ struct GameGraphics {
     mutating func displayDeck() {
         let startPos = CGPoint(x:deck.position.x + config.cardSize.width/2 - config.offsetX, y: -config.offsetY - config.cardSize.height * 2)
         //Checks if each card in Cards is in the deck and if so moves them to be displayed
-        for (i,card) in cards.enumerated() {
+        let sortedCards = cards.sorted(by: { $1.card.name > $0.card.name })
+        var i = 0
+        for card in sortedCards {
             if card.heldBy == "Deck" {
                 setActive(card: card)
                 let currentPlayingCard = CurrentPlayingCard(playingCard: card, startPosition: card.position, touchPoint: card.anchorPoint, location: .deck())
@@ -250,6 +263,7 @@ struct GameGraphics {
                 let posY = startPos.y - CGFloat(i) * config.battlefierdSpacing + config.battlefierdSpacing * CGFloat(30 * j)
                 let position = CGPoint(x: posX, y: posY)
                 currentPlayingCard.move(to: position)
+                i = i + 1
             }
         }
     }
@@ -264,6 +278,20 @@ struct GameGraphics {
                 currentPlayingCard.playingCard.texture = SKTexture(imageNamed: "cardback")
             }
         }
+        shuffleDeck()
+    }
+    
+    mutating func shuffleDeck() {
+        var oldOrder = cards
+        var shuffled: [PlayingCard] = []
+        for _ in 0..<oldOrder.count
+        {
+            let rand = Int(arc4random_uniform(UInt32(oldOrder.count)))
+            shuffled.append(oldOrder[rand])
+            
+            oldOrder.remove(at: rand)
+        }
+        cards = shuffled
     }
     
     
@@ -277,7 +305,7 @@ struct GameGraphics {
             let battlefield = allBattlefields[field]
             let stack = battlefield[stack]
             for playingCard in playingCards {
-                setActive(card: playingCard)
+                
                 let currentPlayingCard = CurrentPlayingCard(playingCard: playingCard, startPosition: playingCard.position, touchPoint: playingCard.anchorPoint, location: location)
                 let position = CGPoint(x: stack.position.x + config.cardSize.width/2 - config.offsetX, y: stack.position.y - CGFloat(i) * config.battlefierdSpacing - config.cardSize.height/2 - config.offsetY)
                 currentPlayingCard.move(to: position)
@@ -379,7 +407,7 @@ struct GameGraphics {
         
             
         }
-        if playingCard.tapped {
+        if playingCard.tapped && playingCard.heldBy != "Battlefield" {
             tapCard(card: playingCard)
             
         }

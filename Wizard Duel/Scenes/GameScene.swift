@@ -40,7 +40,6 @@ class GameScene: SKScene {
             }
             
         }
-        
         retrieveUpdates()
         
     }
@@ -64,15 +63,20 @@ class GameScene: SKScene {
             var touchLocation: CGPoint = sender.location(in: sender.view)
             touchLocation = self.convertPoint(fromView: touchLocation)
             
-            if labels.isNewGameTapped(point: touchLocation) {
-                requestNewGame()
-                
-                return
-            }
+            
             if labels.isNewTurnTapped(point: touchLocation) {
-                gameGraphics.newTurn()
+                let tappedCards = gameGraphics.newTurn(sender: playerNumber)
+                drawCard()
+                for playingCard in tappedCards {
+                    Database.database().reference().child("Updates").child(playingCard.databaseRef!).updateChildValues(["Tapped": "false"])
+                }
                 return
             }
+            if labels.isShuffleTapped(point: touchLocation) {
+                gameGraphics.shuffleDeck()
+                gameGraphics.reconstructDeck()
+            }
+            
             if let playingDice = gameGraphics.findDice(point: touchLocation) {
                 playingDice.dice.diceUp()
                 playingDice.setTexture()
@@ -107,12 +111,20 @@ class GameScene: SKScene {
     //Sends a card and location to the database when a card is moved
     func updateDatabase(playingCard: PlayingCard) {
         let cardUpdate = Database.database().reference().child("Updates")
+        var value = 0
         //This takes the location that the sender dropped the card.
         if let location = game.location(from: playingCard.card) {
             if case .battlefield(let field, let stack) = location {
                 //If the card is already in the database it should keep its old ID but if it is new it should be assigned a new ID
+                if playingCard.children.count != 0 {
+                    let dice = playingCard.childNode(withName: "dice") as! PlayingDice
+                    value = dice.dice.value
+                }
+                else {
+                    
+                }
                 let databaseRef = playingCard.databaseRef ?? cardUpdate.childByAutoId().key
-                let updateDictionary = ["Sender": String(playerNumber),"Card": playingCard.card.name, "Field": String(field), "Stack": String(stack), "Tapped": String(playingCard.tapped)]
+                let updateDictionary = ["Sender": String(playerNumber),"Card": playingCard.card.name, "Field": String(field), "Stack": String(stack), "Tapped": String(playingCard.tapped), "DiceValue": String(value)]
                 if playingCard.databaseRef == nil {
                     playingCard.databaseRef = databaseRef
                     cardUpdate.child(databaseRef).setValue(updateDictionary)
@@ -121,8 +133,11 @@ class GameScene: SKScene {
                     cardUpdate.child(databaseRef).updateChildValues(updateDictionary)
                 }
             }
+            
         }
     }
+    
+    
     
     //Adds the player to the database when they join the game
     func updatePlayer(_ player: String) {
@@ -188,6 +203,7 @@ class GameScene: SKScene {
                 
                 let fieldNumber = findField(sender: sender, relativeField: relativeField)
                 
+                
                 if sender != self.playerNumber {
                     var playingCard = self.gameGraphics.cards.filter({
                         let databaseRef = $0.databaseRef
@@ -208,13 +224,15 @@ class GameScene: SKScene {
                     
                     if let playingCard = playingCard {
                         let currentPlayingCard = CurrentPlayingCard(playingCard: playingCard, startPosition: playingCard.position, touchPoint: playingCard.position, location: location)
+                        if currentPlayingCard.playingCard.tapped != cardTapped {
+                            self.gameGraphics.tapCard(card: currentPlayingCard.playingCard)
+                            return
+                        }
+                        
                         let battlefieldLocation = Location.battlefield(fieldNumber, stack)
                         self.moveLocation(currentPlayingCard: currentPlayingCard, location:  battlefieldLocation)
                         
-                        if currentPlayingCard.playingCard.tapped != cardTapped {
-                            self.gameGraphics.tapCard(card: currentPlayingCard.playingCard)
-                            
-                        }
+                        
                     } else {
                         print("Error: Card not found or created")
                     }
@@ -343,6 +361,15 @@ class GameScene: SKScene {
     
     //Called when the mouse is clicked once. It calls the move function when a card has been dragged and released to a new location
     private func touchUp(atPoint pos: CGPoint) {
+        if let dice = gameGraphics.findDice(point: pos) {
+            if let playingCard = gameGraphics.cardFrom(position: pos) {
+                dice.name = "dice"
+                dice.removeFromParent()
+                playingCard.addChild(dice)
+                updateDatabase(playingCard: playingCard)
+                
+            }
+        }
         guard let currentPlayingCard = currentPlayingCard else { return }
         //Drop location is set as the location where the card is released.
         let startHeldBy = currentPlayingCard.playingCard.heldBy
@@ -361,7 +388,7 @@ class GameScene: SKScene {
         if currentPlayingCard.playingCard.heldBy == "Battlefield" && length {
             let playingCard = currentPlayingCard.playingCard
             gameGraphics.tapCard(card: playingCard)
-            Database.database().reference().child("Updates").child(playingCard.databaseRef!).updateChildValues(["Tapped": playingCard.tapped])
+            Database.database().reference().child("Updates").child(playingCard.databaseRef!).updateChildValues(["Tapped": playingCard.tapped, "Sender": playerNumber])
             
         }
         if currentPlayingCard.touchPoint != currentPlayingCard.startPosition {
@@ -375,6 +402,7 @@ class GameScene: SKScene {
     func moveLocation(currentPlayingCard: CurrentPlayingCard, location: Location) {
         do {
             //Updates the model by removing the card from the origonal location and adding it to the new location.
+            gameGraphics.setActive(card: currentPlayingCard.playingCard)
             try game.move(card: currentPlayingCard, to: location)
             //Updates the view by moving the image to the correct animation
             gameGraphics.move(currentPlayingCard: currentPlayingCard, to: location, gameDecks: game.deck, gameBattleDeck: game.allBattlefields, hand: game.hands)
@@ -428,7 +456,6 @@ class GameScene: SKScene {
             // Something went wrong - don't know what
             currentPlayingCard!.returnToOriginalLocation()
         }
-        
         
         self.currentPlayingCard = nil
         
