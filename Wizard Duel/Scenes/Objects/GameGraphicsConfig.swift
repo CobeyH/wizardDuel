@@ -11,9 +11,9 @@ import Cocoa
 
 struct GameGraphicsConfig {
     let cardMiddle = CGPoint(x: 0.5, y: 0.5)
-    let cardSize = CGSize(width: 96.956, height: 134.78)
-    let offsetX = CGFloat(96.956/2)
-    let offsetY = -CGFloat(134.78/2)
+    let cardSize: CGSize
+    let offsetX: CGFloat
+    let offsetY: CGFloat
     
     let diceSize = CGSize(width: 40, height: 40)
     
@@ -30,6 +30,13 @@ struct GameGraphicsConfig {
 
     let graveyardCount = 3
     
+    init() {
+        let width = 96.956
+        let height = 134.78
+        cardSize = CGSize(width: width, height: height)
+        offsetX = CGFloat(width/2)
+        offsetY = -CGFloat(height/2)
+    }
 
 
     mutating func getZIndex() -> CGFloat {
