@@ -138,17 +138,17 @@ struct GameGraphics {
         background.zPosition = -5
         scene.addChild(background)
         
-//        let hLine = SKSpriteNode(color: .white, size: CGSize(width: scene.size.width, height: 3))
-//        hLine.anchorPoint = CGPoint(x: 0.5, y: 0.5)
-//        hLine.position = CGPoint(x: scene.size.width/2, y: -scene.size.height/2 + config.cardSize.height/2)
-//        hLine.zPosition = -4
-//        scene.addChild(hLine)
-//        
-//        let vLine = SKSpriteNode(color: .white, size: CGSize(width: 3, height: scene.size.height))
-//        vLine.anchorPoint = CGPoint(x: 0.5, y: 0.5)
-//        vLine.position = CGPoint(x: scene.size.width/2, y: -scene.size.height/2)
-//        vLine.zPosition = -4
-//        scene.addChild(vLine)
+        let hLine = SKSpriteNode(color: .black, size: CGSize(width: scene.size.width, height: 3))
+        hLine.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+        hLine.position = CGPoint(x: scene.size.width/2, y: (-config.cardSize.height - config.spacing) * 3)
+        hLine.zPosition = -4
+        scene.addChild(hLine)
+        
+        let vLine = SKSpriteNode(color: .black, size: CGSize(width: 3, height: scene.size.height))
+        vLine.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+        vLine.position = CGPoint(x: scene.size.width/2 - vLine.size.width/2, y: -scene.size.height/2)
+        vLine.zPosition = -4
+        scene.addChild(vLine)
     }
     
     //MARK: - Dice
@@ -185,6 +185,15 @@ struct GameGraphics {
             }
         }
         return nil
+    }
+    
+    func findDiceFromCard(playingCard: PlayingCard) -> PlayingDice? {
+        if let dice = playingCard.childNode(withName: "dice") {
+            return dice as? PlayingDice
+            
+        }
+        return nil
+        
     }
     
     //MARK: Helpers

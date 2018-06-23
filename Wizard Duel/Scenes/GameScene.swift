@@ -76,11 +76,12 @@ class GameScene: SKScene {
                 gameGraphics.shuffleDeck()
                 gameGraphics.reconstructDeck()
             }
-            
-            if let playingDice = gameGraphics.findDice(point: touchLocation) {
+            if let playingCard = gameGraphics.cardFrom(position: touchLocation) {
+            if let playingDice = gameGraphics.findDiceFromCard(playingCard: playingCard) {
                 playingDice.dice.diceUp()
                 playingDice.setTexture()
                 return
+                }
             }
             
             if let playingCard = gameGraphics.cardFrom(position: touchLocation) {
@@ -323,8 +324,10 @@ class GameScene: SKScene {
         if gameGraphics.isDiceTapped(point: point) {
             gameGraphics.newDice(to: self)
         }
-        if let dice = gameGraphics.findDice(point: point) {
-            gameGraphics.setDiceActive(dice: dice)
+        if let playingCard = gameGraphics.cardFrom(position: point) {
+            if let dice = gameGraphics.findDiceFromCard(playingCard: playingCard) {
+                gameGraphics.setDiceActive(dice: dice)
+            }
         }
         if gameGraphics.findDice(point: point) != nil {
             return
@@ -366,6 +369,7 @@ class GameScene: SKScene {
                 dice.name = "dice"
                 dice.removeFromParent()
                 playingCard.addChild(dice)
+                dice.update(position: CGPoint(x:0, y: 0))
                 updateDatabase(playingCard: playingCard)
                 
             }

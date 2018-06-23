@@ -8,6 +8,8 @@
 
 import Foundation
 import Cocoa
+import SpriteKit
+
 
 struct GameGraphicsConfig {
     let cardMiddle = CGPoint(x: 0.5, y: 0.5)
@@ -31,11 +33,13 @@ struct GameGraphicsConfig {
     let graveyardCount = 3
     
     init() {
-        let width = 96.956
-        let height = 134.78
-        cardSize = CGSize(width: width, height: height)
-        offsetX = CGFloat(width/2)
-        offsetY = -CGFloat(height/2)
+       let frame = NSScreen.main?.frame ?? CGRect.zero
+       let rect = frame
+       let height = rect.size.height / 7.5
+       let width = rect.size.width / 17.5
+       self.cardSize = CGSize(width: width, height: height)
+       self.offsetX = CGFloat(width/2)
+       self.offsetY = -CGFloat(height/2)
     }
 
 
