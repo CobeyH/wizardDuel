@@ -10,8 +10,6 @@ final class Hand: MasterDeck {
     
 }
 
-
-
 extension Hand: CustomDebugStringConvertible {
     var debugDescription: String {
         switch state {

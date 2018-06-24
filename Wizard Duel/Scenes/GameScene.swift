@@ -21,6 +21,7 @@ class GameScene: SKScene {
     private var currentPlayingCard: CurrentPlayingCard?
     weak var viewDelegate: GameSceneDelegate?
     private var playerNumber = 0
+    private var mulliganCount = 0
     
     
     // MARK: - Lifecycle
@@ -57,12 +58,19 @@ class GameScene: SKScene {
         gameGraphics.setupBackground(to: self)
     }
     
-    // see if the hit node is a card in the battle field and if so rotate it
+    // Triggered when a single click is detected with no dragging
     @objc func tap(sender: NSClickGestureRecognizer) {
         if sender.state == .ended {
             var touchLocation: CGPoint = sender.location(in: sender.view)
             touchLocation = self.convertPoint(fromView: touchLocation)
-            
+            if labels.mulliganButton.contains(touchLocation) {
+                mulliganCount = mulliganCount + 1
+                newGame()
+            }
+            else if labels.keepButton.contains(touchLocation) {
+                mulliganCount = 0
+                labels.handKept()
+            }
             
             if labels.isNewTurnTapped(point: touchLocation) {
                 let tappedCards = gameGraphics.newTurn(sender: playerNumber)
@@ -77,10 +85,14 @@ class GameScene: SKScene {
                 gameGraphics.reconstructDeck()
             }
             if let playingCard = gameGraphics.cardFrom(position: touchLocation) {
-            if let playingDice = gameGraphics.findDiceFromCard(playingCard: playingCard) {
-                playingDice.dice.diceUp()
-                playingDice.setTexture()
-                return
+                if let playingDice = playingCard.childNode(withName: "dice") as? PlayingDice {
+                    if playingDice.contains(convert(touchLocation, to: playingDice)) {
+                        playingDice.dice.diceUp()
+                        playingDice.setTexture()
+                        updateDatabase(playingCard: playingCard)
+                        
+                        return
+                    }
                 }
             }
             
@@ -200,10 +212,10 @@ class GameScene: SKScene {
                 let sender = Int(snapshotValue["Sender"]!),
                 let stack = Int(snapshotValue["Stack"]!),
                 let relativeField = Int(snapshotValue["Field"]!),
-                let cardTapped = Bool(snapshotValue["Tapped"]!) {
+                let cardTapped = Bool(snapshotValue["Tapped"]!),
+                let diceValue = Int(snapshotValue["DiceValue"]!) {
                 
                 let fieldNumber = findField(sender: sender, relativeField: relativeField)
-                
                 
                 if sender != self.playerNumber {
                     var playingCard = self.gameGraphics.cards.filter({
@@ -216,6 +228,19 @@ class GameScene: SKScene {
                     if let playingCard = playingCard {
                         if let previousLocation = self.gameGraphics.dropLocation(from: playingCard.position, playingCard: playingCard, game: self.game) {
                             location = previousLocation
+                            if diceValue > 0 && playingCard.children.count == 0 {
+                               let newPlayingDice = gameGraphics.newDice(to: self)
+                                gameGraphics.dropDiceOn(playingCard: playingCard, playingDice: newPlayingDice)
+                            }
+                            else if playingCard.children.count != 0 && diceValue == 0{
+                                playingCard.removeAllChildren()
+                            }
+                            else {
+                                if let playingDice = gameGraphics.findDiceFromCard(playingCard: playingCard) {
+                                    playingDice.dice.value = diceValue
+                                    playingDice.setTexture()
+                                }
+                            }
                         }
                     } else {
                         let newPlayingCard = self.gameGraphics.addFromDatabase(name: cardName, field: fieldNumber, stack: stack, scene: self)
@@ -251,7 +276,6 @@ class GameScene: SKScene {
     }
     
     
-    
     // MARK: - Action Triggers
     //Triggered when the mouse is pressed down. It is only used to call other methods depending on the number of clicks
     override func mouseDown(with event: NSEvent) {
@@ -261,16 +285,20 @@ class GameScene: SKScene {
     //Triggers on mouse right click
     override func rightMouseDown(with event: NSEvent) {
         let position = event.location(in: self)
-        
-        if let playingDice = gameGraphics.findDice(point: position) {
-            playingDice.dice.diceDown()
-            if playingDice.dice.value < 1 {
-                gameGraphics.deleteDice(to: self, toDelete: playingDice)
+        if let playingCard = gameGraphics.cardFrom(position: position) {
+            if let playingDice = playingCard.childNode(withName: "dice") as? PlayingDice {
+                playingDice.dice.diceDown()
+                updateDatabase(playingCard: playingCard)
+                if playingDice.dice.value < 1 {
+                    gameGraphics.deleteDice(to: self, toDelete: playingDice)
+                }
+                    
+                else {
+                    playingDice.setTexture()
+                }
+                return
             }
-            else {
-                playingDice.setTexture()
-            }
-            return
+            
         }
         
         if let playingCard = gameGraphics.cardFrom(position: position) {
@@ -283,6 +311,7 @@ class GameScene: SKScene {
         }
         labels.cardDisplay.color = .clear
     }
+    
     
     
     //Triggers on mouse dragging
@@ -322,10 +351,11 @@ class GameScene: SKScene {
     //Called when a single tap is detected. It sets the tapped card to active in order it initiate a movement of the card.
     private func touchDown(atPoint point: CGPoint) {
         if gameGraphics.isDiceTapped(point: point) {
-            gameGraphics.newDice(to: self)
+            let _ = gameGraphics.newDice(to: self)
         }
         if let playingCard = gameGraphics.cardFrom(position: point) {
-            if let dice = gameGraphics.findDiceFromCard(playingCard: playingCard) {
+            let dicePoint = convert(point, to: playingCard)
+            if let dice = gameGraphics.findDice(point: dicePoint) {
                 gameGraphics.setDiceActive(dice: dice)
             }
         }
@@ -366,10 +396,7 @@ class GameScene: SKScene {
     private func touchUp(atPoint pos: CGPoint) {
         if let dice = gameGraphics.findDice(point: pos) {
             if let playingCard = gameGraphics.cardFrom(position: pos) {
-                dice.name = "dice"
-                dice.removeFromParent()
-                playingCard.addChild(dice)
-                dice.update(position: CGPoint(x:0, y: 0))
+                gameGraphics.dropDiceOn(playingCard: playingCard, playingDice: dice)
                 updateDatabase(playingCard: playingCard)
                 
             }
@@ -483,14 +510,17 @@ extension GameScene: ViewControllerDelegate {
     
     
     func newGame() {
+
+            game.new()
+            gameGraphics.newGame(gameDecks: game.deck)
+            gameGraphics.addCards(to: self)
+            for _ in 0..<(7 - mulliganCount) {
+                drawCard()
+                
+            }
+        labels.addMulligan(to: self)
         
-        game.new()
-        gameGraphics.newGame(gameDecks: game.deck)
-        gameGraphics.addCards(to: self)
-        for _ in 0..<7 {
-            drawCard()
-            
-        }
+        
         
         if let playerName = UserDefaults.standard.string(forKey: "PlayerName") {
             updatePlayer(playerName)

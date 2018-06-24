@@ -14,6 +14,8 @@ class Labels {
     var shuffleDeck: SKLabelNode = SKLabelNode(fontNamed: "planewalker")
     var newTurnButton: SKLabelNode = SKLabelNode(fontNamed: "planewalker")
     var cardDisplay: SKSpriteNode = SKSpriteNode(color: .red, size: CGSize(width: 50, height: 50))
+    let mulliganButton = SKLabelNode(fontNamed: "planewalker")
+    let keepButton = SKLabelNode(fontNamed: "planewalker")
     // Sets up all the labels for the deck count, graveyard count, etc.
     func setUpLabels(width: CGFloat, height: CGFloat, to scene: SKScene) {
        
@@ -62,6 +64,26 @@ class Labels {
         
     }
     
+    func addMulligan(to scene: SKScene) {
+        mulliganButton.fontSize = 30
+        mulliganButton.color = SKColor.black
+        mulliganButton.text = "Mulligan"
+        mulliganButton.position = CGPoint(x: scene.frame.width/5 - config.margin, y: -scene.frame.height + config.cardSize.height * 1.25)
+        mulliganButton.zPosition = 10
+        scene.addChild(mulliganButton)
+        
+        keepButton.fontSize = 30
+        keepButton.color = SKColor.black
+        keepButton.text = "Keep"
+        keepButton.position = CGPoint(x: mulliganButton.position.x + config.cardSize.height, y: mulliganButton.position.y)
+        keepButton.zPosition = 10
+        scene.addChild(keepButton)
+    }
+    
+    func handKept() {
+        mulliganButton.removeFromParent()
+        keepButton.removeFromParent()
+    }
     
     
 }

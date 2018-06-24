@@ -138,28 +138,29 @@ struct GameGraphics {
         background.zPosition = -5
         scene.addChild(background)
         
-        let hLine = SKSpriteNode(color: .black, size: CGSize(width: scene.size.width, height: 3))
-        hLine.anchorPoint = CGPoint(x: 0.5, y: 0.5)
-        hLine.position = CGPoint(x: scene.size.width/2, y: (-config.cardSize.height - config.spacing) * 3)
-        hLine.zPosition = -4
-        scene.addChild(hLine)
-        
-        let vLine = SKSpriteNode(color: .black, size: CGSize(width: 3, height: scene.size.height))
-        vLine.anchorPoint = CGPoint(x: 0.5, y: 0.5)
-        vLine.position = CGPoint(x: scene.size.width/2 - vLine.size.width/2, y: -scene.size.height/2)
-        vLine.zPosition = -4
-        scene.addChild(vLine)
+//        let hLine = SKSpriteNode(color: .black, size: CGSize(width: scene.size.width, height: 3))
+//        hLine.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+//        hLine.position = CGPoint(x: scene.size.width/2, y: (-config.cardSize.height - config.spacing) * 3)
+//        hLine.zPosition = -4
+//        scene.addChild(hLine)
+//        
+//        let vLine = SKSpriteNode(color: .black, size: CGSize(width: 3, height: scene.size.height))
+//        vLine.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+//        vLine.position = CGPoint(x: scene.size.width/2, y: -scene.size.height/2)
+//        vLine.zPosition = -4
+//        scene.addChild(vLine)
     }
     
     //MARK: - Dice
     
-    mutating func newDice(to scene: SKScene) {
+    mutating func newDice(to scene: SKScene) -> PlayingDice {
         let dice = Dice(maxValue: 6)
         let playingDice = PlayingDice(dice: dice, size: config.diceSize)
         playingDice.zPosition = config.getZIndex()
         scene.addChild(playingDice)
         dices.append(playingDice)
         playingDice.update(position: diceSpawner.position)
+        return playingDice
     }
     
     mutating func deleteDice(to scene: SKScene, toDelete: PlayingDice) {
@@ -194,6 +195,13 @@ struct GameGraphics {
         }
         return nil
         
+    }
+    
+    func dropDiceOn(playingCard: PlayingCard, playingDice: PlayingDice) {
+        playingDice.name = "dice"
+        playingDice.removeFromParent()
+        playingCard.addChild(playingDice)
+        playingDice.update(position: CGPoint(x:0, y: 0))
     }
     
     //MARK: Helpers
@@ -269,7 +277,7 @@ struct GameGraphics {
                 //NOTE: This is integer division to reset the cards to the top of the column every 30 cards
                 let j : Int = i/30
                 let posX = startPos.x + CGFloat(j) * config.cardSize.width
-                let posY = startPos.y - CGFloat(i) * config.battlefierdSpacing + config.battlefierdSpacing * CGFloat(30 * j)
+                let posY = startPos.y - CGFloat(i) * config.battlefieldSpacing + config.battlefieldSpacing * CGFloat(30 * j)
                 let position = CGPoint(x: posX, y: posY)
                 currentPlayingCard.move(to: position)
                 i = i + 1
@@ -316,7 +324,7 @@ struct GameGraphics {
             for playingCard in playingCards {
                 
                 let currentPlayingCard = CurrentPlayingCard(playingCard: playingCard, startPosition: playingCard.position, touchPoint: playingCard.anchorPoint, location: location)
-                let position = CGPoint(x: stack.position.x + config.cardSize.width/2 - config.offsetX, y: stack.position.y - CGFloat(i) * config.battlefierdSpacing - config.cardSize.height/2 - config.offsetY)
+                let position = CGPoint(x: stack.position.x + config.cardSize.width/2 - config.offsetX, y: stack.position.y - CGFloat(i) * config.battlefieldSpacing - config.cardSize.height/2 - config.offsetY)
                 currentPlayingCard.move(to: position)
                 i = i + 1
             }
@@ -408,7 +416,7 @@ struct GameGraphics {
             let modelStack = modelField[stack]
             let cardCount = modelStack.cards.count - 1
             let deckPosition = graphicsStack.position
-            newPosition = CGPoint(x: deckPosition.x + config.cardSize.width/2 - config.offsetX, y: deckPosition.y - CGFloat(cardCount) * config.battlefierdSpacing - config.cardSize.height/2 - config.offsetY)
+            newPosition = CGPoint(x: deckPosition.x + config.cardSize.width/2 - config.offsetX, y: deckPosition.y - CGFloat(cardCount) * config.battlefieldSpacing - config.cardSize.height/2 - config.offsetY)
             playingCard.heldBy = "Battlefield"
         case .dataExtract():
             print("Error in move: Called dataExtract")
