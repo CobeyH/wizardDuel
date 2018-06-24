@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		0303327720A6026E00C7594B /* PlayingCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E396EB71EF3E4AB00F8696A /* PlayingCard.swift */; };
+		0312C4E720DF7C78008D0067 /* PlanewalkerBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0312C4E620DF7C78008D0067 /* PlanewalkerBold.otf */; };
+		0312C4EB20DF81DD008D0067 /* Planewalker.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0312C4EA20DF81DC008D0067 /* Planewalker.otf */; };
 		036EE1E220C85E3200A768A0 /* PlayingDice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 036EE1E120C85E3200A768A0 /* PlayingDice.swift */; };
 		03779E2A20B481C800F2DA43 /* testDeck2.txt in Resources */ = {isa = PBXBuildFile; fileRef = 03779E2920B481C700F2DA43 /* testDeck2.txt */; };
 		0378867020ACA38E00B2B2E4 /* MasterDeck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0378866F20ACA38E00B2B2E4 /* MasterDeck.swift */; };
@@ -65,6 +67,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0312C4E620DF7C78008D0067 /* PlanewalkerBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = PlanewalkerBold.otf; sourceTree = "<group>"; };
+		0312C4EA20DF81DC008D0067 /* Planewalker.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Planewalker.otf; sourceTree = "<group>"; };
 		036EE1E120C85E3200A768A0 /* PlayingDice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayingDice.swift; sourceTree = "<group>"; };
 		03779E2920B481C700F2DA43 /* testDeck2.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = testDeck2.txt; sourceTree = "<group>"; };
 		0378866F20ACA38E00B2B2E4 /* MasterDeck.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterDeck.swift; sourceTree = "<group>"; };
@@ -195,6 +199,8 @@
 				7E7EFE3D20CC363A00338E4A /* kittenDeck.txt */,
 				039785CC20A52CA0005C2F1C /* testDeck.txt */,
 				03779E2920B481C700F2DA43 /* testDeck2.txt */,
+				0312C4EA20DF81DC008D0067 /* Planewalker.otf */,
+				0312C4E620DF7C78008D0067 /* PlanewalkerBold.otf */,
 				03FACC6B20CB83AE00BC8F89 /* GoogleService-Info.plist */,
 			);
 			name = FreeCell2;
@@ -411,11 +417,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0312C4E720DF7C78008D0067 /* PlanewalkerBold.otf in Resources */,
 				4E396E8B1EF3DF8600F8696A /* Assets.xcassets in Resources */,
 				4E350B9E1F489BFF0009FD4B /* README in Resources */,
 				03779E2A20B481C800F2DA43 /* testDeck2.txt in Resources */,
 				4E396E8E1EF3DF8600F8696A /* Main.storyboard in Resources */,
 				039785CD20A52CA0005C2F1C /* testDeck.txt in Resources */,
+				0312C4EB20DF81DD008D0067 /* Planewalker.otf in Resources */,
 				7E7EFE3E20CC363B00338E4A /* kittenDeck.txt in Resources */,
 				03FACC6C20CB83AE00BC8F89 /* GoogleService-Info.plist in Resources */,
 				4E71F2531F439933002E66D3 /* GameScene.sks in Resources */,

@@ -10,12 +10,11 @@ import SpriteKit
 
 class Labels {
     private var config = GameGraphicsConfig()
-    
-    var shuffleDeck: SKLabelNode = SKLabelNode(fontNamed: "planewalker")
-    var newTurnButton: SKLabelNode = SKLabelNode(fontNamed: "planewalker")
+    var shuffleDeck: SKLabelNode = SKLabelNode(fontNamed: "Planewalker")
+    var newTurnButton: SKLabelNode = SKLabelNode(fontNamed: "Planewalker Bold")
     var cardDisplay: SKSpriteNode = SKSpriteNode(color: .red, size: CGSize(width: 50, height: 50))
-    let mulliganButton = SKLabelNode(fontNamed: "planewalker")
-    let keepButton = SKLabelNode(fontNamed: "planewalker")
+    let mulliganButton = SKLabelNode(fontNamed: "Planewalker Bold")
+    let keepButton = SKLabelNode(fontNamed: "Planewalker Bold")
     // Sets up all the labels for the deck count, graveyard count, etc.
     func setUpLabels(width: CGFloat, height: CGFloat, to scene: SKScene) {
        

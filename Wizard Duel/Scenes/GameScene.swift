@@ -514,12 +514,14 @@ extension GameScene: ViewControllerDelegate {
             game.new()
             gameGraphics.newGame(gameDecks: game.deck)
             gameGraphics.addCards(to: self)
-            for _ in 0..<(7 - mulliganCount) {
-                drawCard()
-                
-            }
-        labels.addMulligan(to: self)
-        
+        if mulliganCount < 7 {
+                for _ in 0..<(7 - mulliganCount) {
+    
+                    drawCard()
+                    
+                }
+            labels.addMulligan(to: self)
+        }
         
         
         if let playerName = UserDefaults.standard.string(forKey: "PlayerName") {
