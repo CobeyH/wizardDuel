@@ -18,6 +18,7 @@ struct GameGraphicsConfig {
     let offsetX: CGFloat
     let offsetY: CGFloat
     let margin: CGFloat
+    let playerInfoSize: CGSize
     
     let diceSize = CGSize(width: 40, height: 40)
     let cardMiddle = CGPoint(x: 0.5, y: 0.5)
@@ -34,14 +35,15 @@ struct GameGraphicsConfig {
     
     init() {
         let frame = NSScreen.main?.frame ?? CGRect.zero
-        let rect = frame
-        let height = rect.size.height / 7.5
-        let width = rect.size.width / 17.5
+        let rect = frame.size
+        let height = rect.height / 7.5
+        let width = rect.width / 17.5
         self.cardSize = CGSize(width: width, height: height)
         self.offsetX = CGFloat(width/2)
         self.offsetY = -CGFloat(height/2)
-        self.spacing = rect.size.height/100
-        self.margin = -rect.size.width/60
+        self.spacing = rect.height/100
+        self.margin = -rect.width/60
+        self.playerInfoSize = CGSize(width: rect.width / 19, height: rect.height / 7.5)
         
     }
 

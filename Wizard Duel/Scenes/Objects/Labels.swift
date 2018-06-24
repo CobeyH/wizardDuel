@@ -10,7 +10,7 @@ import SpriteKit
 
 class Labels {
     private var config = GameGraphicsConfig()
-    var shuffleDeck: SKLabelNode = SKLabelNode(fontNamed: "Planewalker")
+    var shuffleDeck: SKLabelNode = SKLabelNode(fontNamed: "Planewalker Bold")
     var newTurnButton: SKLabelNode = SKLabelNode(fontNamed: "Planewalker Bold")
     var cardDisplay: SKSpriteNode = SKSpriteNode(color: .red, size: CGSize(width: 50, height: 50))
     let mulliganButton = SKLabelNode(fontNamed: "Planewalker Bold")
@@ -79,7 +79,7 @@ class Labels {
         scene.addChild(keepButton)
     }
     
-    func handKept() {
+    func removeButtons() {
         mulliganButton.removeFromParent()
         keepButton.removeFromParent()
     }

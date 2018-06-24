@@ -18,12 +18,13 @@ struct GameGraphics {
     var hands: SKSpriteNode = SKSpriteNode(color: .red, size: CGSize(width: 75, height: 40))
     var deck: SKSpriteNode = SKSpriteNode(color: .red, size: CGSize(width: 75, height: 40))
     var allBattlefields: [[SKSpriteNode]] = [[], [], [], []]
-    var deckCount: SKLabelNode = SKLabelNode(fontNamed: "planewalker")
-    var diceSpawner: SKSpriteNode = SKSpriteNode(color: .red, size: CGSize(width: 75, height: 40))
+    private var deckCount: SKLabelNode = SKLabelNode(fontNamed: "planewalker")
+    private var diceSpawner: SKSpriteNode = SKSpriteNode(color: .red, size: CGSize(width: 75, height: 40))
     
     
     var cards: [PlayingCard] = []
-    var dices: [PlayingDice] = []
+    private var dices: [PlayingDice] = []
+    private var playerInfos: [PlayerInfo] = []
     
     //MARK: - Setup Methods
     mutating func setup(width: CGFloat, height: CGFloat) {
@@ -197,11 +198,27 @@ struct GameGraphics {
         
     }
     
-    func dropDiceOn(playingCard: PlayingCard, playingDice: PlayingDice) {
+    func drop(playingDice: PlayingDice, on playingCard: PlayingCard) {
         playingDice.name = "dice"
         playingDice.removeFromParent()
         playingCard.addChild(playingDice)
         playingDice.update(position: CGPoint(x:0, y: 0))
+    }
+    
+    //MARK: PlayerUpdates
+    
+    mutating func addPlayer(playerName: String, playerNumber: Int, lifeTotal: Int, to scene: SKScene) {
+        let player = PlayerInfo(lifeTotal: lifeTotal, playerName: playerName, playerNumber: playerNumber, to: scene)
+        playerInfos.append(player)
+    }
+    
+    func findPlayer(name: String) -> PlayerInfo? {
+        for playerInfo in playerInfos {
+            if playerInfo.playerName == name {
+                return playerInfo
+            }
+        }
+        return nil
     }
     
     //MARK: Helpers
@@ -444,6 +461,8 @@ struct GameGraphics {
         
         return card
     }
+    
+    
     
     mutating func deleteCard(playingCard: PlayingCard) {
         playingCard.removeFromParent()

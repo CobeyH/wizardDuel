@@ -69,7 +69,7 @@ class GameScene: SKScene {
             }
             else if labels.keepButton.contains(touchLocation) {
                 mulliganCount = 0
-                labels.handKept()
+                labels.removeButtons()
             }
             
             if labels.isNewTurnTapped(point: touchLocation) {
@@ -161,7 +161,7 @@ class GameScene: SKScene {
         //Accesses the database a sigle time to retrieve the players names.
         playerUpdate.observeSingleEvent(of: .value, with: { (snapshot) in
             self.playerNumber = Int(snapshot.childrenCount)
-            let playerDictonary = ["player": player, "playNumber": String(self.playerNumber)]
+            let playerDictonary = ["player": player, "playNumber": String(self.playerNumber), "lifeTotal": "40"]
             playerUpdate.childByAutoId().setValue(playerDictonary) {
                 (error, reference) in
                 if error != nil {
@@ -169,6 +169,7 @@ class GameScene: SKScene {
                 }
                 else {
                     print("Player Saved")
+                    self.gameGraphics.addPlayer(playerName: player, playerNumber: self.playerNumber, lifeTotal: 40, to: self)
                 }
             }
         }) { (error) in
@@ -204,6 +205,17 @@ class GameScene: SKScene {
                 }
             }
         })
+        let PlayerUpdate = Database.database().reference().child("players")
+        
+        PlayerUpdate.observe(.childAdded) { (snapshot) in
+            if snapshot.childrenCount != 0 {
+                self.processPlayerUpdate(snapshot: snapshot)
+            }
+        }
+        
+        PlayerUpdate.observe(.childChanged, with: { (snapshot) in
+            
+        })
     }
     
     func processUpdate(snapshot: DataSnapshot) {
@@ -230,7 +242,7 @@ class GameScene: SKScene {
                             location = previousLocation
                             if diceValue > 0 && playingCard.children.count == 0 {
                                let newPlayingDice = gameGraphics.newDice(to: self)
-                                gameGraphics.dropDiceOn(playingCard: playingCard, playingDice: newPlayingDice)
+                                gameGraphics.drop(playingDice: newPlayingDice, on: playingCard)
                             }
                             else if playingCard.children.count != 0 && diceValue == 0{
                                 playingCard.removeAllChildren()
@@ -266,6 +278,27 @@ class GameScene: SKScene {
             }
         }
     }
+    
+    private func processPlayerUpdate(snapshot: DataSnapshot) {
+        if let snapshotValue = snapshot.value as? Dictionary<String,String> {
+            if let playerName = snapshotValue["player"],
+                let playerNumber = Int(snapshotValue["playNumber"]!),
+                let lifeTotal = Int(snapshotValue["lifeTotal"]!) {
+                if playerNumber != self.playerNumber {
+                    if let player = gameGraphics.findPlayer(name: playerName) {
+                        player.lifeTotal = lifeTotal
+                        
+                    } else {
+                        gameGraphics.addPlayer(playerName: playerName, playerNumber: playerNumber, lifeTotal: lifeTotal, to: self)
+                    }
+                }
+                print("Player Number is: \(playerNumber)")
+            
+                
+            }
+        }
+    }
+        
     
     private func deleteFromDatabase() {
         Database.database().reference().child("Updates").child((currentPlayingCard?.playingCard.databaseRef)!).removeValue()
@@ -329,7 +362,7 @@ class GameScene: SKScene {
     override func keyDown(with event: NSEvent) {
         switch event.modifierFlags.intersection(.deviceIndependentFlagsMask) {
         case [.command] where event.characters == "f":
-            print("Command-F")
+//            print("Command-F")
             gameGraphics.displayDeck()
         case [.command] where event.characters == "c":
             Database.database().reference().child("players").removeValue()
@@ -339,7 +372,7 @@ class GameScene: SKScene {
         }
         if let firstCharacter = event.characters?.first {
             if firstCharacter == "\u{1b}" {
-                print("Esc")
+//                print("Esc")
                 gameGraphics.reconstructDeck()
             }
         }
@@ -396,7 +429,7 @@ class GameScene: SKScene {
     private func touchUp(atPoint pos: CGPoint) {
         if let dice = gameGraphics.findDice(point: pos) {
             if let playingCard = gameGraphics.cardFrom(position: pos) {
-                gameGraphics.dropDiceOn(playingCard: playingCard, playingDice: dice)
+                gameGraphics.drop(playingDice: dice, on: playingCard)
                 updateDatabase(playingCard: playingCard)
                 
             }
@@ -510,27 +543,26 @@ extension GameScene: ViewControllerDelegate {
     
     
     func newGame() {
-
-            game.new()
-            gameGraphics.newGame(gameDecks: game.deck)
-            gameGraphics.addCards(to: self)
+        labels.removeButtons()
+        game.new()
+        gameGraphics.newGame(gameDecks: game.deck)
+        gameGraphics.addCards(to: self)
         if mulliganCount < 7 {
-                for _ in 0..<(7 - mulliganCount) {
-    
-                    drawCard()
-                    
-                }
+            for _ in 0..<(7 - mulliganCount) {
+                drawCard()
+                
+            }
+        }
+        if mulliganCount == 0 {
             labels.addMulligan(to: self)
+            
+            if let playerName = UserDefaults.standard.string(forKey: "PlayerName") {
+                updatePlayer(playerName)
+            }
+            else {
+                print("No Player Name")
+            }
         }
-        
-        
-        if let playerName = UserDefaults.standard.string(forKey: "PlayerName") {
-            updatePlayer(playerName)
-        }
-        else {
-            print("No Player Name")
-        }
-        
     }
     
 }

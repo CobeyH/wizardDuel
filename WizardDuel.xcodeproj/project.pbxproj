@@ -12,6 +12,7 @@
 		03779E2A20B481C800F2DA43 /* testDeck2.txt in Resources */ = {isa = PBXBuildFile; fileRef = 03779E2920B481C700F2DA43 /* testDeck2.txt */; };
 		0378867020ACA38E00B2B2E4 /* MasterDeck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0378866F20ACA38E00B2B2E4 /* MasterDeck.swift */; };
 		039785CD20A52CA0005C2F1C /* testDeck.txt in Resources */ = {isa = PBXBuildFile; fileRef = 039785CC20A52CA0005C2F1C /* testDeck.txt */; };
+		03B8994720E03E5200CBEFDC /* PlayerInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B8994620E03E5200CBEFDC /* PlayerInfo.swift */; };
 		03D5AD4120A8C8AE001E29CE /* Battlefield.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03D5AD4020A8C8AE001E29CE /* Battlefield.swift */; };
 		03EE278320C70B8E00427770 /* Dice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03EE278220C70B8E00427770 /* Dice.swift */; };
 		03F157B220BC856D000301EB /* LoginInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03F157B120BC856D000301EB /* LoginInfo.swift */; };
@@ -70,6 +71,7 @@
 		03779E2920B481C700F2DA43 /* testDeck2.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = testDeck2.txt; sourceTree = "<group>"; };
 		0378866F20ACA38E00B2B2E4 /* MasterDeck.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterDeck.swift; sourceTree = "<group>"; };
 		039785CC20A52CA0005C2F1C /* testDeck.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = testDeck.txt; sourceTree = "<group>"; };
+		03B8994620E03E5200CBEFDC /* PlayerInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerInfo.swift; sourceTree = "<group>"; };
 		03D5AD4020A8C8AE001E29CE /* Battlefield.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Battlefield.swift; sourceTree = "<group>"; };
 		03EE278220C70B8E00427770 /* Dice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dice.swift; sourceTree = "<group>"; };
 		03F157B120BC856D000301EB /* LoginInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoginInfo.swift; path = "Wizard Duel/Model/Game/LoginInfo.swift"; sourceTree = SOURCE_ROOT; };
@@ -218,6 +220,7 @@
 			isa = PBXGroup;
 			children = (
 				4E396EB71EF3E4AB00F8696A /* PlayingCard.swift */,
+				03B8994620E03E5200CBEFDC /* PlayerInfo.swift */,
 				036EE1E120C85E3200A768A0 /* PlayingDice.swift */,
 				4EF3F2981F48795D004197A8 /* CurrentPlayingCard.swift */,
 				03F7197220B0A16900B70122 /* Labels.swift */,
@@ -474,7 +477,7 @@
 		};
 		7ED1E33A20D4461700BC762B /* Copy Card Images */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 12;
+			buildActionMask = 8;
 			files = (
 			);
 			inputPaths = (
@@ -482,7 +485,7 @@
 			name = "Copy Card Images";
 			outputPaths = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
+			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
 			shellScript = "#!/bin/sh\n\nset -e\n\necho \"$SRCROOT\"\nrsync -r \"$SRCROOT/Wizard Duel/Content/\" \"$TARGET_BUILD_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH\"\n";
 			showEnvVarsInLog = 0;
@@ -539,6 +542,7 @@
 				03EE278320C70B8E00427770 /* Dice.swift in Sources */,
 				4E396E811EF3DF8600F8696A /* AppDelegate.swift in Sources */,
 				4E71F1E91F438955002E66D3 /* Graveyard.swift in Sources */,
+				03B8994720E03E5200CBEFDC /* PlayerInfo.swift in Sources */,
 				4E2E3F0D1F56288E00BF0862 /* Resetable.swift in Sources */,
 				4E7B17841F5AFAB100D771FC /* GameResult.swift in Sources */,
 				0303327720A6026E00C7594B /* PlayingCard.swift in Sources */,
