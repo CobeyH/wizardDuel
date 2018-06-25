@@ -558,7 +558,13 @@ extension GameScene: ViewControllerDelegate {
         if mulliganCount < 7 {
             for _ in 0..<(7 - mulliganCount % 7) {
                 drawCard()
-                
+            }
+            var commander: CurrentPlayingCard?
+            for playingCard in gameGraphics.cards {
+                if playingCard.card.name == game.commander {
+                    commander = CurrentPlayingCard(playingCard: playingCard, startPosition: gameGraphics.deck.position, touchPoint: gameGraphics.deck.position, location: .deck())
+                    moveLocation(currentPlayingCard: commander!, location: .graveyard(2))
+                }
             }
         }
         labels.addMulligan(to: self)

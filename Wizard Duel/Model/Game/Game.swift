@@ -21,6 +21,7 @@ class Game {
     var allBattlefields: [[Battlefield]] = [[],[],[],[]]
     let deck: Deck
     let dataExtract: MasterDeck
+    var commander: String
     
     // MARK: - Computed properties
     var isGameOver: Bool {
@@ -43,12 +44,14 @@ class Game {
             allBattlefields[i] = (0 ... 50).map({ _ in Battlefield() })
         }
         deck = Deck()
-        
+        commander = "none"
     }
     
     // MARK: - Methods
     func new() {
-        let cards = Card.deck().shuffled()
+        let deckTouple = Card.deck()
+        let cards = deckTouple.0.shuffled()
+        commander = deckTouple.1
         graveyards.forEach({ $0.cards = [] })
         for i in 0...3 {
             allBattlefields[i].forEach({ $0.cards = [] })

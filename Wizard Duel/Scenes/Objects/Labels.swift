@@ -26,7 +26,7 @@ class Labels {
         cardDisplay.size = CGSize(width: config.cardSize.width * 2.5, height: config.cardSize.height * 2.5)
         cardDisplay.anchorPoint = CGPoint(x: 1, y: 1)
         cardDisplay.position = CGPoint(x: width - cardDisplay.size.width/2, y: -cardDisplay.size.height/2)
-        cardDisplay.zPosition = config.getZIndex()
+        cardDisplay.zPosition = 500
         scene.addChild(cardDisplay)
         
         //New turn button

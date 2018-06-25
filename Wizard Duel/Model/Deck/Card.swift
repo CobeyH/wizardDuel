@@ -18,8 +18,8 @@ struct Card {
         self.name = name
     }
     
-    static func deck() -> [Card] {
-        var deckURL : URL?
+    static func deck() -> ([Card], String) {
+         var deckURL : URL?
         
         // Uncomment the next line for debugging to load the deck file of your choice
 //        deckURL = Bundle.main.url(forResource: "kittenDeck", withExtension: "txt")
@@ -42,7 +42,8 @@ struct Card {
     
 }
 
-func cardsFromFile(url: URL?) -> [Card] {
+func cardsFromFile(url: URL?) -> ([Card],String) {
+    var commander: String?
     var cards: [Card] = []
     if let url = url {
         do {
@@ -57,7 +58,11 @@ func cardsFromFile(url: URL?) -> [Card] {
                 if cardInfo.count > 3 {
                     let cardInfoArray = cardInfo.split(separator: " ", maxSplits: 1)
                     if let numberOfCards = Int(String((cardInfoArray.first)!)) {
-                        let cardName = String(cardInfoArray.last!)
+                        var cardName = String(cardInfoArray.last!)
+                        if cardName.hasPrefix("*") {
+                            cardName.remove(at: cardName.startIndex)
+                            commander = cardName
+                        }
                         
                         //Appends each card to the deck x times where x is the numberOfCards specified.
                         for _ in 0..<numberOfCards {
@@ -72,8 +77,13 @@ func cardsFromFile(url: URL?) -> [Card] {
     } else {
         print("Could not find file")
     }
+    if commander != nil {
+        return (cards, commander!)
+    }
+    else {
+        return(cards, "nil")
+    }
     
-    return cards
 }
 
 extension Card: Equatable {

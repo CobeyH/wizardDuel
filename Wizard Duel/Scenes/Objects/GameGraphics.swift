@@ -56,7 +56,7 @@ struct GameGraphics {
         //Sets up the dice
         diceSpawner.texture = SKTexture(imageNamed: "dice1")
         diceSpawner.size = CGSize(width: 30, height: 30)
-        diceSpawner.position = CGPoint(x: deck.position.x + config.cardSize.width*3, y: -height + diceSpawner.size.height/2)
+        diceSpawner.position = CGPoint(x: deck.position.x + config.cardSize.width * 4, y: -height + diceSpawner.size.height/2)
         diceSpawner.anchorPoint = CGPoint(x:0.5, y:0.5)
         
         // sets of the two Graveyards to the right of the deck
@@ -267,16 +267,19 @@ struct GameGraphics {
         for playingCard in cards {
             if let databaseRef = playingCard.databaseRef {
                 database.child(databaseRef).observeSingleEvent(of: .value, with: {(snapshot) in
-                    let value = snapshot.value as! NSDictionary
+                    if let value = snapshot.value as? NSDictionary {
                     let databaseSender = value["Sender"] as? String
                     let senderInt = Int(databaseSender!)
                     if playingCard.tapped && senderInt == sender {
                         self.tapCard(card: playingCard)
                         tappedCards.append(playingCard)
-                    
+                        Database.database().reference().child("Updates").child(playingCard.databaseRef!).updateChildValues(["Tapped": "false"])
                 }
-                    Database.database().reference().child("Updates").child(playingCard.databaseRef!).updateChildValues(["Tapped": "false"])
-                })
+                    }
+                    
+                    })
+                
+                
                
             }
             
