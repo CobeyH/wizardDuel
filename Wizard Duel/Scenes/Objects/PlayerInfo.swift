@@ -29,10 +29,12 @@ class PlayerInfo: SKSpriteNode {
         
         let nameLabel = SKLabelNode()
         let healthLabel = SKLabelNode()
-//        let healthUpLabels = SKLabelNode()
-//        let healthDownLabel = SKLabelNode()
+        let healthUpLabel = SKLabelNode()
+        let healthDownLabel = SKLabelNode()
         labels.append(nameLabel)
         labels.append(healthLabel)
+        labels.append(healthUpLabel)
+        labels.append(healthDownLabel)
         
         for (i,label) in labels.enumerated() {
             label.fontSize = 25
@@ -45,6 +47,8 @@ class PlayerInfo: SKSpriteNode {
         
         nameLabel.text = playerName
         healthLabel.text = "40"
+        healthUpLabel.text = "+"
+        healthDownLabel.text = "-"
 
     }
     

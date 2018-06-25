@@ -22,7 +22,7 @@ struct Card {
         var deckURL : URL?
         
         // Uncomment the next line for debugging to load the deck file of your choice
-        deckURL = Bundle.main.url(forResource: "kittenDeck", withExtension: "txt")
+//        deckURL = Bundle.main.url(forResource: "kittenDeck", withExtension: "txt")
         
         if deckURL == nil {
             //Adds a popup window when the app is launched to ask the player to select a deck

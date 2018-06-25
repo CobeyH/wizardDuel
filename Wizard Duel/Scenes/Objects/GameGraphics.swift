@@ -31,6 +31,7 @@ struct GameGraphics {
         let baseZPosition: CGFloat = config.zIndexIncrement
         
         
+        
         // Sets up the hand at the bottom of the screen
         hands.color = config.backgroundColour
         hands.size = CGSize(width: config.cardSize.width * 7, height: config.cardSize.height)
@@ -221,6 +222,12 @@ struct GameGraphics {
         return nil
     }
     
+    func reset() {
+        for playerInfo in playerInfos {
+            playerInfo.removeFromParent()
+        }
+    }
+    
     //MARK: Helpers
     
     //Returns the playingcards found at a specific location and returns the one with the greatest z position
@@ -259,16 +266,22 @@ struct GameGraphics {
         var tappedCards: [PlayingCard] = []
         for playingCard in cards {
             if let databaseRef = playingCard.databaseRef {
-                database.child(databaseRef).observe(.value, with: { (snapshot) in
-                    if let snapshotValue = snapshot.value as? Dictionary<String,String> {
-                        if playingCard.tapped && Int(snapshotValue["Sender"]!) == sender {
-                            self.tapCard(card: playingCard)
-                            tappedCards.append(playingCard)
-                        }
-                    }
+                database.child(databaseRef).observeSingleEvent(of: .value, with: {(snapshot) in
+                    let value = snapshot.value as! NSDictionary
+                    let databaseSender = value["Sender"] as? String
+                    let senderInt = Int(databaseSender!)
+                    if playingCard.tapped && senderInt == sender {
+                        self.tapCard(card: playingCard)
+                        tappedCards.append(playingCard)
+                    
+                }
+                    Database.database().reference().child("Updates").child(playingCard.databaseRef!).updateChildValues(["Tapped": "false"])
                 })
+               
             }
+            
         }
+        print(tappedCards)
         return tappedCards
     }
     

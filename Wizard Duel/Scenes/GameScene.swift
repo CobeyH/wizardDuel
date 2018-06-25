@@ -72,7 +72,7 @@ class GameScene: SKScene {
                 labels.removeButtons()
             }
             
-            if labels.isNewTurnTapped(point: touchLocation) {
+            else if labels.isNewTurnTapped(point: touchLocation) {
                 let tappedCards = gameGraphics.newTurn(sender: playerNumber)
                 drawCard()
                 for playingCard in tappedCards {
@@ -320,19 +320,22 @@ class GameScene: SKScene {
         let position = event.location(in: self)
         if let playingCard = gameGraphics.cardFrom(position: position) {
             if let playingDice = playingCard.childNode(withName: "dice") as? PlayingDice {
-                playingDice.dice.diceDown()
-                updateDatabase(playingCard: playingCard)
-                if playingDice.dice.value < 1 {
-                    gameGraphics.deleteDice(to: self, toDelete: playingDice)
+                if playingDice.contains(convert(position, to: playingDice)) {
+                    playingDice.dice.diceDown()
+                    updateDatabase(playingCard: playingCard)
+                    if playingDice.dice.value < 1 {
+                        gameGraphics.deleteDice(to: self, toDelete: playingDice)
+                    }
+                        
+                    else {
+                        playingDice.setTexture()
+                    }
+                    return
                 }
-                    
-                else {
-                    playingDice.setTexture()
-                }
-                return
             }
             
         }
+    
         
         if let playingCard = gameGraphics.cardFrom(position: position) {
             if playingCard.texture != SKTexture(imageNamed: "cardback") {
@@ -544,17 +547,24 @@ extension GameScene: ViewControllerDelegate {
     
     func newGame() {
         labels.removeButtons()
-        game.new()
+        if mulliganCount == 0 {
+            game.new()
+        }
+        else {
+            gameGraphics.shuffleDeck()
+        }
         gameGraphics.newGame(gameDecks: game.deck)
         gameGraphics.addCards(to: self)
         if mulliganCount < 7 {
-            for _ in 0..<(7 - mulliganCount) {
+            for _ in 0..<(7 - mulliganCount % 7) {
                 drawCard()
                 
             }
         }
+        labels.addMulligan(to: self)
         if mulliganCount == 0 {
-            labels.addMulligan(to: self)
+            gameGraphics.reset()
+            
             
             if let playerName = UserDefaults.standard.string(forKey: "PlayerName") {
                 updatePlayer(playerName)
