@@ -17,7 +17,7 @@
 1 Hammer of Nazahn
 1 Honor of the Pure
 1 Isamaru, Hound of Konda
-1 Kemba, Kha Regent
+1 *Kemba, Kha Regent
 1 Knight of the White Orchid
 1 Konda's Banner
 1 Leonin Abunas

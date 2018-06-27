@@ -1,0 +1,54 @@
+diff --git a/Wizard Duel/Scenes/Objects/PlayingCard.swift b/Wizard Duel/Scenes/Objects/PlayingCard.swift
+index 7383efdc..980bebc4 100644
+--- a/Wizard Duel/Scenes/Objects/PlayingCard.swift	
++++ b/Wizard Duel/Scenes/Objects/PlayingCard.swift	
+@@ -7,6 +7,7 @@
+ //
+ 
+ import SpriteKit
++import FirebaseDatabase
+ 
+ final class PlayingCard: SKSpriteNode {
+     //Holds the filename of the card
+@@ -15,11 +16,15 @@ final class PlayingCard: SKSpriteNode {
+     var tapped = false
+     //A string indication of where the card currently is
+     var heldBy = "Deck"
++    let databaseRef: DatabaseReference?
+ 
+     //Creates a playing card Sprite which is assigned the texture of the back of the card. It inherits its other properties from the card struct
+-    init(card: Card, size: CGSize) {
++    init(card: Card, size: CGSize, databaseRef: DatabaseReference?) {
+         let texture = SKTexture(imageNamed: "cardback")
+         self.card = card
++        if databaseRef != nil {
++            self.databaseRef = databaseRef!
++        }
+         super.init(texture: texture, color: .clear, size: size)
+         self.name = card.name
+     }
+diff --git a/WizardDuel.xcodeproj/project.pbxproj b/WizardDuel.xcodeproj/project.pbxproj
+index da2b392d..908f74e4 100644
+--- a/WizardDuel.xcodeproj/project.pbxproj
++++ b/WizardDuel.xcodeproj/project.pbxproj
+@@ -470,7 +470,7 @@
+ 		};
+ 		7ED1E33A20D4461700BC762B /* Copy Card Images */ = {
+ 			isa = PBXShellScriptBuildPhase;
+-			buildActionMask = 12;
++			buildActionMask = 8;
+ 			files = (
+ 			);
+ 			inputPaths = (
+@@ -478,7 +478,7 @@
+ 			name = "Copy Card Images";
+ 			outputPaths = (
+ 			);
+-			runOnlyForDeploymentPostprocessing = 0;
++			runOnlyForDeploymentPostprocessing = 1;
+ 			shellPath = /bin/sh;
+ 			shellScript = "#!/bin/sh\n\nset -e\n\necho \"$SRCROOT\"\nrsync -r \"$SRCROOT/Wizard Duel/Content/\" \"$TARGET_BUILD_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH\"\n";
+ 			showEnvVarsInLog = 0;
+diff --git a/WizardDuel.xcworkspace/xcuserdata/cobeyhollier.xcuserdatad/UserInterfaceState.xcuserstate b/WizardDuel.xcworkspace/xcuserdata/cobeyhollier.xcuserdatad/UserInterfaceState.xcuserstate
+index 62277eef..5915f6e6 100644
+Binary files a/WizardDuel.xcworkspace/xcuserdata/cobeyhollier.xcuserdatad/UserInterfaceState.xcuserstate and b/WizardDuel.xcworkspace/xcuserdata/cobeyhollier.xcuserdatad/UserInterfaceState.xcuserstate differ

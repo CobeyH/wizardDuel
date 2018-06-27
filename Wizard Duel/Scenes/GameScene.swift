@@ -169,7 +169,13 @@ class GameScene: SKScene {
                 }
                 else {
                     print("Player Saved")
-                    self.gameGraphics.addPlayer(playerName: player, playerNumber: self.playerNumber, lifeTotal: 40, to: self)
+                    self.gameGraphics.addPlayer(playerName: player, playerNumber: self.playerNumber, lifeTotal: 40, to: self, playerNumberSelf: self.playerNumber)
+                    playerUpdate.observeSingleEvent(of: .value, with: { snapshot in
+                        print(snapshot.childrenCount) // I got the expected number of items
+                        for player in snapshot.children.allObjects as! [DataSnapshot] {
+                            self.processPlayerUpdate(snapshot: player)
+                        }
+                    })
                 }
             }
         }) { (error) in
@@ -178,6 +184,7 @@ class GameScene: SKScene {
         databaseRef.child("Updates").removeValue()
     }
     
+    //Retrieves an update or addition of a card from the database. Can fetch new dice, dice updates, card taps, and new cards.
     func retrieveUpdates() {
         let cardUpdate = Database.database().reference().child("Updates")
         cardUpdate.observe(.childAdded) { (snapshot) in
@@ -214,10 +221,11 @@ class GameScene: SKScene {
         }
         
         PlayerUpdate.observe(.childChanged, with: { (snapshot) in
-            
+            //Mark: TODO
         })
     }
     
+    //Processes the update of card on the local game to unsure that all version of the game are up to date with each other.
     func processUpdate(snapshot: DataSnapshot) {
         if let snapshotValue = snapshot.value as? Dictionary<String,String> {
             if let cardName = snapshotValue["Card"],
@@ -279,6 +287,7 @@ class GameScene: SKScene {
         }
     }
     
+    //Processes an update when a new player is added to the database or life is changed. Creates a player info label or updates the existing one.
     private func processPlayerUpdate(snapshot: DataSnapshot) {
         if let snapshotValue = snapshot.value as? Dictionary<String,String> {
             if let playerName = snapshotValue["player"],
@@ -289,7 +298,7 @@ class GameScene: SKScene {
                         player.lifeTotal = lifeTotal
                         
                     } else {
-                        gameGraphics.addPlayer(playerName: playerName, playerNumber: playerNumber, lifeTotal: lifeTotal, to: self)
+                        gameGraphics.addPlayer(playerName: playerName, playerNumber: playerNumber, lifeTotal: lifeTotal, to: self, playerNumberSelf: self.playerNumber)
                     }
                 }
                 print("Player Number is: \(playerNumber)")
@@ -299,11 +308,12 @@ class GameScene: SKScene {
         }
     }
         
-    
+    //Clears the database in preperation of a new game.
     private func deleteFromDatabase() {
         Database.database().reference().child("Updates").child((currentPlayingCard?.playingCard.databaseRef)!).removeValue()
     }
     
+    //Determines what field to place a card on relative to the local user to ensure consistant player order.
     private func findField(sender: Int, relativeField: Int) -> Int {
         return (4 + sender - self.playerNumber + relativeField) % 4
     }
