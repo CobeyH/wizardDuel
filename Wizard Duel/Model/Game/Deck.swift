@@ -34,7 +34,9 @@ final class Deck: ContainsCard {
     }
     
     func removeCard(card: Card) {
-        cards.remove(at: cards.index(of: card)!)
+        if let index = cards.index(of: card) {
+            cards.remove(at: index)
+        }
     }
 
 

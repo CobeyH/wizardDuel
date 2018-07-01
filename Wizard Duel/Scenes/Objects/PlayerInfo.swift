@@ -14,23 +14,30 @@ class PlayerInfo: SKSpriteNode {
     let playerNumber: Int
     var lifeTotal: Int
     var labels: [SKLabelNode] = []
+    let healthUpLabel: SKLabelNode
+    let healthDownLabel: SKLabelNode
+    let healthLabel: SKLabelNode
+    let databaseKey: String
     
-    
-    init(lifeTotal: Int, playerName: String, playerNumber: Int, to scene: SKScene) {
+    init(lifeTotal: Int, playerName: String, playerNumber: Int, to scene: SKScene, databaseKey: String) {
         let texture = SKTexture(imageNamed: "4")
         let size = config.playerInfoSize
         self.playerName = playerName
         self.playerNumber = playerNumber
+        self.healthUpLabel = SKLabelNode()
+        self.healthDownLabel = SKLabelNode()
         self.lifeTotal = lifeTotal
+        self.healthLabel = SKLabelNode()
+        self.databaseKey = databaseKey
+        
         
         super.init(texture: texture, color: .clear, size: size)
         self.anchorPoint = CGPoint(x: 0.5, y: 1)
         scene.addChild(self)
         
         let nameLabel = SKLabelNode()
-        let healthLabel = SKLabelNode()
-        let healthUpLabel = SKLabelNode()
-        let healthDownLabel = SKLabelNode()
+        
+     
         labels.append(nameLabel)
         labels.append(healthLabel)
         labels.append(healthUpLabel)
@@ -41,6 +48,8 @@ class PlayerInfo: SKSpriteNode {
             label.fontName = "Planewalker"
             label.zPosition = config.zIndex
             label.position = CGPoint(x: 0, y: CGFloat(-(i + 1) * 30))
+            label.horizontalAlignmentMode = .center
+            label.verticalAlignmentMode = .center
             self.addChild(label)
         }
         
@@ -49,7 +58,8 @@ class PlayerInfo: SKSpriteNode {
         healthLabel.text = "40"
         healthUpLabel.text = "+"
         healthDownLabel.text = "-"
-
+        healthUpLabel.position = CGPoint(x: config.playerInfoSize.width/4, y: healthLabel.position.y)
+        healthDownLabel.position = CGPoint(x: -config.playerInfoSize.width/4, y: healthLabel.position.y)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -60,6 +70,7 @@ class PlayerInfo: SKSpriteNode {
         let infoLocations = [CGPoint(x: config.playerInfoSize.width/2, y: -config.screenHeight/2 + config.playerInfoSize.height/2) ,CGPoint(x: config.playerInfoSize.width/2, y: 0), CGPoint(x: config.screenWidth - config.playerInfoSize.width/2, y: 0), CGPoint(x: config.screenWidth - config.playerInfoSize.width/2, y: -config.screenHeight/2 + config.playerInfoSize.height/2)]
         self.position = infoLocations[(4 + Int(playerNumber) - playerNumberSelf) % 4]
     }
+    
     
     func getLife() -> Int {
         return lifeTotal
@@ -72,6 +83,10 @@ class PlayerInfo: SKSpriteNode {
     func lifeUp() {
         lifeTotal = lifeTotal + 1
         
+    }
+    
+    func updateLife() {
+        healthLabel.text = String(lifeTotal)
     }
     
 }

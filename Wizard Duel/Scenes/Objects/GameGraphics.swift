@@ -208,8 +208,8 @@ struct GameGraphics {
     
     //MARK: PlayerUpdates
     
-    mutating func addPlayer(playerName: String, playerNumber: Int, lifeTotal: Int, to scene: SKScene, playerNumberSelf: Int) {
-        let player = PlayerInfo(lifeTotal: lifeTotal, playerName: playerName, playerNumber: playerNumber, to: scene)
+    mutating func addPlayer(playerName: String, playerNumber: Int, lifeTotal: Int, to scene: SKScene, playerNumberSelf: Int, databaseKey: String) {
+        let player = PlayerInfo(lifeTotal: lifeTotal, playerName: playerName, playerNumber: playerNumber, to: scene, databaseKey: databaseKey)
         playerInfos.append(player)
         player.movePlayerInfo(playerNumberSelf: playerNumberSelf)
     }
@@ -217,6 +217,15 @@ struct GameGraphics {
     func findPlayer(name: String) -> PlayerInfo? {
         for playerInfo in playerInfos {
             if playerInfo.playerName == name {
+                return playerInfo
+            }
+        }
+        return nil
+    }
+    
+    func findPlayer(at point: CGPoint) -> PlayerInfo? {
+        for playerInfo in playerInfos {
+            if playerInfo.contains(point) {
                 return playerInfo
             }
         }

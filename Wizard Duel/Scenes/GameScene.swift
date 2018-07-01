@@ -28,21 +28,17 @@ class GameScene: SKScene {
     override func sceneDidLoad() {
         super.sceneDidLoad()
         anchorPoint = CGPoint(x: 0, y: 1)
-        
+        //Log in to the firebase database and set up observes for changes in the database
         FirebaseApp.configure()
-        
         let login = loginInfo()
-        
         Auth.auth().signIn(withEmail: login.username, password: login.password) { (user, error) in
             if error != nil {
                 print(error!)
             } else {
                 print("login Successful")
             }
-            
         }
         retrieveUpdates()
-        
     }
     
     override func didMove(to view: SKView) {
@@ -63,15 +59,17 @@ class GameScene: SKScene {
         if sender.state == .ended {
             var touchLocation: CGPoint = sender.location(in: sender.view)
             touchLocation = self.convertPoint(fromView: touchLocation)
+            //On new game checks if the mulligan button has been pressed
             if labels.mulliganButton.contains(touchLocation) {
                 mulliganCount = mulliganCount + 1
                 newGame()
             }
+            //On new game checks if the keep hand button has been pressed
             else if labels.keepButton.contains(touchLocation) {
                 mulliganCount = 0
                 labels.removeButtons()
             }
-            
+            //Checks if the new turn button has been pressed
             else if labels.isNewTurnTapped(point: touchLocation) {
                 let tappedCards = gameGraphics.newTurn(sender: playerNumber)
                 drawCard()
@@ -80,10 +78,12 @@ class GameScene: SKScene {
                 }
                 return
             }
+            //Checks if the shuffle button has been tapped
             if labels.isShuffleTapped(point: touchLocation) {
                 gameGraphics.shuffleDeck()
                 gameGraphics.reconstructDeck()
             }
+            //Increased the dice on a playing card if a dice is tapped
             if let playingCard = gameGraphics.cardFrom(position: touchLocation) {
                 if let playingDice = playingCard.childNode(withName: "dice") as? PlayingDice {
                     if playingDice.contains(convert(touchLocation, to: playingDice)) {
@@ -95,24 +95,35 @@ class GameScene: SKScene {
                     }
                 }
             }
-            
+            //Taps a card if it is pressed and the tap is not on a dice.
             if let playingCard = gameGraphics.cardFrom(position: touchLocation) {
                 if playingCard.heldBy == "Battlefield" {
                     gameGraphics.tapCard(card: playingCard)
                     Database.database().reference().child("Updates").child(playingCard.databaseRef!).updateChildValues(["Tapped": String(playingCard.tapped), "Sender": String(playerNumber)])
                 }
             }
+            //Checks if a a player info box is tapped and updates life totals locally and in the database.
+            if let playerInfo = gameGraphics.findPlayer(at: touchLocation) {
+                let childPoint = convert(touchLocation, to: playerInfo)
+                if playerInfo.healthUpLabel.contains(childPoint) {
+                    playerInfo.lifeUp()
+                }
+                else if playerInfo.healthDownLabel.contains(childPoint) {
+                    playerInfo.lifeDown()
+                }
+                playerInfo.updateLife()
+                Database.database().reference().child("players").child(playerInfo.databaseKey).updateChildValues(["lifeTotal": String(playerInfo.getLife())])
+            }
+            
         }
     }
     
+    //If a double tap is detected on the deck a card will be drawn
     @objc func doubleTap(sender: NSClickGestureRecognizer) {
         if sender.state == .ended {
             var touchLocation: CGPoint = sender.location(in: sender.view)
-            
             touchLocation = self.convertPoint(fromView: touchLocation)
-            
             if let playingCard = gameGraphics.cardFrom(position: touchLocation) {
-                
                 if playingCard.heldBy == "Deck" {
                     self.drawCard()
                 }
@@ -151,9 +162,8 @@ class GameScene: SKScene {
     }
     
     
-    
     //Adds the player to the database when they join the game
-    func updatePlayer(_ player: String) {
+    func addToDatabase(_ player: String) {
         
         //Creates a new child database to store the players names.
         let databaseRef = Database.database().reference()
@@ -162,20 +172,21 @@ class GameScene: SKScene {
         playerUpdate.observeSingleEvent(of: .value, with: { (snapshot) in
             self.playerNumber = Int(snapshot.childrenCount)
             let playerDictonary = ["player": player, "playNumber": String(self.playerNumber), "lifeTotal": "40"]
-            playerUpdate.childByAutoId().setValue(playerDictonary) {
+            let databaseRef = playerUpdate.childByAutoId()
+            self.gameGraphics.addPlayer(playerName: player, playerNumber: self.playerNumber, lifeTotal: 40, to: self, playerNumberSelf: self.playerNumber, databaseKey: databaseRef.key)
+                databaseRef.setValue(playerDictonary) {
                 (error, reference) in
                 if error != nil {
                     print(error!)
                 }
                 else {
                     print("Player Saved")
-                    self.gameGraphics.addPlayer(playerName: player, playerNumber: self.playerNumber, lifeTotal: 40, to: self, playerNumberSelf: self.playerNumber)
-                    playerUpdate.observeSingleEvent(of: .value, with: { snapshot in
-                        print(snapshot.childrenCount) // I got the expected number of items
+                    
+                   
                         for player in snapshot.children.allObjects as! [DataSnapshot] {
                             self.processPlayerUpdate(snapshot: player)
                         }
-                    })
+                
                 }
             }
         }) { (error) in
@@ -196,6 +207,7 @@ class GameScene: SKScene {
             self.processUpdate(snapshot: snapshot)
         })
         
+        //Deletes a card from the database if the card is removed from the battlefield
         cardUpdate.observe(.childRemoved, with: { (snapshot) in
             if let snapshotValue = snapshot.value as? Dictionary<String,String> {
                 let sender = Int(snapshotValue["Sender"]!)
@@ -212,16 +224,16 @@ class GameScene: SKScene {
                 }
             }
         })
-        let PlayerUpdate = Database.database().reference().child("players")
+        let playerUpdate = Database.database().reference().child("players")
         
-        PlayerUpdate.observe(.childAdded) { (snapshot) in
+        playerUpdate.observe(.childAdded) { (snapshot) in
             if snapshot.childrenCount != 0 {
                 self.processPlayerUpdate(snapshot: snapshot)
             }
         }
         
-        PlayerUpdate.observe(.childChanged, with: { (snapshot) in
-            //Mark: TODO
+        playerUpdate.observe(.childChanged, with: { (snapshot) in
+            self.processPlayerUpdate(snapshot: snapshot)
         })
     }
     
@@ -293,14 +305,14 @@ class GameScene: SKScene {
             if let playerName = snapshotValue["player"],
                 let playerNumber = Int(snapshotValue["playNumber"]!),
                 let lifeTotal = Int(snapshotValue["lifeTotal"]!) {
-                if playerNumber != self.playerNumber {
                     if let player = gameGraphics.findPlayer(name: playerName) {
                         player.lifeTotal = lifeTotal
+                        player.updateLife()
                         
                     } else {
-                        gameGraphics.addPlayer(playerName: playerName, playerNumber: playerNumber, lifeTotal: lifeTotal, to: self, playerNumberSelf: self.playerNumber)
+                        gameGraphics.addPlayer(playerName: playerName, playerNumber: playerNumber, lifeTotal: lifeTotal, to: self, playerNumberSelf: self.playerNumber, databaseKey: snapshot.key)
                     }
-                }
+                
                 print("Player Number is: \(playerNumber)")
             
                 
@@ -385,7 +397,6 @@ class GameScene: SKScene {
         }
         if let firstCharacter = event.characters?.first {
             if firstCharacter == "\u{1b}" {
-//                print("Esc")
                 gameGraphics.reconstructDeck()
             }
         }
@@ -535,16 +546,13 @@ class GameScene: SKScene {
         }
         
         self.currentPlayingCard = nil
-        
         gameGraphics.update(gameDeck: game.deck)
-        
     }
     
     private func requestNewGame() {
         guard let viewDelegate = viewDelegate, viewDelegate.newGame(currentGameState: game.state) else { return }
         newGame()
     }
-    
 }
 
 
@@ -553,7 +561,6 @@ extension GameScene: ViewControllerDelegate {
     var gameState: Game.State {
         return game.state
     }
-    
     
     func newGame() {
         labels.removeButtons()
@@ -565,17 +572,18 @@ extension GameScene: ViewControllerDelegate {
         }
         gameGraphics.newGame(gameDecks: game.deck)
         gameGraphics.addCards(to: self)
+        var commander: CurrentPlayingCard?
+        for playingCard in gameGraphics.cards {
+            if playingCard.card.name == game.commander {
+                commander = CurrentPlayingCard(playingCard: playingCard, startPosition: gameGraphics.deck.position, touchPoint: gameGraphics.deck.position, location: .deck())
+                moveLocation(currentPlayingCard: commander!, location: .graveyard(2))
+            }
+        }
         if mulliganCount < 7 {
             for _ in 0..<(7 - mulliganCount % 7) {
                 drawCard()
             }
-            var commander: CurrentPlayingCard?
-            for playingCard in gameGraphics.cards {
-                if playingCard.card.name == game.commander {
-                    commander = CurrentPlayingCard(playingCard: playingCard, startPosition: gameGraphics.deck.position, touchPoint: gameGraphics.deck.position, location: .deck())
-                    moveLocation(currentPlayingCard: commander!, location: .graveyard(2))
-                }
-            }
+            
         }
         labels.addMulligan(to: self)
         if mulliganCount == 0 {
@@ -583,7 +591,7 @@ extension GameScene: ViewControllerDelegate {
             
             
             if let playerName = UserDefaults.standard.string(forKey: "PlayerName") {
-                updatePlayer(playerName)
+                addToDatabase(playerName)
             }
             else {
                 print("No Player Name")
