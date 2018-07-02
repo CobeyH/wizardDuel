@@ -38,7 +38,6 @@ class GameScene: SKScene {
                 print("login Successful")
             }
         }
-        retrieveUpdates()
     }
     
     override func didMove(to view: SKView) {
@@ -52,7 +51,27 @@ class GameScene: SKScene {
         
         gameGraphics.addChildren(to: self)
         gameGraphics.setupBackground(to: self)
+        
+        let options = [NSTrackingArea.Options.mouseMoved, NSTrackingArea.Options.activeInKeyWindow] as NSTrackingArea.Options
+        let trackingArea = NSTrackingArea(rect:(view.frame),options:options,owner:self,userInfo:nil)
+        view.addTrackingArea(trackingArea)
     }
+    
+    override func mouseMoved(with event: NSEvent) {
+        // Get mouse position in scene coordinates
+        let location = event.location(in: self)
+        // Get node at mouse position
+        let node = self.atPoint(location)
+        if let sprite = node as? SKSpriteNode {
+            if sprite.name != nil && sprite.texture != SKTexture(imageNamed: "cardback") {
+                labels.cardDisplay.texture = sprite.texture
+            }
+            else {
+                labels.cardDisplay.texture = nil
+            }
+        }
+    }
+
     
     // Triggered when a single click is detected with no dragging
     @objc func tap(sender: NSClickGestureRecognizer) {
@@ -189,6 +208,7 @@ class GameScene: SKScene {
                 
                 }
             }
+            self.retrieveUpdates()
         }) { (error) in
             print(error.localizedDescription)
         }

@@ -472,6 +472,9 @@ struct GameGraphics {
             
         }
         currentPlayingCard.move(to: newPosition)
+        if currentPlayingCard.playingCard.heldBy == "Deck" {
+            currentPlayingCard.playingCard.texture = SKTexture(imageNamed: "cardback")
+        }
     }
     
     mutating func addFromDatabase(name: String, field: Int, stack: Int, scene: SKScene) -> PlayingCard {
