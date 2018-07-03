@@ -98,7 +98,7 @@ class GameScene: SKScene {
                 return
             }
             //Checks if the shuffle button has been tapped
-            if labels.isShuffleTapped(point: touchLocation) {
+            else if labels.isShuffleTapped(point: touchLocation) {
                 gameGraphics.shuffleDeck()
                 gameGraphics.reconstructDeck()
             }
@@ -583,13 +583,7 @@ extension GameScene: ViewControllerDelegate {
     }
     
     func newGame() {
-        labels.removeButtons()
-        if mulliganCount == 0 {
-            game.new()
-        }
-        else {
-            gameGraphics.shuffleDeck()
-        }
+        game.new()
         gameGraphics.newGame(gameDecks: game.deck)
         gameGraphics.addCards(to: self)
         var commander: CurrentPlayingCard?

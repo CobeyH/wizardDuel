@@ -18,7 +18,7 @@ struct Card {
         self.name = name
     }
     
-    static func deck() -> ([Card], String) {
+    static func deck() -> URL {
          var deckURL : URL?
         
         // Uncomment the next line for debugging to load the deck file of your choice
@@ -37,12 +37,12 @@ struct Card {
             }
         }
         
-        return cardsFromFile(url: deckURL)
+        return deckURL!
     }
     
-}
 
-func cardsFromFile(url: URL?) -> ([Card],String) {
+
+static func cardsFromFile(url: URL?) -> ([Card],String) {
     var commander: String?
     var cards: [Card] = []
     if let url = url {
@@ -84,6 +84,7 @@ func cardsFromFile(url: URL?) -> ([Card],String) {
         return(cards, "nil")
     }
     
+}
 }
 
 extension Card: Equatable {

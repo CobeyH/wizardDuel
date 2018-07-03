@@ -82,6 +82,7 @@ class Labels {
     func removeButtons() {
         mulliganButton.removeFromParent()
         keepButton.removeFromParent()
+        
     }
     
     

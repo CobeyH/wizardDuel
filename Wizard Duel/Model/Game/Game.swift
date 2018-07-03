@@ -5,7 +5,7 @@
 //  Created by gary on 15/08/2017.
 //  Copyright © 2017 Gary Kerr. All rights reserved.
 //
-
+import Foundation
 class Game {
     
     enum State {
@@ -22,6 +22,7 @@ class Game {
     let deck: Deck
     let dataExtract: MasterDeck
     var commander: String
+    var deckURL: URL?
     
     // MARK: - Computed properties
     var isGameOver: Bool {
@@ -49,7 +50,10 @@ class Game {
     
     // MARK: - Methods
     func new() {
-        let deckTouple = Card.deck()
+        if deckURL == nil {
+            deckURL = Card.deck()
+        }
+        let deckTouple = Card.cardsFromFile(url: deckURL)
         let cards = deckTouple.0.shuffled()
         commander = deckTouple.1
         graveyards.forEach({ $0.cards = [] })
@@ -67,10 +71,9 @@ class Game {
         }
         switch location {
             case .deck():
-//            return deck.isBottom(card: card)
             return true
        
-                default: return true
+        default: return true
         }
     }
     
