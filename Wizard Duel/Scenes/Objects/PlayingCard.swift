@@ -7,7 +7,11 @@
 //
 
 import SpriteKit
+#if os(iOS)
+import Firebase
+#elseif os(OSX)
 import FirebaseDatabase
+#endif
 
 final class PlayingCard: SKSpriteNode {
     //Holds the filename of the card

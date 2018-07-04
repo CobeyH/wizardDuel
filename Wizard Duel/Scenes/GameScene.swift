@@ -8,9 +8,18 @@
 
 import SpriteKit
 import GameplayKit
-import FirebaseDatabase
+#if os(iOS)
+import Firebase
+
+public typealias TapGR = UITapGestureRecognizer
+
+#elseif os(OSX)
 import FirebaseAuth
+import FirebaseDatabase
 import FirebaseCore
+
+public typealias TapGR = NSClickGestureRecognizer
+#endif
 
 class GameScene: SKScene {
     // MARK: - Properties
@@ -52,11 +61,16 @@ class GameScene: SKScene {
         gameGraphics.addChildren(to: self)
         gameGraphics.setupBackground(to: self)
         
+#if os(iOS)
+#elseif os(OSX)
         let options = [NSTrackingArea.Options.mouseMoved, NSTrackingArea.Options.activeInKeyWindow] as NSTrackingArea.Options
         let trackingArea = NSTrackingArea(rect:(view.frame),options:options,owner:self,userInfo:nil)
         view.addTrackingArea(trackingArea)
+#endif
     }
     
+#if os(iOS)
+#elseif os(OSX)
     override func mouseMoved(with event: NSEvent) {
         // Get mouse position in scene coordinates
         let location = event.location(in: self)
@@ -71,10 +85,11 @@ class GameScene: SKScene {
             }
         }
     }
+#endif
 
     
     // Triggered when a single click is detected with no dragging
-    @objc func tap(sender: NSClickGestureRecognizer) {
+    @objc func tap(sender: TapGR) {
         if sender.state == .ended {
             var touchLocation: CGPoint = sender.location(in: sender.view)
             touchLocation = self.convertPoint(fromView: touchLocation)
@@ -138,7 +153,7 @@ class GameScene: SKScene {
     }
     
     //If a double tap is detected on the deck a card will be drawn
-    @objc func doubleTap(sender: NSClickGestureRecognizer) {
+    @objc func doubleTap(sender: TapGR) {
         if sender.state == .ended {
             var touchLocation: CGPoint = sender.location(in: sender.view)
             touchLocation = self.convertPoint(fromView: touchLocation)
@@ -351,6 +366,8 @@ class GameScene: SKScene {
     }
     
     
+    #if os(iOS)
+    #elseif os(OSX)
     // MARK: - Action Triggers
     //Triggered when the mouse is pressed down. It is only used to call other methods depending on the number of clicks
     override func mouseDown(with event: NSEvent) {
@@ -421,7 +438,7 @@ class GameScene: SKScene {
             }
         }
     }
-    
+#endif
     
     // MARK: - Touch Responders
     

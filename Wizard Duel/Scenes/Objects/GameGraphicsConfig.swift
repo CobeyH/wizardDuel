@@ -7,9 +7,13 @@
 //
 
 import Foundation
-import Cocoa
 import SpriteKit
 
+#if os(iOS)
+public typealias Color = UIColor
+#elseif os(OSX)
+public typealias Color = NSColor
+#endif
 
 struct GameGraphicsConfig {
     
@@ -29,14 +33,18 @@ struct GameGraphicsConfig {
     var zIndex: CGFloat = 10
     let zIndexIncrement: CGFloat = 2
     let backgroundName =  "background1"
-    let backgroundColour = NSColor.init(white: 1.0, alpha: 0.2)
-    let battlefieldColour = NSColor.init(white: 1.0, alpha: 0.05)
+    let backgroundColour: Color
+    let battlefieldColour: Color
     let numberOfBackgrounds = 2
 
     let graveyardCount = 3
     
     init() {
+        #if os(iOS)
+        let frame = UIScreen.main.bounds
+        #elseif os(OSX)
         let frame = NSScreen.main?.frame ?? CGRect.zero
+        #endif
         let rect = frame.size
         self.screenWidth = rect.width
         self.screenHeight = rect.height
@@ -48,7 +56,8 @@ struct GameGraphicsConfig {
         self.spacing = rect.height/100
         self.margin = -rect.width/60
         self.playerInfoSize = CGSize(width: rect.width / 19, height: rect.height / 7.5)
-        
+        backgroundColour = Color.init(white: 1.0, alpha: 0.2)
+        battlefieldColour = Color.init(white: 1.0, alpha: 0.05)
     }
 
 

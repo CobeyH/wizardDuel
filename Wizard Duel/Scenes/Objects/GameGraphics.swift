@@ -6,7 +6,11 @@
 //
 
 import SpriteKit
+#if os(iOS)
+import Firebase
+#elseif os(OSX)
 import FirebaseDatabase
+#endif
 
 
 struct GameGraphics {

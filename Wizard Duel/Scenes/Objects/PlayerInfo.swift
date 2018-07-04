@@ -67,6 +67,10 @@ class PlayerInfo: SKSpriteNode {
     }
     
     func movePlayerInfo(playerNumberSelf: Int) {
+        guard playerNumberSelf <= 4 else {
+            fatalError("Too many players in the database")
+        }
+        
         let infoLocations = [CGPoint(x: config.playerInfoSize.width/2, y: -config.screenHeight/2 + config.playerInfoSize.height/2) ,CGPoint(x: config.playerInfoSize.width/2, y: 0), CGPoint(x: config.screenWidth - config.playerInfoSize.width/2, y: 0), CGPoint(x: config.screenWidth - config.playerInfoSize.width/2, y: -config.screenHeight/2 + config.playerInfoSize.height/2)]
         self.position = infoLocations[(4 + Int(playerNumber) - playerNumberSelf) % 4]
     }
