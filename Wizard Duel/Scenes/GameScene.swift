@@ -94,12 +94,14 @@ class GameScene: SKScene {
             var touchLocation: CGPoint = sender.location(in: sender.view)
             touchLocation = self.convertPoint(fromView: touchLocation)
             //On new game checks if the mulligan button has been pressed
-            if labels.mulliganButton.contains(touchLocation) {
-                mulliganCount = mulliganCount + 1
-                newGame()
+            if labels.mulliganButton != nil {
+                if (labels.mulliganButton!.contains(touchLocation)) {
+                    mulliganCount = mulliganCount + 1
+                    newGame()
+                }
             }
             //On new game checks if the keep hand button has been pressed
-            else if labels.keepButton.contains(touchLocation) {
+            if labels.keepButton.contains(touchLocation) {
                 mulliganCount = 0
                 labels.removeButtons()
             }
@@ -113,7 +115,7 @@ class GameScene: SKScene {
                 return
             }
             //Checks if the shuffle button has been tapped
-            if labels.isShuffleTapped(point: touchLocation) {
+            else if labels.isShuffleTapped(point: touchLocation) {
                 gameGraphics.shuffleDeck()
                 gameGraphics.reconstructDeck()
             }
@@ -374,7 +376,7 @@ class GameScene: SKScene {
         touchDown(atPoint: event.location(in: self))
     }
     
-    //Triggers on mouse right click
+    //Triggers on mouse right click. Decreases the counter on a dice
     override func rightMouseDown(with event: NSEvent) {
         let position = event.location(in: self)
         if let playingCard = gameGraphics.cardFrom(position: position) {
@@ -392,21 +394,8 @@ class GameScene: SKScene {
                     return
                 }
             }
-            
         }
-    
-        
-        if let playingCard = gameGraphics.cardFrom(position: position) {
-            if playingCard.texture != SKTexture(imageNamed: "cardback") {
-                labels.setCardDisplay(playingCard: playingCard)
-            }
-        }
-        else {
-            labels.cardDisplay.texture = nil
-        }
-        labels.cardDisplay.color = .clear
     }
-    
     
     
     //Triggers on mouse dragging
@@ -600,13 +589,7 @@ extension GameScene: ViewControllerDelegate {
     }
     
     func newGame() {
-        labels.removeButtons()
-        if mulliganCount == 0 {
-            game.new()
-        }
-        else {
-            gameGraphics.shuffleDeck()
-        }
+        game.new()
         gameGraphics.newGame(gameDecks: game.deck)
         gameGraphics.addCards(to: self)
         var commander: CurrentPlayingCard?
@@ -620,11 +603,15 @@ extension GameScene: ViewControllerDelegate {
             for _ in 0..<(7 - mulliganCount % 7) {
                 drawCard()
             }
+            if mulliganCount != 0 {
+                drawCard()
+            }
             
         }
-        labels.addMulligan(to: self)
+        
         if mulliganCount == 0 {
             gameGraphics.reset()
+            labels.addMulligan(to: self)
             
             
             if let playerName = UserDefaults.standard.string(forKey: "PlayerName") {
