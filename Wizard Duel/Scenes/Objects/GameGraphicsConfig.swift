@@ -33,9 +33,10 @@ struct GameGraphicsConfig {
     let battlefieldSpacing: CGFloat = 16
     var zIndex: CGFloat = 10
     let zIndexIncrement: CGFloat = 2
-    let backgroundName =  "background1"
+    let backgroundName =  "background1.jpg"
     let backgroundColour: Color
     let battlefieldColour: Color
+    let cardbackName = "cardback.png"
     let numberOfBackgrounds = 2
 
     let graveyardCount = 3

@@ -77,7 +77,7 @@ class GameScene: SKScene {
         // Get node at mouse position
         let node = self.atPoint(location)
         if let sprite = node as? SKSpriteNode {
-            if sprite.name != nil && sprite.texture != SKTexture(imageNamed: "cardback") {
+            if sprite.name != nil && sprite.texture != SKTexture(imageNamed: gameGraphics.config.cardbackName) {
                 labels.cardDisplay.texture = sprite.texture
             }
             else {

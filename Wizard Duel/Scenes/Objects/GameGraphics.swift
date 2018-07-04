@@ -16,7 +16,7 @@ import FirebaseDatabase
 struct GameGraphics {
     
     //MARK: - Initalizers
-    private var config = GameGraphicsConfig()
+    public var config = GameGraphicsConfig()
     
     private var graveyards: [SKSpriteNode] = []
     var hands: SKSpriteNode = SKSpriteNode(color: .red, size: CGSize(width: 75, height: 40))
@@ -340,7 +340,7 @@ struct GameGraphics {
                 let currentPlayingCard = CurrentPlayingCard(playingCard: card, startPosition: card.position, touchPoint: card.anchorPoint, location: .deck())
                 let position = CGPoint(x: deck.position.x, y: deck.position.y + CGFloat(i/4))
                 currentPlayingCard.move(to: position)
-                currentPlayingCard.playingCard.texture = SKTexture(imageNamed: "cardback")
+                currentPlayingCard.playingCard.texture = SKTexture(imageNamed: config.cardbackName)
             }
         }
         shuffleDeck()
@@ -478,7 +478,7 @@ struct GameGraphics {
         }
         currentPlayingCard.move(to: newPosition)
         if currentPlayingCard.playingCard.heldBy == "Deck" {
-            currentPlayingCard.playingCard.texture = SKTexture(imageNamed: "cardback")
+            currentPlayingCard.playingCard.texture = SKTexture(imageNamed: config.cardbackName)
         }
     }
     

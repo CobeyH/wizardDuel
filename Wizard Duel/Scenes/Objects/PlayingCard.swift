@@ -24,7 +24,7 @@ final class PlayingCard: SKSpriteNode {
 
     //Creates a playing card Sprite which is assigned the texture of the back of the card. It inherits its other properties from the card struct
     init(card: Card, size: CGSize, databaseRef: String?) {
-        let texture = SKTexture(imageNamed: "cardback")
+        let texture = SKTexture(imageNamed: "cardback.png")
         self.card = card
         self.databaseRef = databaseRef
         
