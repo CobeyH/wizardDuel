@@ -43,7 +43,8 @@ class GameViewController: UIViewController {
     }
     
     private func configureScene() {
-        if let view = self.skView {
+        let skView = view as! SKView
+
             var screenFrame = UIScreen.main.bounds
             screenFrame.size.height += 30
             view.frame = screenFrame
@@ -52,9 +53,8 @@ class GameViewController: UIViewController {
                 // Set the scale mode to scale to fit the window
                 scene.scaleMode = .aspectFit
                 scene.viewDelegate = self
-                view.presentScene(scene)
+                skView.presentScene(scene)
                 delegate = scene
-                
                 
                 //                let doubleTapGR = NSClickGestureRecognizer(target: self, action: #selector(doubleTap))
                 //                doubleTapGR.numberOfClicksRequired = 2
@@ -64,11 +64,11 @@ class GameViewController: UIViewController {
                 //                view.addGestureRecognizer(tapGR)
                 //                view.addGestureRecognizer(doubleTapGR)
             }
-            view.ignoresSiblingOrder = true
-            view.showsFPS = true
-            view.showsNodeCount = true
+            skView.ignoresSiblingOrder = true
+            skView.showsFPS = true
+            skView.showsNodeCount = true
         }
-    }
+    
     //    @objc func tap(sender: NSClickGestureRecognizer) {
     //        let scene = self.delegate as! GameScene
     //        scene.tap(sender: sender)
