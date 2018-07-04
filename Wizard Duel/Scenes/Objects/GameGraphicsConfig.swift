@@ -22,7 +22,8 @@ struct GameGraphicsConfig {
     let screenWidth: CGFloat
     let screenHeight: CGFloat
     
-    let diceSize = CGSize(width: 40, height: 40)
+    let diceSizeInitial = CGSize(width: 70, height: 70)
+    let diceSizeFinal = CGSize(width: 35, height: 35)
     let cardMiddle = CGPoint(x: 0.5, y: 0.5)
     let spacing: CGFloat
     let battlefieldSpacing: CGFloat = 16

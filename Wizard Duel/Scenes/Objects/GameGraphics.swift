@@ -157,7 +157,7 @@ struct GameGraphics {
     
     mutating func newDice(to scene: SKScene) -> PlayingDice {
         let dice = Dice(maxValue: 6)
-        let playingDice = PlayingDice(dice: dice, size: config.diceSize)
+        let playingDice = PlayingDice(dice: dice, size: config.diceSizeInitial)
         playingDice.zPosition = config.getZIndex()
         scene.addChild(playingDice)
         dices.append(playingDice)
@@ -204,6 +204,7 @@ struct GameGraphics {
         playingDice.removeFromParent()
         playingCard.addChild(playingDice)
         playingDice.update(position: CGPoint(x:0, y: 0))
+        playingDice.size = config.diceSizeFinal
     }
     
     //MARK: PlayerUpdates
