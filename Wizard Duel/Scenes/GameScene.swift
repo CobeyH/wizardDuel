@@ -100,6 +100,9 @@ class GameScene: SKScene {
                     newGame()
                 }
             }
+            if labels.newGameButton.contains(touchLocation) {
+                newGame()
+            }
             //On new game checks if the keep hand button has been pressed
             if labels.keepButton.contains(touchLocation) {
                 mulliganCount = 0
@@ -352,7 +355,6 @@ class GameScene: SKScene {
                 
                 print("Player Number is: \(playerNumber)")
             
-                
             }
         }
     }
@@ -369,12 +371,41 @@ class GameScene: SKScene {
     
     
     #if os(iOS)
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if let touch = touches.first {
+            let location = touch.location(in: self)
+            touchDown(atPoint: location)
+        }
+    }
+        
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if let touch = touches.first {
+            let location = touch.location(in: self)
+            touchUp(atPoint: location)
+        }
+    }
+    
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if let touch = touches.first {
+            let location = touch.location(in: self)
+            touchMoved(toPoint: location)
+        }
+    }
+    
+    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if let currentPlayingCard = currentPlayingCard {
+            currentPlayingCard.returnToOriginalLocation()
+        }
+    }
+    
+    
     #elseif os(OSX)
     // MARK: - Action Triggers
     //Triggered when the mouse is pressed down. It is only used to call other methods depending on the number of clicks
     override func mouseDown(with event: NSEvent) {
         touchDown(atPoint: event.location(in: self))
     }
+    
     
     //Triggers on mouse right click. Decreases the counter on a dice
     override func rightMouseDown(with event: NSEvent) {

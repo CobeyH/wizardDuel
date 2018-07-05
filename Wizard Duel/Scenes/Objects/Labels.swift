@@ -15,6 +15,7 @@ class Labels {
     var cardDisplay: SKSpriteNode = SKSpriteNode(color: .red, size: CGSize(width: 50, height: 50))
     var mulliganButton: SKLabelNode?
     let keepButton: SKLabelNode = SKLabelNode(fontNamed: "Planewalker Bold")
+    let newGameButton: SKLabelNode = SKLabelNode(fontNamed: "Planewalker Bold")
     // Sets up all the labels for the deck count, graveyard count, etc.
     func setUpLabels(width: CGFloat, height: CGFloat, to scene: SKScene) {
        
@@ -38,7 +39,15 @@ class Labels {
         newTurnButton.zPosition = 5
         scene.addChild(newTurnButton)
         
-        //Shuffle Dek Dutton
+        //New game button
+        newGameButton.fontSize = 30
+        newGameButton.color = SKColor.black
+        newGameButton.text = "New Game"
+        newGameButton.position = CGPoint(x: newTurnButton.position.x, y: newTurnButton.position.y + 50)
+        newGameButton.zPosition = 5
+        scene.addChild(newGameButton)
+        
+        //Shuffle Deck Dutton
         shuffleDeck.fontSize = 30
         shuffleDeck.color = SKColor.black
         shuffleDeck.text = "Shuffle"

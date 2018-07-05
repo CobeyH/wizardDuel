@@ -56,31 +56,31 @@ class GameViewController: UIViewController {
                 skView.presentScene(scene)
                 delegate = scene
                 
-                //                let doubleTapGR = NSClickGestureRecognizer(target: self, action: #selector(doubleTap))
-                //                doubleTapGR.numberOfClicksRequired = 2
-                //                let tapGR = NSClickGestureRecognizer(target: self, action: #selector(tap))
-                
-                //                tapGR.canBePrevented(by: doubleTapGR)
-                //                view.addGestureRecognizer(tapGR)
-                //                view.addGestureRecognizer(doubleTapGR)
+                let doubleTapGR = UITapGestureRecognizer(target: self, action: #selector(doubleTap))
+                doubleTapGR.numberOfTapsRequired = 2
+                let tapGR = UITapGestureRecognizer(target: self, action: #selector(tap))
+
+                view.addGestureRecognizer(tapGR)
+                view.addGestureRecognizer(doubleTapGR)
             }
             skView.ignoresSiblingOrder = true
             skView.showsFPS = true
             skView.showsNodeCount = true
         }
     
-    //    @objc func tap(sender: NSClickGestureRecognizer) {
-    //        let scene = self.delegate as! GameScene
-    //        scene.tap(sender: sender)
-    //    }
+        @objc func tap(sender: UITapGestureRecognizer) {
+            let scene = self.delegate as! GameScene
+            scene.tap(sender: sender)
+        }
     
-    //    @objc func doubleTap(sender: NSClickGestureRecognizer) {
-    //        let scene = self.delegate as! GameScene
-    //
-    //        scene.doubleTap(sender: sender)
-    //    }
+        @objc func doubleTap(sender: UITapGestureRecognizer) {
+            let scene = self.delegate as! GameScene
+    
+            scene.doubleTap(sender: sender)
+        }
     
     private func newGame() -> Bool {
+        
         //        let alert = NSAlert()
         //        alert.alertStyle = .informational
         //        alert.messageText = "New Game?"
