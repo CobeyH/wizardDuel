@@ -607,7 +607,7 @@ class GameScene: SKScene {
     }
     
     private func requestNewGame() {
-        guard let viewDelegate = viewDelegate, viewDelegate.newGame(currentGameState: game.state) else { return }
+        guard let viewDelegate = viewDelegate, viewDelegate.newGame(currentGameState: game.state, gameScene: self) else { return }
         newGame()
     }
 }

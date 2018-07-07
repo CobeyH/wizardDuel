@@ -79,7 +79,7 @@ class GameViewController: UIViewController {
             scene.doubleTap(sender: sender)
         }
     
-    private func newGame() -> Bool {
+    private func newGame(gameScene: GameScene) -> Bool {
         // create the alert
         let alertController = UIAlertController(title: "Add New Name", message: "", preferredStyle: .alert)
         let saveAction = UIAlertAction(title: "Save", style: .default, handler: { alert -> Void in
@@ -107,8 +107,8 @@ class GameViewController: UIViewController {
 
 extension GameViewController: GameSceneDelegate {
     
-    func newGame(currentGameState: Game.State) -> Bool {
-        if newGame() {
+    func newGame(currentGameState: Game.State, gameScene: GameScene) -> Bool {
+        if newGame(gameScene: gameScene) {
             return true
         }
         return false
