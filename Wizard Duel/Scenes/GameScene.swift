@@ -101,7 +101,7 @@ class GameScene: SKScene {
                 }
             }
             if labels.newGameButton.contains(touchLocation) {
-                newGame()
+                requestNewGame()
             }
             //On new game checks if the keep hand button has been pressed
             if labels.keepButton.contains(touchLocation) {

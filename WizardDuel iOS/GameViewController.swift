@@ -80,39 +80,36 @@ class GameViewController: UIViewController {
         }
     
     private func newGame() -> Bool {
+        // create the alert
+        let alertController = UIAlertController(title: "Add New Name", message: "", preferredStyle: .alert)
+        let saveAction = UIAlertAction(title: "Save", style: .default, handler: { alert -> Void in
+            let textField = alertController.textFields![0] as UITextField
+            print(textField.text ?? "")
+            let newName = textField.text
+            if newName!.count > 0 {
+                UserDefaults.standard.set(newName, forKey: "PlayerName")
+            }
+        })
+        let cancelAction = UIAlertAction(title: "Cancel", style: .default, handler: { (action : UIAlertAction!) -> Void in })
+        alertController.addTextField { (textField : UITextField!) -> Void in
+            textField.placeholder = "Enter First Name"
+        }
         
-        //        let alert = NSAlert()
-        //        alert.alertStyle = .informational
-        //        alert.messageText = "New Game?"
-        //        alert.informativeText = "Do you want to start a new game?"
-        //        alert.addButton(withTitle: "Yes")
-        //        alert.addButton(withTitle: "No")
-        //        let textField = NSTextField(frame:NSMakeRect(0,0,200,20))
-        //        let defaultName = UserDefaults.standard.string(forKey: "PlayerName")
-        //        if let defaultName = defaultName {
-        //            textField.stringValue = defaultName
-        //        }
-        //        textField.placeholderString = "Player Name"
-        //        alert.accessoryView = textField
-        //        switch alert.runModal() {
-        //        case .alertFirstButtonReturn:
-        //            let newName = textField.stringValue
-        //            if newName.count > 0 {
-        //                UserDefaults.standard.set(newName, forKey: "PlayerName")
-        //            }
+        alertController.addAction(saveAction)
+        alertController.addAction(cancelAction)
+        
+        self.present(alertController, animated: true, completion: nil)
+        
         return true
-        //        default: return false
-        //        }
     }
+    
 }
 
 extension GameViewController: GameSceneDelegate {
     
     func newGame(currentGameState: Game.State) -> Bool {
         if newGame() {
-            
             return true
-            
         }
         return false
     }
