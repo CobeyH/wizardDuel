@@ -25,7 +25,7 @@ struct Card {
 //        deckURL = Bundle.main.url(forResource: "kittenDeck", withExtension: "txt")
         
         #if os(iOS)
-        
+        deckURL = Bundle.main.url(forResource: "Muldrotha", withExtension: "txt")
         #elseif os(OSX)
         if deckURL == nil {
             //Adds a popup window when the app is launched to ask the player to select a deck

@@ -89,6 +89,7 @@ class GameViewController: UIViewController {
             if newName!.count > 0 {
                 UserDefaults.standard.set(newName, forKey: "PlayerName")
             }
+            gameScene.newGame()
         })
         let cancelAction = UIAlertAction(title: "Cancel", style: .default, handler: { (action : UIAlertAction!) -> Void in })
         alertController.addTextField { (textField : UITextField!) -> Void in
@@ -100,7 +101,7 @@ class GameViewController: UIViewController {
         
         self.present(alertController, animated: true, completion: nil)
         
-        return true
+        return false
     }
     
 }

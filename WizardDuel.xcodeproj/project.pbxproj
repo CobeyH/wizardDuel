@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		0038551424A33936C40C4A8E /* Pods_WizardDuel_macOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BF272E29E9CDB86E62DE151 /* Pods_WizardDuel_macOS.framework */; };
 		0303327720A6026E00C7594B /* PlayingCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E396EB71EF3E4AB00F8696A /* PlayingCard.swift */; };
+		0350AE2220F153BC00A86E5E /* Muldrotha.txt in Resources */ = {isa = PBXBuildFile; fileRef = 0350AE2120F153BC00A86E5E /* Muldrotha.txt */; };
+		0350AE2320F153BC00A86E5E /* Muldrotha.txt in Resources */ = {isa = PBXBuildFile; fileRef = 0350AE2120F153BC00A86E5E /* Muldrotha.txt */; };
+		0350AE2420F153BC00A86E5E /* Muldrotha.txt in Resources */ = {isa = PBXBuildFile; fileRef = 0350AE2120F153BC00A86E5E /* Muldrotha.txt */; };
 		036EE1E220C85E3200A768A0 /* PlayingDice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 036EE1E120C85E3200A768A0 /* PlayingDice.swift */; };
 		03779E2A20B481C800F2DA43 /* testDeck2.txt in Resources */ = {isa = PBXBuildFile; fileRef = 03779E2920B481C700F2DA43 /* testDeck2.txt */; };
 		0378867020ACA38E00B2B2E4 /* MasterDeck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0378866F20ACA38E00B2B2E4 /* MasterDeck.swift */; };
@@ -147,6 +150,7 @@
 
 /* Begin PBXFileReference section */
 		013630CD78B883F7903F6EEF /* Pods-WizardDuel iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WizardDuel iOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-WizardDuel iOS/Pods-WizardDuel iOS.release.xcconfig"; sourceTree = "<group>"; };
+		0350AE2120F153BC00A86E5E /* Muldrotha.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Muldrotha.txt; sourceTree = "<group>"; };
 		036EE1E120C85E3200A768A0 /* PlayingDice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayingDice.swift; sourceTree = "<group>"; };
 		03779E2920B481C700F2DA43 /* testDeck2.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = testDeck2.txt; sourceTree = "<group>"; };
 		0378866F20ACA38E00B2B2E4 /* MasterDeck.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterDeck.swift; sourceTree = "<group>"; };
@@ -309,6 +313,7 @@
 				4E396E8C1EF3DF8600F8696A /* Main.storyboard */,
 				7EA388E220E01101004FF04D /* Fonts */,
 				4E396E8F1EF3DF8600F8696A /* Info.plist */,
+				0350AE2120F153BC00A86E5E /* Muldrotha.txt */,
 				7E7EFE3D20CC363A00338E4A /* kittenDeck.txt */,
 				039785CC20A52CA0005C2F1C /* testDeck.txt */,
 				03779E2920B481C700F2DA43 /* testDeck2.txt */,
@@ -607,6 +612,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0350AE2220F153BC00A86E5E /* Muldrotha.txt in Resources */,
 				4E350B9E1F489BFF0009FD4B /* README in Resources */,
 				03779E2A20B481C800F2DA43 /* testDeck2.txt in Resources */,
 				7EA388E320E01101004FF04D /* Fonts in Resources */,
@@ -629,6 +635,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0350AE2320F153BC00A86E5E /* Muldrotha.txt in Resources */,
 				7E02B19220EC71810088FFEB /* testDeck.txt in Resources */,
 				7E02B13120EC6FF90088FFEB /* Main.storyboard in Resources */,
 				7E02B19020EC71760088FFEB /* kittenDeck.txt in Resources */,
@@ -645,6 +652,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7E02B15220EC702D0088FFEB /* Main.storyboard in Resources */,
+				0350AE2420F153BC00A86E5E /* Muldrotha.txt in Resources */,
 				7E02B19520EC71820088FFEB /* testDeck.txt in Resources */,
 				7E02B19D20EC73EC0088FFEB /* Info.plist in Resources */,
 				7E02B19120EC71770088FFEB /* kittenDeck.txt in Resources */,

@@ -10,17 +10,15 @@ import SpriteKit
 
 class Labels {
     private var config = GameGraphicsConfig()
-    var shuffleDeck: SKLabelNode = SKLabelNode(fontNamed: "Planewalker Bold")
-    var newTurnButton: SKLabelNode = SKLabelNode(fontNamed: "Planewalker Bold")
+    var shuffleDeck: SKLabelNode = SKLabelNode(fontNamed: "Times New Roman")
+    var newTurnButton: SKLabelNode = SKLabelNode(fontNamed: "Times New Roman")
     var cardDisplay: SKSpriteNode = SKSpriteNode(color: .red, size: CGSize(width: 50, height: 50))
     var mulliganButton: SKLabelNode?
-    let keepButton: SKLabelNode = SKLabelNode(fontNamed: "Planewalker Bold")
-    let newGameButton: SKLabelNode = SKLabelNode(fontNamed: "Planewalker Bold")
+    let keepButton: SKLabelNode = SKLabelNode(fontNamed: "Times New Roman")
+    let newGameButton: SKLabelNode = SKLabelNode(fontNamed: "Times New Roman")
+    var searchDeck: SKLabelNode?
     // Sets up all the labels for the deck count, graveyard count, etc.
     func setUpLabels(width: CGFloat, height: CGFloat, to scene: SKScene) {
-       
-        
-       
         
         //cardDisplay Label
         cardDisplay.color = .clear
@@ -54,6 +52,19 @@ class Labels {
         shuffleDeck.position = CGPoint(x: newTurnButton.position.x, y: newTurnButton.position.y - 50)
         shuffleDeck.zPosition = 5
         scene.addChild(shuffleDeck)
+        
+        #if os(iOS)
+        searchDeck = SKLabelNode(fontNamed: "Time New Roman")
+        if let searchDeck = searchDeck {
+            searchDeck.fontSize = 30
+            searchDeck.color = SKColor.black
+            searchDeck.text = "Deck"
+            searchDeck.position = CGPoint(x: newTurnButton.position.x, y: newTurnButton.position.y + 100)
+            searchDeck.zPosition = 5
+            scene.addChild(searchDeck)
+        }
+        #elseif os(OSX)
+        #endif
     }
     
     
@@ -73,7 +84,7 @@ class Labels {
     }
     
     func addMulligan(to scene: SKScene) {
-        mulliganButton = SKLabelNode(fontNamed: "Planewalker Bold")
+        mulliganButton = SKLabelNode(fontNamed: "Times New Roman")
         mulliganButton!.fontSize = 30
         mulliganButton!.color = SKColor.black
         mulliganButton!.text = "Mulligan"
@@ -96,6 +107,15 @@ class Labels {
         }
         keepButton.removeFromParent()
         
+    }
+    
+    func isSearchPressed(point: CGPoint) -> Bool {
+        if let searchDeck = searchDeck {
+            if searchDeck.contains(point) {
+                return true
+            }
+        }
+        return false
     }
     
     

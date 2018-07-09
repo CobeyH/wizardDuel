@@ -103,6 +103,9 @@ class GameScene: SKScene {
             if labels.newGameButton.contains(touchLocation) {
                 requestNewGame()
             }
+            if labels.isSearchPressed(point: touchLocation) {
+                gameGraphics.displayDeck()
+            }
             //On new game checks if the keep hand button has been pressed
             if labels.keepButton.contains(touchLocation) {
                 mulliganCount = 0

@@ -1,0 +1,78 @@
+1 Azusa, Lost but Seeking
+1 Birds of Paradise
+1 Breeding Pool
+1 Buried Alive
+1 Burnished Hart
+1 Caustic Caterpillar
+1 Command Tower
+1 Courser of Kruphix
+1 Crop Rotation
+1 Cultivate
+1 Cyclonic Rift
+1 Damnation
+1 Desecration Demon
+1 Dimir Aqueduct
+1 Dimir Signet
+1 Disciple of Bolas
+1 Doom Blade
+1 Expedition Map
+1 Exploration
+1 Fact or Fiction
+1 Flight
+9 Forest
+1 Gilded Lotus
+1 Glen Elendra Archmage
+1 Golgari Rot Farm
+1 Golgari Signet
+1 Guard Gomazoa
+1 Harrow
+1 Hedron Crab
+9 Island
+1 Jarad, Golgari Lich Lord
+1 Journey to Eternity
+1 Jungle Basin
+1 Kodama's Reach
+1 Leyline of Anticipation
+1 Living Death
+1 Meren of Clan Nel Toth
+1 Misty Rainforest
+1 *Muldrotha, the Gravetide
+1 Mulldrifter
+1 Murder
+1 Nyx Weaver
+1 Oracle of Mul Daya
+1 Overgrown Tomb
+1 Path of Ancestry
+1 Phantasmal Image
+1 Phyrexian Metamorph
+1 Polluted Delta
+1 Propaganda
+1 Protean Hulk
+1 Rampant Growth
+1 Realms Uncharted
+1 Seal of Primordium
+1 Secrets of the Dead
+1 Sensei's Divining Top
+1 Sidisi, Brood Tyrant
+1 Sidisi, Undead Vizier
+1 Simic Growth Chamber
+1 Simic Signet
+1 Sol Ring
+1 Sultai Ascendancy
+9 Swamp
+1 Swan Song
+1 Sword of Feast and Famine
+1 Tatyova, Benthic Druid
+1 Thassa, God of the Sea
+1 Tree of Perdition
+1 Twilight Prophet
+1 Verdant Catacombs
+1 Victimize
+1 Vraska the Unseen
+1 Wall of Frost
+1 Wayfarer's Bauble
+1 Whirlwind
+1 Windfall
+1 World Shaper
+
+
