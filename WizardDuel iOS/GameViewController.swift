@@ -59,9 +59,11 @@ class GameViewController: UIViewController {
                 let doubleTapGR = UITapGestureRecognizer(target: self, action: #selector(doubleTap))
                 doubleTapGR.numberOfTapsRequired = 2
                 let tapGR = UITapGestureRecognizer(target: self, action: #selector(tap))
+                let longPressGR = UILongPressGestureRecognizer(target: self, action: #selector(longPress))
 
                 view.addGestureRecognizer(tapGR)
                 view.addGestureRecognizer(doubleTapGR)
+                view.addGestureRecognizer(longPressGR)
             }
             skView.ignoresSiblingOrder = true
             skView.showsFPS = true
@@ -78,6 +80,14 @@ class GameViewController: UIViewController {
     
             scene.doubleTap(sender: sender)
         }
+    
+    @objc func longPress(sender: UILongPressGestureRecognizer) {
+        let scene = self.delegate as! GameScene
+        
+        scene.longPress()
+    }
+    
+
     
     private func newGame(gameScene: GameScene) -> Bool {
         // create the alert

@@ -31,6 +31,7 @@ class GameScene: SKScene {
     weak var viewDelegate: GameSceneDelegate?
     private var playerNumber = 0
     private var mulliganCount = 0
+    private var viewingCards = false
     
     
     // MARK: - Lifecycle
@@ -74,7 +75,12 @@ class GameScene: SKScene {
     override func mouseMoved(with event: NSEvent) {
         // Get mouse position in scene coordinates
         let location = event.location(in: self)
-        // Get node at mouse position
+        showPlayingCard(at: location)
+    }
+#endif
+    
+    func showPlayingCard(at location: CGPoint) {
+        // Get node at position
         let node = self.atPoint(location)
         if let sprite = node as? SKSpriteNode {
             if sprite.name != nil && sprite.texture != SKTexture(imageNamed: gameGraphics.config.cardbackName) {
@@ -85,7 +91,6 @@ class GameScene: SKScene {
             }
         }
     }
-#endif
 
     
     // Triggered when a single click is detected with no dragging
@@ -171,6 +176,10 @@ class GameScene: SKScene {
                 }
             }
         }
+    }
+    
+    @objc func longPress() {
+        viewingCards = true
     }
     
     // MARK: - Database
@@ -379,6 +388,7 @@ class GameScene: SKScene {
             let location = touch.location(in: self)
             touchDown(atPoint: location)
         }
+        super.touchesBegan(touches, with: event)
     }
         
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -386,20 +396,30 @@ class GameScene: SKScene {
             let location = touch.location(in: self)
             touchUp(atPoint: location)
         }
+        super.touchesEnded(touches, with: event)
+        viewingCards = false
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         if let touch = touches.first {
             let location = touch.location(in: self)
-            touchMoved(toPoint: location)
+            if viewingCards {
+                showPlayingCard(at: location)
+            } else {
+                touchMoved(toPoint: location)
+            }
         }
+        super.touchesMoved(touches, with: event)
     }
     
     override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
         if let currentPlayingCard = currentPlayingCard {
             currentPlayingCard.returnToOriginalLocation()
         }
+        super.touchesCancelled(touches, with: event)
+        viewingCards = false
     }
+    
     
     
     #elseif os(OSX)
@@ -420,9 +440,7 @@ class GameScene: SKScene {
                     updateDatabase(playingCard: playingCard)
                     if playingDice.dice.value < 1 {
                         gameGraphics.deleteDice(to: self, toDelete: playingDice)
-                    }
-                        
-                    else {
+                    } else {
                         playingDice.setTexture()
                     }
                     return
