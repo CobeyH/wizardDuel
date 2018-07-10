@@ -83,8 +83,8 @@ class GameViewController: UIViewController {
     
     @objc func longPress(sender: UILongPressGestureRecognizer) {
         let scene = self.delegate as! GameScene
+        scene.longPress(sender: sender)
         
-        scene.longPress()
     }
     
 

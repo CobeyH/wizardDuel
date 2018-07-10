@@ -71,6 +71,12 @@ class GameScene: SKScene {
     }
     
 #if os(iOS)
+    @objc func longPress(sender: UILongPressGestureRecognizer) {
+        let location = sender.location(in: view)
+        viewingCards = true
+        showPlayingCard(at: location)
+        
+    }
 #elseif os(OSX)
     override func mouseMoved(with event: NSEvent) {
         // Get mouse position in scene coordinates
@@ -178,9 +184,7 @@ class GameScene: SKScene {
         }
     }
     
-    @objc func longPress() {
-        viewingCards = true
-    }
+    
     
     // MARK: - Database
     //Sends a card and location to the database when a card is moved
