@@ -83,8 +83,11 @@ class GameViewController: UIViewController {
     
     @objc func longPress(sender: UILongPressGestureRecognizer) {
         let scene = self.delegate as! GameScene
-        
-        scene.showPlayingCard(at: sender.location(in: view))
+        let locationInView = sender.location(in: view)
+        let sceneView = view as? SKView
+        if let locationInScene = sceneView?.convert(locationInView, to:scene) {
+            scene.showPlayingCard(at: locationInScene)
+        }
     }
     
     private func newGame(gameScene: GameScene) -> Bool {
