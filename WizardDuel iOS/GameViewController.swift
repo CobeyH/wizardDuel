@@ -84,10 +84,8 @@ class GameViewController: UIViewController {
     @objc func longPress(sender: UILongPressGestureRecognizer) {
         let scene = self.delegate as! GameScene
         
-        scene.longPress()
+        scene.showPlayingCard(at: sender.location(in: view))
     }
-    
-
     
     private func newGame(gameScene: GameScene) -> Bool {
         // create the alert
@@ -103,7 +101,11 @@ class GameViewController: UIViewController {
         })
         let cancelAction = UIAlertAction(title: "Cancel", style: .default, handler: { (action : UIAlertAction!) -> Void in })
         alertController.addTextField { (textField : UITextField!) -> Void in
-            textField.placeholder = "Enter First Name"
+            let defaultName = UserDefaults.standard.string(forKey: "PlayerName")
+            if let defaultName = defaultName {
+                textField.text = defaultName
+            }
+           textField.placeholder = "Enter First Name"
         }
         
         alertController.addAction(saveAction)

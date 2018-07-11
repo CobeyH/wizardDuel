@@ -31,7 +31,6 @@ class GameScene: SKScene {
     weak var viewDelegate: GameSceneDelegate?
     private var playerNumber = 0
     private var mulliganCount = 0
-    private var viewingCards = false
     
     
     // MARK: - Lifecycle
@@ -81,7 +80,7 @@ class GameScene: SKScene {
     
     func showPlayingCard(at location: CGPoint) {
         // Get node at position
-        let node = self.atPoint(location)
+        let node = self.atPoint(location)   // For some reason this always returns the SKScene, not a playing card. Could be bcs the scene has a frame frame:{{-0, -1054}, {1366, 1054}}
         if let sprite = node as? SKSpriteNode {
             if sprite.name != nil && sprite.texture != SKTexture(imageNamed: gameGraphics.config.cardbackName) {
                 labels.cardDisplay.texture = sprite.texture
@@ -177,11 +176,7 @@ class GameScene: SKScene {
             }
         }
     }
-    
-    @objc func longPress() {
-        viewingCards = true
-    }
-    
+
     // MARK: - Database
     //Sends a card and location to the database when a card is moved
     func updateDatabase(playingCard: PlayingCard) {
@@ -208,7 +203,6 @@ class GameScene: SKScene {
                     cardUpdate.child(databaseRef).updateChildValues(updateDictionary)
                 }
             }
-            
         }
     }
     
@@ -237,7 +231,6 @@ class GameScene: SKScene {
                         for player in snapshot.children.allObjects as! [DataSnapshot] {
                             self.processPlayerUpdate(snapshot: player)
                         }
-                
                 }
             }
             self.retrieveUpdates()
@@ -397,17 +390,12 @@ class GameScene: SKScene {
             touchUp(atPoint: location)
         }
         super.touchesEnded(touches, with: event)
-        viewingCards = false
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         if let touch = touches.first {
             let location = touch.location(in: self)
-            if viewingCards {
-                showPlayingCard(at: location)
-            } else {
-                touchMoved(toPoint: location)
-            }
+            touchMoved(toPoint: location)
         }
         super.touchesMoved(touches, with: event)
     }
@@ -417,7 +405,6 @@ class GameScene: SKScene {
             currentPlayingCard.returnToOriginalLocation()
         }
         super.touchesCancelled(touches, with: event)
-        viewingCards = false
     }
     
     

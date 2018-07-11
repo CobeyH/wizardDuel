@@ -1126,7 +1126,7 @@
 				DEVELOPMENT_TEAM = QD694Y7TZY;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = "WizardDuel iOS/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.CobeyHollier.WizardDuel;
 				PRODUCT_NAME = WizardDuel;
@@ -1149,7 +1149,7 @@
 				DEVELOPMENT_TEAM = QD694Y7TZY;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = "WizardDuel iOS/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.CobeyHollier.WizardDuel;
 				PRODUCT_NAME = WizardDuel;
