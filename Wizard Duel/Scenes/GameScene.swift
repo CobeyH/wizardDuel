@@ -12,6 +12,7 @@ import GameplayKit
 import Firebase
 
 public typealias TapGR = UITapGestureRecognizer
+public typealias pinchGR = UIPinchGestureRecognizer
 
 #elseif os(OSX)
 import FirebaseAuth
@@ -62,6 +63,7 @@ class GameScene: SKScene {
         gameGraphics.setupBackground(to: self)
         
 #if os(iOS)
+       
 #elseif os(OSX)
         let options = [NSTrackingArea.Options.mouseMoved, NSTrackingArea.Options.activeInKeyWindow] as NSTrackingArea.Options
         let trackingArea = NSTrackingArea(rect:(view.frame),options:options,owner:self,userInfo:nil)
@@ -70,6 +72,7 @@ class GameScene: SKScene {
     }
     
 #if os(iOS)
+    
 #elseif os(OSX)
     override func mouseMoved(with event: NSEvent) {
         // Get mouse position in scene coordinates
@@ -91,6 +94,16 @@ class GameScene: SKScene {
         }
     }
 
+    @objc func pinch(sender: pinchGR) {
+        if sender.state == .ended {
+            if sender.scale < 0.4 {
+                gameGraphics.reconstructDeck()
+
+            } else if sender.scale > 1.5 {
+                gameGraphics.displayDeck()
+            }
+        }
+    }
     
     // Triggered when a single click is detected with no dragging
     @objc func tap(sender: TapGR) {
@@ -106,9 +119,6 @@ class GameScene: SKScene {
             }
             if labels.newGameButton.contains(touchLocation) {
                 requestNewGame()
-            }
-            if labels.isSearchPressed(point: touchLocation) {
-                gameGraphics.displayDeck()
             }
             //On new game checks if the keep hand button has been pressed
             if labels.keepButton.contains(touchLocation) {
@@ -136,7 +146,6 @@ class GameScene: SKScene {
                         playingDice.dice.diceUp()
                         playingDice.setTexture()
                         updateDatabase(playingCard: playingCard)
-                        
                         return
                     }
                 }
@@ -226,11 +235,9 @@ class GameScene: SKScene {
                 }
                 else {
                     print("Player Saved")
-                    
-                   
-                        for player in snapshot.children.allObjects as! [DataSnapshot] {
-                            self.processPlayerUpdate(snapshot: player)
-                        }
+                    for player in snapshot.children.allObjects as! [DataSnapshot] {
+                        self.processPlayerUpdate(snapshot: player)
+                    }
                 }
             }
             self.retrieveUpdates()
@@ -407,8 +414,6 @@ class GameScene: SKScene {
         super.touchesCancelled(touches, with: event)
     }
     
-    
-    
     #elseif os(OSX)
     // MARK: - Action Triggers
     //Triggered when the mouse is pressed down. It is only used to call other methods depending on the number of clicks
@@ -446,7 +451,6 @@ class GameScene: SKScene {
     //Triggers when the mouse is released
     override func mouseUp(with event: NSEvent) {
         touchUp(atPoint: event.location(in: self))
-        
     }
     
     override func keyDown(with event: NSEvent) {

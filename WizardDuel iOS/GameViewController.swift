@@ -42,6 +42,10 @@ class GameViewController: UIViewController {
         return true
     }
     
+    @IBAction func importItem(sender: UIBarButtonItem) {
+        
+    }
+    
     private func configureScene() {
         let skView = view as! SKView
 
@@ -60,10 +64,12 @@ class GameViewController: UIViewController {
                 doubleTapGR.numberOfTapsRequired = 2
                 let tapGR = UITapGestureRecognizer(target: self, action: #selector(tap))
                 let longPressGR = UILongPressGestureRecognizer(target: self, action: #selector(longPress))
-
+                let pinchGR = UIPinchGestureRecognizer(target: self, action: #selector(pinch))
+                
                 view.addGestureRecognizer(tapGR)
                 view.addGestureRecognizer(doubleTapGR)
                 view.addGestureRecognizer(longPressGR)
+                view.addGestureRecognizer(pinchGR)
             }
             skView.ignoresSiblingOrder = true
             skView.showsFPS = true
@@ -77,10 +83,10 @@ class GameViewController: UIViewController {
     
         @objc func doubleTap(sender: UITapGestureRecognizer) {
             let scene = self.delegate as! GameScene
-    
             scene.doubleTap(sender: sender)
         }
     
+    //Used on IOS to view cards. Long press puts the user into viewing mode and then touch moves changes the currently viewed card.
     @objc func longPress(sender: UILongPressGestureRecognizer) {
         let scene = self.delegate as! GameScene
         let locationInView = sender.location(in: view)
@@ -88,6 +94,11 @@ class GameViewController: UIViewController {
         if let locationInScene = sceneView?.convert(locationInView, to:scene) {
             scene.showPlayingCard(at: locationInScene)
         }
+    }
+    
+    @objc func pinch(sender: UIPinchGestureRecognizer) {
+        let scene = self.delegate as! GameScene
+        scene.pinch(sender: sender)
     }
     
     private func newGame(gameScene: GameScene) -> Bool {

@@ -54,15 +54,6 @@ class Labels {
         scene.addChild(shuffleDeck)
         
         #if os(iOS)
-        searchDeck = SKLabelNode(fontNamed: "Time New Roman")
-        if let searchDeck = searchDeck {
-            searchDeck.fontSize = 30
-            searchDeck.color = SKColor.black
-            searchDeck.text = "Deck"
-            searchDeck.position = CGPoint(x: newTurnButton.position.x, y: newTurnButton.position.y + 100)
-            searchDeck.zPosition = 5
-            scene.addChild(searchDeck)
-        }
         #elseif os(OSX)
         #endif
     }
@@ -107,15 +98,6 @@ class Labels {
         }
         keepButton.removeFromParent()
         
-    }
-    
-    func isSearchPressed(point: CGPoint) -> Bool {
-        if let searchDeck = searchDeck {
-            if searchDeck.contains(point) {
-                return true
-            }
-        }
-        return false
     }
     
     
