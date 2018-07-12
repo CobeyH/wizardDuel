@@ -25,7 +25,7 @@ public typealias TapGR = NSClickGestureRecognizer
 class GameScene: SKScene {
     // MARK: - Properties
     
-    private let game = Game()
+    let game = Game()
     private var gameGraphics = GameGraphics()
     private var labels = Labels()
     private var currentPlayingCard: CurrentPlayingCard?
@@ -117,9 +117,12 @@ class GameScene: SKScene {
                     newGame()
                 }
             }
+            
             if labels.newGameButton.contains(touchLocation) {
-                requestNewGame()
+                guard let viewDelegate = viewDelegate, viewDelegate.newGame(currentGameState: game.state, gameScene: self) else { return }
+                newGame()
             }
+            
             //On new game checks if the keep hand button has been pressed
             if labels.keepButton.contains(touchLocation) {
                 mulliganCount = 0
@@ -138,7 +141,13 @@ class GameScene: SKScene {
             else if labels.isShuffleTapped(point: touchLocation) {
                 gameGraphics.shuffleDeck()
                 gameGraphics.reconstructDeck()
+            } else if labels.isImportPressed(point: touchLocation) {
+                guard let viewDelegate = viewDelegate else { return }
+                
+                viewDelegate.importDeck()
+
             }
+            
             //Increased the dice on a playing card if a dice is tapped
             if let playingCard = gameGraphics.cardFrom(position: touchLocation) {
                 if let playingDice = playingCard.childNode(withName: "dice") as? PlayingDice {

@@ -54,6 +54,15 @@ class Labels {
         scene.addChild(shuffleDeck)
         
         #if os(iOS)
+        searchDeck = SKLabelNode(fontNamed: "Time New Roman")
+        if let searchDeck = searchDeck {
+            searchDeck.fontSize = 30
+            searchDeck.color = SKColor.black
+            searchDeck.text = "Import Deck"
+            searchDeck.position = CGPoint(x: newTurnButton.position.x, y: newTurnButton.position.y + 100)
+            searchDeck.zPosition = 5
+            scene.addChild(searchDeck)
+        }
         #elseif os(OSX)
         #endif
     }
@@ -67,8 +76,16 @@ class Labels {
         return newTurnButton.contains(point)
     }
     
+    func isImportPressed(point: CGPoint) -> Bool {
+        if let searchDeck = searchDeck {
+            if searchDeck.contains(point) {
+                return true
+            }
+        }
+        return false
+    }
     
-    
+
     func setCardDisplay(playingCard: PlayingCard) {
         cardDisplay.texture = SKTexture(imageNamed: "\(playingCard.name!).full.jpg")
         

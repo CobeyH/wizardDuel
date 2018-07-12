@@ -53,6 +53,10 @@ class Game {
         if deckURL == nil {
             deckURL = Card.deck()
         }
+        newDeck(withURL: deckURL)
+    }
+
+    func newDeck(withURL: URL?) {
         let deckTouple = Card.cardsFromFile(url: deckURL)
         let cards = deckTouple.0.shuffled()
         commander = deckTouple.1

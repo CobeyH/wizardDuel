@@ -10,7 +10,7 @@ import UIKit
 import SpriteKit
 import GameplayKit
 
-class GameViewController: UIViewController {
+class GameViewController: UIViewController, UIDocumentPickerDelegate {
     
     weak var delegate: ViewControllerDelegate?
     @IBOutlet var skView: SKView!
@@ -130,7 +130,28 @@ class GameViewController: UIViewController {
         return false
     }
     
+    internal func importDeck() {
+        let documentPicker = UIDocumentPickerViewController(documentTypes: ["public.text"], in: .import)
+        documentPicker.delegate = self
+        documentPicker.modalPresentationStyle = .formSheet
+        self.present(documentPicker, animated: true)
+    }
+
+    func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentAt url: URL) {
+        if controller.documentPickerMode == .import {
+            let gameScene = self.delegate as! GameScene
+            gameScene.game.newDeck(withURL: url)
+        }
+        // do we need to dismiss it here?
+    }
+    
+    func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
+        print("view was cancelled")
+        dismiss(animated: true, completion: nil)
+    }
+
 }
+
 
 extension GameViewController: GameSceneDelegate {
     

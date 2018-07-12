@@ -563,7 +563,7 @@
 				TargetAttributes = {
 					4E396E7C1EF3DF8600F8696A = {
 						CreatedOnToolsVersion = 8.3.2;
-						DevelopmentTeam = QD694Y7TZY;
+						DevelopmentTeam = 2M3W3R4VFQ;
 						LastSwiftMigration = 0900;
 						ProvisioningStyle = Automatic;
 					};
@@ -1048,7 +1048,7 @@
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = QD694Y7TZY;
+				DEVELOPMENT_TEAM = 2M3W3R4VFQ;
 				INFOPLIST_FILE = "$(SRCROOT)/Wizard Duel/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.CobeyHollier.WizardDuel;
@@ -1066,7 +1066,7 @@
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = QD694Y7TZY;
+				DEVELOPMENT_TEAM = 2M3W3R4VFQ;
 				INFOPLIST_FILE = "$(SRCROOT)/Wizard Duel/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.CobeyHollier.WizardDuel;
