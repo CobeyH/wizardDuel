@@ -27,27 +27,24 @@
 		</dict>
 		<key>FirebaseStorage.xcscheme</key>
 		<dict>
+			<key>isShown</key>
+			<false/>
 			<key>orderHint</key>
-			<integer>10</integer>
+			<integer>3</integer>
 		</dict>
 		<key>GTMSessionFetcher.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 			<key>orderHint</key>
-			<integer>4</integer>
+			<integer>5</integer>
 		</dict>
 		<key>GoogleToolboxForMac.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 			<key>orderHint</key>
-			<integer>3</integer>
-		</dict>
-		<key>Pods-Wizard Duel.xcscheme</key>
-		<dict>
-			<key>orderHint</key>
-			<integer>11</integer>
+			<integer>4</integer>
 		</dict>
 		<key>Pods-Wizard DuelTests.xcscheme</key>
 		<dict>
@@ -71,13 +68,6 @@
 			<integer>9</integer>
 		</dict>
 		<key>leveldb-library.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-			<key>orderHint</key>
-			<integer>5</integer>
-		</dict>
-		<key>nanopb.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>

@@ -12,10 +12,10 @@ class Game {
         case notStarted
         case playing
         case done
+        case viewingTokens
     }
     
     // MARK: - Properties
-    
     private let graveyards: [Graveyard]
     let hands: Hand
     var allBattlefields: [[Battlefield]] = [[],[],[],[]]
@@ -23,6 +23,7 @@ class Game {
     let dataExtract: MasterDeck
     var commander: String
     var deckURL: URL?
+    var tokens: Deck
     
     // MARK: - Computed properties
     var isGameOver: Bool {
@@ -35,7 +36,6 @@ class Game {
     
     
     // MARK: - Initialisers
-    
     init() {
         graveyards = [Graveyard(), Graveyard(), Graveyard()]
         hands = Hand()
@@ -46,6 +46,7 @@ class Game {
         }
         deck = Deck()
         commander = "none"
+        tokens = Deck()
     }
     
     // MARK: - Methods
@@ -104,6 +105,8 @@ class Game {
             stack.removeCard(card: card)
         case .dataExtract():
             dataExtract.removeBottom()
+        case .tokens():
+            tokens.removeCard(card: card)
         }
     }
     
@@ -114,6 +117,21 @@ class Game {
         try move(card: card, to: toLocation)
         } catch {}
         
+    }
+    
+    func createTokens() -> [Card] {
+        let URL = Bundle.main.url(forResource: "tokens", withExtension: "txt")
+        let addedTokens = Card.cardsFromFile(url: URL)
+        for token in addedTokens.0 {
+            
+                do {
+                  try  tokens.add(card: token)
+                } catch {
+                print("failed to add token to game")
+            }
+        }
+        
+        return addedTokens.0
     }
     
     //returns the number of cards in a given array when passed a location.
@@ -160,6 +178,9 @@ class Game {
                 }
             }
         }
+        if tokens.contains(card: card) {
+            return Location.tokens()
+        }
         return nil
     }
     
@@ -202,6 +223,8 @@ class Game {
             try stack.add(card: card)
         case .dataExtract():
             try dataExtract.add(card: card)
+            case .tokens():
+            try tokens.add(card: card)
         }
         
     }

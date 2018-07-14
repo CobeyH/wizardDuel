@@ -20,7 +20,7 @@ class PlayerInfo: SKSpriteNode {
     let databaseKey: String
     
     init(lifeTotal: Int, playerName: String, playerNumber: Int, to scene: SKScene, databaseKey: String) {
-        let texture = SKTexture(imageNamed: "4")
+        let texture = SKTexture(imageNamed: "playerInfo")
         let size = config.playerInfoSize
         self.playerName = playerName
         self.playerNumber = playerNumber

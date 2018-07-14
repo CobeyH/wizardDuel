@@ -25,7 +25,6 @@ struct Card {
 //        deckURL = Bundle.main.url(forResource: "kittenDeck", withExtension: "txt")
         
         #if os(iOS)
-    
         
         deckURL = Bundle.main.url(forResource: "Muldrotha", withExtension: "txt")
         #elseif os(OSX)

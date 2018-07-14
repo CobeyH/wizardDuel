@@ -283,21 +283,16 @@ struct GameGraphics {
             if let databaseRef = playingCard.databaseRef {
                 database.child(databaseRef).observeSingleEvent(of: .value, with: {(snapshot) in
                     if let value = snapshot.value as? NSDictionary {
-                    let databaseSender = value["Sender"] as? String
-                    let senderInt = Int(databaseSender!)
-                    if playingCard.tapped && senderInt == sender {
-                        self.tapCard(card: playingCard)
-                        tappedCards.append(playingCard)
-                        Database.database().reference().child("Updates").child(playingCard.databaseRef!).updateChildValues(["Tapped": "false"])
-                }
+                        let databaseSender = value["Sender"] as? String
+                        let senderInt = Int(databaseSender!)
+                        if playingCard.tapped && senderInt == sender {
+                            self.tapCard(card: playingCard)
+                            tappedCards.append(playingCard)
+                            Database.database().reference().child("Updates").child(playingCard.databaseRef!).updateChildValues(["Tapped": "false"])
+                        }
                     }
-                    
-                    })
-                
-                
-               
+                })
             }
-            
         }
         print(tappedCards)
         return tappedCards
@@ -359,6 +354,32 @@ struct GameGraphics {
         cards = shuffled
     }
     
+    mutating func showTokens(addedTokens: [Card], scene: SKScene) {
+        
+        for (i, gameCard) in addedTokens.enumerated() {
+            let card = PlayingCard(card: gameCard, size: config.cardSize, databaseRef: nil)
+            card.anchorPoint = config.cardMiddle
+            card.size = config.cardSize
+            card.position = CGPoint(x: config.cardSize.width/2, y: -config.cardSize.height/2 - CGFloat(i*4))
+            card.zPosition = config.getZIndex()
+            card.texture = SKTexture(imageNamed: card.card.fileName)
+            card.heldBy = "display"
+            
+            cards.append(card)
+            scene.addChild(card)
+            
+        }
+    }
+    
+    mutating func hideTokens() {
+        for playingCard in cards {
+            if playingCard.heldBy == "display" {
+                cards.remove(at: cards.index(of: playingCard)!)
+                playingCard.removeFromParent()
+            }
+        }
+    }
+    
     
     //Orders the cards properly when a card is removed from the middle of a cell
     mutating func updateCardStack(card: CurrentPlayingCard, location: Location, gameBattleDeck: [[Battlefield]], hand: Hand) {
@@ -391,7 +412,6 @@ struct GameGraphics {
                 i = i + 1
                 currentPlayingCard.move(to: position)
             }
-            
             
         default: break
             
@@ -469,12 +489,14 @@ struct GameGraphics {
         case .dataExtract():
             print("Error in move: Called dataExtract")
             newPosition = CGPoint(x:0, y:0)
+        default:
+            print("Called illegal move to tokens or dataExtract")
+            newPosition = CGPoint(x: 0, y: 0)
         
             
         }
         if playingCard.tapped && playingCard.heldBy != "Battlefield" {
             tapCard(card: playingCard)
-            
         }
         currentPlayingCard.move(to: newPosition)
         if currentPlayingCard.playingCard.heldBy == "Deck" {

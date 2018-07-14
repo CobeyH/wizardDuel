@@ -58,7 +58,6 @@ class GameScene: SKScene {
         gameGraphics.setupBackground(to: self)
         
         labels.setUpLabels(width: size.width, height: size.height, to: self)
-        
         gameGraphics.addChildren(to: self)
         gameGraphics.setupBackground(to: self)
         
@@ -72,6 +71,16 @@ class GameScene: SKScene {
     }
     
 #if os(iOS)
+    @objc func pinch(sender: pinchGR) {
+        if sender.state == .ended {
+            if sender.scale < 0.4 {
+                gameGraphics.reconstructDeck()
+                
+            } else if sender.scale > 1.5 {
+                gameGraphics.displayDeck()
+            }
+        }
+    }
     
 #elseif os(OSX)
     override func mouseMoved(with event: NSEvent) {
@@ -94,16 +103,7 @@ class GameScene: SKScene {
         }
     }
 
-    @objc func pinch(sender: pinchGR) {
-        if sender.state == .ended {
-            if sender.scale < 0.4 {
-                gameGraphics.reconstructDeck()
-
-            } else if sender.scale > 1.5 {
-                gameGraphics.displayDeck()
-            }
-        }
-    }
+    
     
     // Triggered when a single click is detected with no dragging
     @objc func tap(sender: TapGR) {
@@ -469,13 +469,23 @@ class GameScene: SKScene {
             gameGraphics.displayDeck()
         case [.command] where event.characters == "c":
             Database.database().reference().child("players").removeValue()
+        case [.command] where event.characters == "t":
+            let addedTokens = game.createTokens()
+            gameGraphics.showTokens(addedTokens: addedTokens, scene: self)
+            
             
         default:
             break
         }
         if let firstCharacter = event.characters?.first {
             if firstCharacter == "\u{1b}" {
-                gameGraphics.reconstructDeck()
+                for playingCard in gameGraphics.cards {
+                    if playingCard.heldBy == "display" {
+                        gameGraphics.hideTokens()
+                    } else {
+                        gameGraphics.reconstructDeck()
+                    }
+                }
             }
         }
     }

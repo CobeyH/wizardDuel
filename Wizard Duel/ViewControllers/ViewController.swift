@@ -121,6 +121,10 @@ class ViewController: NSViewController {
 // MARK: - GameSceneDelegate
 
 extension ViewController: GameSceneDelegate {
+    func importDeck() {
+        print("importing deck")
+    }
+    
     
     func newGame(currentGameState: Game.State, gameScene: GameScene) -> Bool {
         if newGame() {

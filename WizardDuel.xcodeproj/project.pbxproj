@@ -12,8 +12,17 @@
 		0350AE2220F153BC00A86E5E /* Muldrotha.txt in Resources */ = {isa = PBXBuildFile; fileRef = 0350AE2120F153BC00A86E5E /* Muldrotha.txt */; };
 		0350AE2320F153BC00A86E5E /* Muldrotha.txt in Resources */ = {isa = PBXBuildFile; fileRef = 0350AE2120F153BC00A86E5E /* Muldrotha.txt */; };
 		0350AE2420F153BC00A86E5E /* Muldrotha.txt in Resources */ = {isa = PBXBuildFile; fileRef = 0350AE2120F153BC00A86E5E /* Muldrotha.txt */; };
+		0365695C20F7C8DC00EE9839 /* Tokens.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0365695B20F7C8DC00EE9839 /* Tokens.xcassets */; };
+		0365695D20F7C8DC00EE9839 /* Tokens.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0365695B20F7C8DC00EE9839 /* Tokens.xcassets */; };
+		0365695E20F7C8DC00EE9839 /* Tokens.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0365695B20F7C8DC00EE9839 /* Tokens.xcassets */; };
 		036EE1E220C85E3200A768A0 /* PlayingDice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 036EE1E120C85E3200A768A0 /* PlayingDice.swift */; };
 		03779E2A20B481C800F2DA43 /* testDeck2.txt in Resources */ = {isa = PBXBuildFile; fileRef = 03779E2920B481C700F2DA43 /* testDeck2.txt */; };
+		0377EE5820F892D600C6F94B /* tokens.txt in Resources */ = {isa = PBXBuildFile; fileRef = 0377EE5720F892D600C6F94B /* tokens.txt */; };
+		0377EE5920F892D600C6F94B /* tokens.txt in Resources */ = {isa = PBXBuildFile; fileRef = 0377EE5720F892D600C6F94B /* tokens.txt */; };
+		0377EE5A20F892D600C6F94B /* tokens.txt in Resources */ = {isa = PBXBuildFile; fileRef = 0377EE5720F892D600C6F94B /* tokens.txt */; };
+		0377EE6020F8954E00C6F94B /* tokens.txt in Resources */ = {isa = PBXBuildFile; fileRef = 0377EE5F20F8954E00C6F94B /* tokens.txt */; };
+		0377EE6120F8954E00C6F94B /* tokens.txt in Resources */ = {isa = PBXBuildFile; fileRef = 0377EE5F20F8954E00C6F94B /* tokens.txt */; };
+		0377EE6220F8954E00C6F94B /* tokens.txt in Resources */ = {isa = PBXBuildFile; fileRef = 0377EE5F20F8954E00C6F94B /* tokens.txt */; };
 		0378867020ACA38E00B2B2E4 /* MasterDeck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0378866F20ACA38E00B2B2E4 /* MasterDeck.swift */; };
 		039785CD20A52CA0005C2F1C /* testDeck.txt in Resources */ = {isa = PBXBuildFile; fileRef = 039785CC20A52CA0005C2F1C /* testDeck.txt */; };
 		03B8994720E03E5200CBEFDC /* PlayerInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B8994620E03E5200CBEFDC /* PlayerInfo.swift */; };
@@ -151,8 +160,11 @@
 /* Begin PBXFileReference section */
 		013630CD78B883F7903F6EEF /* Pods-WizardDuel iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WizardDuel iOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-WizardDuel iOS/Pods-WizardDuel iOS.release.xcconfig"; sourceTree = "<group>"; };
 		0350AE2120F153BC00A86E5E /* Muldrotha.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Muldrotha.txt; sourceTree = "<group>"; };
+		0365695B20F7C8DC00EE9839 /* Tokens.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Tokens.xcassets; sourceTree = "<group>"; };
 		036EE1E120C85E3200A768A0 /* PlayingDice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayingDice.swift; sourceTree = "<group>"; };
 		03779E2920B481C700F2DA43 /* testDeck2.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = testDeck2.txt; sourceTree = "<group>"; };
+		0377EE5720F892D600C6F94B /* tokens.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = tokens.txt; sourceTree = "<group>"; };
+		0377EE5F20F8954E00C6F94B /* tokens.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = tokens.txt; sourceTree = "<group>"; };
 		0378866F20ACA38E00B2B2E4 /* MasterDeck.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterDeck.swift; sourceTree = "<group>"; };
 		039785CC20A52CA0005C2F1C /* testDeck.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = testDeck.txt; sourceTree = "<group>"; };
 		03B8994620E03E5200CBEFDC /* PlayerInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerInfo.swift; sourceTree = "<group>"; };
@@ -285,6 +297,7 @@
 				7E02B12020EC6FF80088FFEB /* WizardDuel Shared */,
 				7E02B12A20EC6FF90088FFEB /* WizardDuel iOS */,
 				7E02B13B20EC6FF90088FFEB /* WizardDuel macOS */,
+				0365695B20F7C8DC00EE9839 /* Tokens.xcassets */,
 				4E396E7E1EF3DF8600F8696A /* Products */,
 				D1BF0367E655FD99886F6EA7 /* Pods */,
 				4C5ED64C41C2BB81BD56A89B /* Frameworks */,
@@ -313,7 +326,9 @@
 				4E396E8C1EF3DF8600F8696A /* Main.storyboard */,
 				7EA388E220E01101004FF04D /* Fonts */,
 				4E396E8F1EF3DF8600F8696A /* Info.plist */,
+				0377EE5720F892D600C6F94B /* tokens.txt */,
 				0350AE2120F153BC00A86E5E /* Muldrotha.txt */,
+				0377EE5F20F8954E00C6F94B /* tokens.txt */,
 				7E7EFE3D20CC363A00338E4A /* kittenDeck.txt */,
 				039785CC20A52CA0005C2F1C /* testDeck.txt */,
 				03779E2920B481C700F2DA43 /* testDeck2.txt */,
@@ -541,6 +556,7 @@
 				7E02B13720EC6FF90088FFEB /* Frameworks */,
 				7E02B13820EC6FF90088FFEB /* Resources */,
 				7E02B19920EC72220088FFEB /* Copy Card Images */,
+				80C9236D675BF9585E9DE716 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -612,10 +628,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0365695C20F7C8DC00EE9839 /* Tokens.xcassets in Resources */,
 				0350AE2220F153BC00A86E5E /* Muldrotha.txt in Resources */,
 				4E350B9E1F489BFF0009FD4B /* README in Resources */,
 				03779E2A20B481C800F2DA43 /* testDeck2.txt in Resources */,
+				0377EE5820F892D600C6F94B /* tokens.txt in Resources */,
 				7EA388E320E01101004FF04D /* Fonts in Resources */,
+				0377EE6020F8954E00C6F94B /* tokens.txt in Resources */,
 				4E396E8E1EF3DF8600F8696A /* Main.storyboard in Resources */,
 				039785CD20A52CA0005C2F1C /* testDeck.txt in Resources */,
 				7E7EFE3E20CC363B00338E4A /* kittenDeck.txt in Resources */,
@@ -635,10 +654,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0365695D20F7C8DC00EE9839 /* Tokens.xcassets in Resources */,
 				0350AE2320F153BC00A86E5E /* Muldrotha.txt in Resources */,
 				7E02B19220EC71810088FFEB /* testDeck.txt in Resources */,
 				7E02B13120EC6FF90088FFEB /* Main.storyboard in Resources */,
+				0377EE5920F892D600C6F94B /* tokens.txt in Resources */,
 				7E02B19020EC71760088FFEB /* kittenDeck.txt in Resources */,
+				0377EE6120F8954E00C6F94B /* tokens.txt in Resources */,
 				7E02B19320EC71810088FFEB /* testDeck2.txt in Resources */,
 				7E02B13420EC6FF90088FFEB /* LaunchScreen.storyboard in Resources */,
 				7E02B19420EC71810088FFEB /* GoogleService-Info.plist in Resources */,
@@ -655,11 +677,14 @@
 				0350AE2420F153BC00A86E5E /* Muldrotha.txt in Resources */,
 				7E02B19520EC71820088FFEB /* testDeck.txt in Resources */,
 				7E02B19D20EC73EC0088FFEB /* Info.plist in Resources */,
+				0377EE5A20F892D600C6F94B /* tokens.txt in Resources */,
 				7E02B19120EC71770088FFEB /* kittenDeck.txt in Resources */,
+				0365695E20F7C8DC00EE9839 /* Tokens.xcassets in Resources */,
 				7E02B19620EC71820088FFEB /* testDeck2.txt in Resources */,
 				7E02B14B20EC6FF90088FFEB /* Assets.xcassets in Resources */,
 				7E02B15320EC703C0088FFEB /* Info.plist in Resources */,
 				7E02B19720EC71820088FFEB /* GoogleService-Info.plist in Resources */,
+				0377EE6220F8954E00C6F94B /* tokens.txt in Resources */,
 				7E02B18B20EC70C30088FFEB /* GameScene.sks in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -669,7 +694,7 @@
 /* Begin PBXShellScriptBuildPhase section */
 		0329664E20EC8F7300E57446 /* Copy Card Images */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 12;
+			buildActionMask = 8;
 			files = (
 			);
 			inputPaths = (
@@ -677,7 +702,7 @@
 			name = "Copy Card Images";
 			outputPaths = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
+			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
 			shellScript = "#!/bin/sh\n\nset -e\n\necho \"$SRCROOT\"\nrsync -r \"$SRCROOT/Wizard Duel/Content/\" \"$TARGET_BUILD_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH\"";
 			showEnvVarsInLog = 0;
@@ -764,6 +789,28 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "#!/bin/sh\n\nset -e\n\necho \"$SRCROOT\"\nrsync -r \"$SRCROOT/Wizard Duel/Content/\" \"$TARGET_BUILD_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH\"\n";
+			showEnvVarsInLog = 0;
+		};
+		80C9236D675BF9585E9DE716 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-WizardDuel macOS/Pods-WizardDuel macOS-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-WizardDuel macOS/Pods-WizardDuel macOS-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
