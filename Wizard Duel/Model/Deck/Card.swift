@@ -18,7 +18,7 @@ struct Card {
         self.name = name
     }
     
-    static func deck() -> URL {
+    static func deck() -> URL? {
          var deckURL : URL?
         
         // Uncomment the next line for debugging to load the deck file of your choice
@@ -41,8 +41,11 @@ struct Card {
             }
         }
         #endif
-        
-        return deckURL!
+        if deckURL != nil {
+            return deckURL!
+        } else {
+            return nil
+        }
     }
     
 

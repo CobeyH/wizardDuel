@@ -127,6 +127,7 @@ class GameScene: SKScene {
             if labels.keepButton.contains(touchLocation) {
                 mulliganCount = 0
                 labels.removeButtons()
+                game.deckURL = nil
             }
             //Checks if the new turn button has been pressed
             else if labels.isNewTurnTapped(point: touchLocation) {
@@ -447,6 +448,10 @@ class GameScene: SKScene {
                     return
                 }
             }
+            else if gameGraphics.deck.contains(position) {
+                playingCard.position = gameGraphics.deck.position
+                playingCard.zPosition = gameGraphics.deck.zPosition + 1
+            }
         }
     }
     
@@ -668,7 +673,6 @@ extension GameScene: ViewControllerDelegate {
             if mulliganCount != 0 {
                 drawCard()
             }
-            
         }
         
         if mulliganCount == 0 {
