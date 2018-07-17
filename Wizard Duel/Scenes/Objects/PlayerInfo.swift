@@ -82,10 +82,12 @@ class PlayerInfo: SKSpriteNode {
     
     func lifeDown() {
         lifeTotal = lifeTotal - 1
+        updateLife()
     }
     
     func lifeUp() {
         lifeTotal = lifeTotal + 1
+        updateLife()
         
     }
     

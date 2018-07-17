@@ -10,16 +10,15 @@ import SpriteKit
 
 class Labels {
     private var config = GameGraphicsConfig()
-    var shuffleDeck: SKLabelNode = SKLabelNode(fontNamed: "Times New Roman")
-    var newTurnButton: SKLabelNode = SKLabelNode(fontNamed: "Times New Roman")
+    var shuffleDeck: SKLabelNode = SKLabelNode(fontNamed: "Planewalker")
+    var newTurnButton: SKLabelNode = SKLabelNode(fontNamed: "Planewalker")
     var cardDisplay: SKSpriteNode = SKSpriteNode(color: .red, size: CGSize(width: 50, height: 50))
     var mulliganButton: SKLabelNode?
-    let keepButton: SKLabelNode = SKLabelNode(fontNamed: "Times New Roman")
-    let newGameButton: SKLabelNode = SKLabelNode(fontNamed: "Times New Roman")
+    let keepButton: SKLabelNode = SKLabelNode(fontNamed: "Planewalker")
+    let newGameButton: SKLabelNode = SKLabelNode(fontNamed: "Planewalker")
     var searchDeck: SKLabelNode?
     // Sets up all the labels for the deck count, graveyard count, etc.
     func setUpLabels(width: CGFloat, height: CGFloat, to scene: SKScene) {
-        
         //cardDisplay Label
         cardDisplay.color = .clear
         cardDisplay.size = CGSize(width: config.cardSize.width * 2.5, height: config.cardSize.height * 2.5)
@@ -54,7 +53,7 @@ class Labels {
         scene.addChild(shuffleDeck)
         
         #if os(iOS)
-        searchDeck = SKLabelNode(fontNamed: "Time New Roman")
+        searchDeck = SKLabelNode(fontNamed: "Planewalker")
         if let searchDeck = searchDeck {
             searchDeck.fontSize = 30
             searchDeck.color = SKColor.black
@@ -92,7 +91,7 @@ class Labels {
     }
     
     func addMulligan(to scene: SKScene) {
-        mulliganButton = SKLabelNode(fontNamed: "Times New Roman")
+        mulliganButton = SKLabelNode(fontNamed: "Planewalker")
         mulliganButton!.fontSize = 30
         mulliganButton!.color = SKColor.black
         mulliganButton!.text = "Mulligan"

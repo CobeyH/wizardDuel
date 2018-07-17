@@ -9,8 +9,6 @@
 	</array>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
-	<key>ATSApplicationFontsPath</key>
-	<string>Fonts</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIconFile</key>

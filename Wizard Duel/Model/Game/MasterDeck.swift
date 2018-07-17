@@ -59,6 +59,9 @@ class MasterDeck: ContainsCard, HasState, Resetable {
     func add(card: Card) throws {
         cards.append(card)
         state = .card(card)
+    }
+    
+    func addUnderStack(card: Card) {
         
     }
     

@@ -4,7 +4,7 @@
 <dict>
 	<key>UIAppFonts</key>
 	<array>
-		<string>PlanewalkerBold.otf</string>
+		<string>PW.otf</string>
 		<string>Planewalker.otf</string>
 	</array>
 	<key>CFBundleDevelopmentRegion</key>

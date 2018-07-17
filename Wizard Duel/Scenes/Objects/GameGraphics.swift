@@ -219,9 +219,9 @@ struct GameGraphics {
         player.movePlayerInfo(playerNumberSelf: playerNumberSelf)
     }
     
-    func findPlayer(name: String) -> PlayerInfo? {
+    func findPlayer(playerNumber: Int) -> PlayerInfo? {
         for playerInfo in playerInfos {
-            if playerInfo.playerName == name {
+            if playerInfo.playerNumber == playerNumber {
                 return playerInfo
             }
         }
@@ -244,7 +244,6 @@ struct GameGraphics {
     }
     
     //MARK: Helpers
-    
     //Returns the playingcards found at a specific location and returns the one with the greatest z position
     func cardFrom(position: CGPoint) -> PlayingCard? {
         var candidateCards: [PlayingCard] = []
@@ -273,6 +272,13 @@ struct GameGraphics {
         }
         cards = []
         setupCards(gameDecks: gameDecks)
+    }
+    
+    func distanceBetween(pointA: CGPoint, pointB: CGPoint) -> Int {
+        let lengthX = pow((pointA.x - pointB.x), 2)
+        let lengthY = pow((pointA.y - pointB.y), 2)
+        let length = (lengthX + lengthY).squareRoot()
+        return Int(length)
     }
     
     //Untaps all of the cards when the new turn button is pressed
@@ -328,30 +334,18 @@ struct GameGraphics {
         }
     }
     
-    mutating func reconstructDeck() {
-        for (i,card) in cards.enumerated() {
-            if card.heldBy == "Deck" {
-                setActive(card: card)
-                let currentPlayingCard = CurrentPlayingCard(playingCard: card, startPosition: card.position, touchPoint: card.anchorPoint, location: .deck())
-                let position = CGPoint(x: deck.position.x, y: deck.position.y + CGFloat(i/4))
-                currentPlayingCard.move(to: position)
-                currentPlayingCard.playingCard.texture = SKTexture(imageNamed: config.cardbackName)
+    mutating func reconstructDeck(gameCards: [Card]) {
+        for (i,card) in gameCards.enumerated() {
+            for playingCard in cards {
+                if playingCard.card == card {
+                    setActive(card: playingCard)
+                    let currentPlayingCard = CurrentPlayingCard(playingCard: playingCard, startPosition: playingCard.position, touchPoint: playingCard.anchorPoint, location: .deck())
+                    let position = CGPoint(x: deck.position.x, y: deck.position.y + CGFloat(i/4))
+                    currentPlayingCard.move(to: position)
+                    currentPlayingCard.playingCard.texture = SKTexture(imageNamed: config.cardbackName)
+                }
             }
         }
-        shuffleDeck()
-    }
-    
-    mutating func shuffleDeck() {
-        var oldOrder = cards
-        var shuffled: [PlayingCard] = []
-        for _ in 0..<oldOrder.count
-        {
-            let rand = Int(arc4random_uniform(UInt32(oldOrder.count)))
-            shuffled.append(oldOrder[rand])
-            
-            oldOrder.remove(at: rand)
-        }
-        cards = shuffled
     }
     
     mutating func showTokens(addedTokens: [Card], scene: SKScene) {

@@ -74,7 +74,8 @@ class GameScene: SKScene {
     @objc func pinch(sender: pinchGR) {
         if sender.state == .ended {
             if sender.scale < 0.4 {
-                gameGraphics.reconstructDeck()
+                game.deck.cards.shuffle()
+                gameGraphics.reconstructDeck(gameCards: game.deck.cards)
                 
             } else if sender.scale > 1.5 {
                 gameGraphics.displayDeck()
@@ -102,7 +103,6 @@ class GameScene: SKScene {
             }
         }
     }
-
     
     
     // Triggered when a single click is detected with no dragging
@@ -140,8 +140,8 @@ class GameScene: SKScene {
             }
             //Checks if the shuffle button has been tapped
             else if labels.isShuffleTapped(point: touchLocation) {
-                gameGraphics.shuffleDeck()
-                gameGraphics.reconstructDeck()
+                game.deck.cards.shuffle()
+                gameGraphics.reconstructDeck(gameCards: game.deck.cards)
             } else if labels.isImportPressed(point: touchLocation) {
                 guard let viewDelegate = viewDelegate else { return }
                 
@@ -170,13 +170,12 @@ class GameScene: SKScene {
             //Checks if a a player info box is tapped and updates life totals locally and in the database.
             if let playerInfo = gameGraphics.findPlayer(at: touchLocation) {
                 let childPoint = convert(touchLocation, to: playerInfo)
-                if playerInfo.healthUpLabel.contains(childPoint) {
+                if gameGraphics.distanceBetween(pointA: playerInfo.healthUpLabel.position, pointB: childPoint) < 10 {
                     playerInfo.lifeUp()
                 }
-                else if playerInfo.healthDownLabel.contains(childPoint) {
+                else if gameGraphics.distanceBetween(pointA: playerInfo.healthDownLabel.position, pointB: childPoint) < 10 {
                     playerInfo.lifeDown()
                 }
-                playerInfo.updateLife()
                 Database.database().reference().child("players").child(playerInfo.databaseKey).updateChildValues(["lifeTotal": String(playerInfo.getLife())])
             }
             
@@ -367,23 +366,25 @@ class GameScene: SKScene {
             if let playerName = snapshotValue["player"],
                 let playerNumber = Int(snapshotValue["playNumber"]!),
                 let lifeTotal = Int(snapshotValue["lifeTotal"]!) {
-                    if let player = gameGraphics.findPlayer(name: playerName) {
+                    if let player = gameGraphics.findPlayer(playerNumber: playerNumber) {
                         player.lifeTotal = lifeTotal
                         player.updateLife()
                         
                     } else {
                         gameGraphics.addPlayer(playerName: playerName, playerNumber: playerNumber, lifeTotal: lifeTotal, to: self, playerNumberSelf: self.playerNumber, databaseKey: snapshot.key)
                     }
-                
-                print("Player Number is: \(playerNumber)")
-            
-            }
+                }
         }
     }
         
     //Clears the database in preperation of a new game.
     private func deleteFromDatabase() {
-        Database.database().reference().child("Updates").child((currentPlayingCard?.playingCard.databaseRef)!).removeValue()
+        if currentPlayingCard?.playingCard.databaseRef != nil {
+            Database.database().reference().child("Updates").child((currentPlayingCard?.playingCard.databaseRef)!).removeValue()
+        }
+        else {
+            print("Failed to remove playing card from database")
+        }
     }
     
     //Determines what field to place a card on relative to the local user to ensure consistant player order.
@@ -449,8 +450,11 @@ class GameScene: SKScene {
                 }
             }
             else if gameGraphics.deck.contains(position) {
-                playingCard.position = gameGraphics.deck.position
-                playingCard.zPosition = gameGraphics.deck.zPosition + 1
+                let temp = playingCard.card
+                game.deck.removeBottom()
+                game.deck.cards.insert(temp, at: 0)
+                gameGraphics.reconstructDeck(gameCards: game.deck.cards)
+                
             }
         }
     }
@@ -488,8 +492,19 @@ class GameScene: SKScene {
                     if playingCard.heldBy == "display" {
                         gameGraphics.hideTokens()
                     } else {
-                        gameGraphics.reconstructDeck()
+                        game.deck.cards.shuffle()
+                        gameGraphics.reconstructDeck(gameCards: game.deck.cards)
                     }
+                }
+            }
+            else if firstCharacter == "-" {
+                if let playerSelf = gameGraphics.findPlayer(playerNumber: playerNumber) {
+                    playerSelf.lifeDown()
+                }
+            }
+            else if firstCharacter == "=" {
+                if let playerSelf = gameGraphics.findPlayer(playerNumber: playerNumber) {
+                    playerSelf.lifeUp()
                 }
             }
         }
@@ -563,10 +578,8 @@ class GameScene: SKScene {
             currentPlayingCard.returnToOriginalLocation()
         }
         
-        let lengthX = pow((currentPlayingCard.startPosition.x - pos.x), 2)
-        let lengthY = pow((currentPlayingCard.startPosition.y - pos.y), 2)
-        let length: Bool = (lengthX + lengthY).squareRoot() <  20.0
-        if currentPlayingCard.playingCard.heldBy == "Battlefield" && length {
+        let close: Bool = gameGraphics.distanceBetween(pointA: currentPlayingCard.startPosition, pointB: pos) < 5
+        if currentPlayingCard.playingCard.heldBy == "Battlefield" && close {
             let playingCard = currentPlayingCard.playingCard
             gameGraphics.tapCard(card: playingCard)
             Database.database().reference().child("Updates").child(playingCard.databaseRef!).updateChildValues(["Tapped": playingCard.tapped, "Sender": playerNumber])
@@ -597,12 +610,14 @@ class GameScene: SKScene {
             currentPlayingCard.returnToOriginalLocation()
         }
         gameGraphics.update(gameDeck: game.deck)
+        self.currentPlayingCard = nil
         
         
     }
     
     //Called when the mouse is clicked twice. It calls the methods to move a card from the deck into the hand
     func doubleTap(at point: CGPoint) {
+        
         let playingCard = gameGraphics.cardFrom(position: point)
         
         if playingCard!.heldBy == "Deck" {
@@ -614,31 +629,8 @@ class GameScene: SKScene {
     func drawCard() {
         let card = game.deck.bottomCard
         let playingCard = gameGraphics.findPlayingCard(from: card!)
-        guard
-            let location = game.location(from: playingCard.card),
-            game.canMove(card: playingCard.card)
-            
-            else { return }
-        
-        gameGraphics.setActive(card: playingCard)
-        currentPlayingCard = CurrentPlayingCard(playingCard: playingCard, startPosition: playingCard.position, touchPoint: playingCard.anchorPoint, location: location)
-        let dropLocation = gameGraphics.dropLocation(from: gameGraphics.hands.position, playingCard: currentPlayingCard!.playingCard, game: game)
-        do {
-            //Updates the model by removing the card from the origonal location and adding it to the new location.
-            
-            try game.move(card: currentPlayingCard!, to: dropLocation!)
-            //Updates the view by moving the image to the correct animation
-            gameGraphics.move(currentPlayingCard: currentPlayingCard!, to: dropLocation!, gameDecks: game.deck, gameBattleDeck: game.allBattlefields, hand: game.hands)
-            gameGraphics.updateCardStack(card: currentPlayingCard!, location: currentPlayingCard!.location, gameBattleDeck: game.allBattlefields, hand: game.hands)
-        } catch GameError.invalidMove {
-            currentPlayingCard!.returnToOriginalLocation()
-            print("Invalid Move")
-        } catch {
-            // Something went wrong - don't know what
-            currentPlayingCard!.returnToOriginalLocation()
-        }
-        
-        self.currentPlayingCard = nil
+            currentPlayingCard = CurrentPlayingCard(playingCard: playingCard, startPosition: playingCard.position, touchPoint: playingCard.position, location: .deck())
+            moveLocation(currentPlayingCard: currentPlayingCard!, location: .hand())
         gameGraphics.update(gameDeck: game.deck)
     }
     
