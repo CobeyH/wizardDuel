@@ -4,11 +4,13 @@
 <dict>
 	<key>UIAppFonts</key>
 	<array>
-		<string>PlanewalkerBold.otf</string>
+		<string>PW.otf</string>
 		<string>Planewalker.otf</string>
 	</array>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
+	<key>ATSApplicationFontsPath</key>
+	<string></string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIconFile</key>

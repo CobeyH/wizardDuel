@@ -25,9 +25,6 @@
 		0377EE6220F8954E00C6F94B /* tokens.txt in Resources */ = {isa = PBXBuildFile; fileRef = 0377EE5F20F8954E00C6F94B /* tokens.txt */; };
 		0378867020ACA38E00B2B2E4 /* MasterDeck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0378866F20ACA38E00B2B2E4 /* MasterDeck.swift */; };
 		039785CD20A52CA0005C2F1C /* testDeck.txt in Resources */ = {isa = PBXBuildFile; fileRef = 039785CC20A52CA0005C2F1C /* testDeck.txt */; };
-		039D40B620FD8A7900F61C3C /* PW.otf in Resources */ = {isa = PBXBuildFile; fileRef = 039D40B520FD8A7900F61C3C /* PW.otf */; };
-		039D40B720FD8A7900F61C3C /* PW.otf in Resources */ = {isa = PBXBuildFile; fileRef = 039D40B520FD8A7900F61C3C /* PW.otf */; };
-		039D40B820FD8A7900F61C3C /* PW.otf in Resources */ = {isa = PBXBuildFile; fileRef = 039D40B520FD8A7900F61C3C /* PW.otf */; };
 		03B8994720E03E5200CBEFDC /* PlayerInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B8994620E03E5200CBEFDC /* PlayerInfo.swift */; };
 		03D5AD4120A8C8AE001E29CE /* Battlefield.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03D5AD4020A8C8AE001E29CE /* Battlefield.swift */; };
 		03EE278320C70B8E00427770 /* Dice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03EE278220C70B8E00427770 /* Dice.swift */; };
@@ -145,8 +142,13 @@
 		7E02B19A20EC737C0088FFEB /* ViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EA1E2941F6609DB0061E64D /* ViewControllerDelegate.swift */; };
 		7E02B19B20EC737C0088FFEB /* ViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EA1E2941F6609DB0061E64D /* ViewControllerDelegate.swift */; };
 		7E02B19D20EC73EC0088FFEB /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7E02B19C20EC73E60088FFEB /* Info.plist */; };
+		7E77AA12210056DE00927E98 /* PW.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7E77AA10210056DE00927E98 /* PW.otf */; };
+		7E77AA13210056DE00927E98 /* PW.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7E77AA10210056DE00927E98 /* PW.otf */; };
+		7E77AA14210056DE00927E98 /* PW.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7E77AA10210056DE00927E98 /* PW.otf */; };
+		7E77AA15210056DE00927E98 /* PlanewalkerBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7E77AA11210056DE00927E98 /* PlanewalkerBold.otf */; };
+		7E77AA16210056DE00927E98 /* PlanewalkerBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7E77AA11210056DE00927E98 /* PlanewalkerBold.otf */; };
+		7E77AA17210056DE00927E98 /* PlanewalkerBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7E77AA11210056DE00927E98 /* PlanewalkerBold.otf */; };
 		7E7EFE3E20CC363B00338E4A /* kittenDeck.txt in Resources */ = {isa = PBXBuildFile; fileRef = 7E7EFE3D20CC363A00338E4A /* kittenDeck.txt */; };
-		7EA388E320E01101004FF04D /* Fonts in Resources */ = {isa = PBXBuildFile; fileRef = 7EA388E220E01101004FF04D /* Fonts */; };
 		B3BACB7EA661E5EAD10864A6 /* Pods_Wizard_DuelTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D27772C1DEEFEF61388F285 /* Pods_Wizard_DuelTests.framework */; };
 /* End PBXBuildFile section */
 
@@ -170,7 +172,6 @@
 		0377EE5F20F8954E00C6F94B /* tokens.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = tokens.txt; sourceTree = "<group>"; };
 		0378866F20ACA38E00B2B2E4 /* MasterDeck.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterDeck.swift; sourceTree = "<group>"; };
 		039785CC20A52CA0005C2F1C /* testDeck.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = testDeck.txt; sourceTree = "<group>"; };
-		039D40B520FD8A7900F61C3C /* PW.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = PW.otf; path = Fonts/PW.otf; sourceTree = "<group>"; };
 		03B8994620E03E5200CBEFDC /* PlayerInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerInfo.swift; sourceTree = "<group>"; };
 		03D5AD4020A8C8AE001E29CE /* Battlefield.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Battlefield.swift; sourceTree = "<group>"; };
 		03EE278220C70B8E00427770 /* Dice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dice.swift; sourceTree = "<group>"; };
@@ -225,8 +226,9 @@
 		7E02B13520EC6FF90088FFEB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7E02B13A20EC6FF90088FFEB /* WizardDuel.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WizardDuel.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7E02B19C20EC73E60088FFEB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7E77AA10210056DE00927E98 /* PW.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = PW.otf; path = Fonts/PW.otf; sourceTree = "<group>"; };
+		7E77AA11210056DE00927E98 /* PlanewalkerBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = PlanewalkerBold.otf; path = Fonts/PlanewalkerBold.otf; sourceTree = "<group>"; };
 		7E7EFE3D20CC363A00338E4A /* kittenDeck.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = kittenDeck.txt; sourceTree = "<group>"; };
-		7EA388E220E01101004FF04D /* Fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Fonts; sourceTree = "<group>"; };
 		815E421A264786F281579619 /* libPods-WizardDuel iOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-WizardDuel iOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8BF272E29E9CDB86E62DE151 /* Pods_WizardDuel_macOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WizardDuel_macOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		94A65812CEDF7BF3EDC08661 /* Pods-Wizard DuelTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Wizard DuelTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Wizard DuelTests/Pods-Wizard DuelTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -327,10 +329,8 @@
 				4E71F1EE1F438A27002E66D3 /* Utils */,
 				4EA1E2931F66006C0061E64D /* ViewControllers */,
 				4E396E801EF3DF8600F8696A /* AppDelegate.swift */,
-				7EA388E220E01101004FF04D /* Fonts */,
 				4E396E8C1EF3DF8600F8696A /* Main.storyboard */,
 				4E396E8F1EF3DF8600F8696A /* Info.plist */,
-				039D40B520FD8A7900F61C3C /* PW.otf */,
 				0377EE5720F892D600C6F94B /* tokens.txt */,
 				0350AE2120F153BC00A86E5E /* Muldrotha.txt */,
 				0377EE5F20F8954E00C6F94B /* tokens.txt */,
@@ -456,6 +456,8 @@
 			isa = PBXGroup;
 			children = (
 				7E02B12420EC6FF90088FFEB /* Assets.xcassets */,
+				7E77AA11210056DE00927E98 /* PlanewalkerBold.otf */,
+				7E77AA10210056DE00927E98 /* PW.otf */,
 			);
 			path = "WizardDuel Shared";
 			sourceTree = "<group>";
@@ -636,13 +638,13 @@
 				0365695C20F7C8DC00EE9839 /* Tokens.xcassets in Resources */,
 				0350AE2220F153BC00A86E5E /* Muldrotha.txt in Resources */,
 				4E350B9E1F489BFF0009FD4B /* README in Resources */,
-				039D40B620FD8A7900F61C3C /* PW.otf in Resources */,
+				7E77AA15210056DE00927E98 /* PlanewalkerBold.otf in Resources */,
 				03779E2A20B481C800F2DA43 /* testDeck2.txt in Resources */,
 				0377EE5820F892D600C6F94B /* tokens.txt in Resources */,
-				7EA388E320E01101004FF04D /* Fonts in Resources */,
 				0377EE6020F8954E00C6F94B /* tokens.txt in Resources */,
 				4E396E8E1EF3DF8600F8696A /* Main.storyboard in Resources */,
 				039785CD20A52CA0005C2F1C /* testDeck.txt in Resources */,
+				7E77AA12210056DE00927E98 /* PW.otf in Resources */,
 				7E7EFE3E20CC363B00338E4A /* kittenDeck.txt in Resources */,
 				03FACC6C20CB83AE00BC8F89 /* GoogleService-Info.plist in Resources */,
 				4E71F2531F439933002E66D3 /* GameScene.sks in Resources */,
@@ -660,10 +662,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7E77AA13210056DE00927E98 /* PW.otf in Resources */,
+				7E77AA16210056DE00927E98 /* PlanewalkerBold.otf in Resources */,
 				0365695D20F7C8DC00EE9839 /* Tokens.xcassets in Resources */,
 				0350AE2320F153BC00A86E5E /* Muldrotha.txt in Resources */,
 				7E02B19220EC71810088FFEB /* testDeck.txt in Resources */,
-				039D40B720FD8A7900F61C3C /* PW.otf in Resources */,
 				7E02B13120EC6FF90088FFEB /* Main.storyboard in Resources */,
 				0377EE5920F892D600C6F94B /* tokens.txt in Resources */,
 				7E02B19020EC71760088FFEB /* kittenDeck.txt in Resources */,
@@ -686,13 +689,14 @@
 				7E02B19D20EC73EC0088FFEB /* Info.plist in Resources */,
 				0377EE5A20F892D600C6F94B /* tokens.txt in Resources */,
 				7E02B19120EC71770088FFEB /* kittenDeck.txt in Resources */,
-				039D40B820FD8A7900F61C3C /* PW.otf in Resources */,
 				0365695E20F7C8DC00EE9839 /* Tokens.xcassets in Resources */,
 				7E02B19620EC71820088FFEB /* testDeck2.txt in Resources */,
+				7E77AA14210056DE00927E98 /* PW.otf in Resources */,
 				7E02B14B20EC6FF90088FFEB /* Assets.xcassets in Resources */,
 				7E02B15320EC703C0088FFEB /* Info.plist in Resources */,
 				7E02B19720EC71820088FFEB /* GoogleService-Info.plist in Resources */,
 				0377EE6220F8954E00C6F94B /* tokens.txt in Resources */,
+				7E77AA17210056DE00927E98 /* PlanewalkerBold.otf in Resources */,
 				7E02B18B20EC70C30088FFEB /* GameScene.sks in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -771,7 +775,7 @@
 		};
 		7E02B19920EC72220088FFEB /* Copy Card Images */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 8;
+			buildActionMask = 12;
 			files = (
 			);
 			inputPaths = (
@@ -779,7 +783,7 @@
 			name = "Copy Card Images";
 			outputPaths = (
 			);
-			runOnlyForDeploymentPostprocessing = 1;
+			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "#!/bin/sh\n\nset -e\n\necho \"$SRCROOT\"\nrsync -r \"$SRCROOT/Wizard Duel/Content/\" \"$TARGET_BUILD_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH\"\n";
 			showEnvVarsInLog = 0;
