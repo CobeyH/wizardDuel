@@ -24,6 +24,7 @@ struct GameGraphicsConfig {
     let screenWidth: CGFloat
     let screenHeight: CGFloat
     let diceSizeFinal: CGSize
+    let cardOffset: CGFloat
     
     let diceSizeInitial = CGSize(width: 70, height: 70)
     let cardMiddle = CGPoint(x: 0.5, y: 0.5)
@@ -58,6 +59,7 @@ struct GameGraphicsConfig {
         self.margin = -rect.width/60
         self.playerInfoSize = CGSize(width: rect.width / 19, height: rect.height / 7.5)
         self.diceSizeFinal = CGSize(width: rect.width/30, height: rect.width/30)
+        self.cardOffset = cardSize.height/8.75
         
         backgroundColour = Color.init(white: 1.0, alpha: 0.2)
         battlefieldColour = Color.init(white: 1.0, alpha: 0.05)

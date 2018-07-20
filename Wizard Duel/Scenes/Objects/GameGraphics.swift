@@ -17,7 +17,7 @@ struct GameGraphics {
     
     //MARK: - Initalizers
     public var config = GameGraphicsConfig()
-    
+    private var labels = Labels()
     private var graveyards: [SKSpriteNode] = []
     var hands: SKSpriteNode = SKSpriteNode(color: .red, size: CGSize(width: 75, height: 40))
     var deck: SKSpriteNode = SKSpriteNode(color: .red, size: CGSize(width: 75, height: 40))
@@ -33,6 +33,7 @@ struct GameGraphics {
     //MARK: - Setup Methods
     mutating func setup(width: CGFloat, height: CGFloat) {
         let baseZPosition: CGFloat = config.zIndexIncrement
+        labels.setupCardDisplay(width: width)
         
         
         // Sets up the hand at the bottom of the screen
@@ -90,6 +91,7 @@ struct GameGraphics {
                 }
             }
         }
+        
     }
     
     
@@ -122,6 +124,7 @@ struct GameGraphics {
         scene.addChild(hands)
         scene.addChild(deck)
         scene.addChild(deckCount)
+        scene.addChild(labels.cardDisplay)
         addCards(to: scene)
     }
     
@@ -143,17 +146,6 @@ struct GameGraphics {
         background.zPosition = -5
         scene.addChild(background)
         
-//        let hLine = SKSpriteNode(color: .black, size: CGSize(width: scene.size.width, height: 3))
-//        hLine.anchorPoint = CGPoint(x: 0.5, y: 0.5)
-//        hLine.position = CGPoint(x: scene.size.width/2, y: (-config.cardSize.height - config.spacing) * 3)
-//        hLine.zPosition = -4
-//        scene.addChild(hLine)
-//        
-//        let vLine = SKSpriteNode(color: .black, size: CGSize(width: 3, height: scene.size.height))
-//        vLine.anchorPoint = CGPoint(x: 0.5, y: 0.5)
-//        vLine.position = CGPoint(x: scene.size.width/2, y: -scene.size.height/2)
-//        vLine.zPosition = -4
-//        scene.addChild(vLine)
     }
     
     //MARK: - Dice
@@ -199,7 +191,6 @@ struct GameGraphics {
             
         }
         return nil
-        
     }
     
     func drop(playingDice: PlayingDice, on playingCard: PlayingCard) {
@@ -325,7 +316,7 @@ struct GameGraphics {
                 //NOTE: This is integer division to reset the cards to the top of the column every 30 cards
                 let j : Int = i/30
                 let posX = startPos.x + CGFloat(j) * config.cardSize.width
-                let posY = startPos.y - CGFloat(i) * config.battlefieldSpacing * 3 + config.battlefieldSpacing * 3 * CGFloat(30 * j)
+                let posY = startPos.y - CGFloat(i) * config.cardOffset + config.cardOffset * CGFloat(30 * j)
                 let position = CGPoint(x: posX, y: posY)
                 currentPlayingCard.move(to: position)
                 i = i + 1
@@ -347,13 +338,27 @@ struct GameGraphics {
         }
     }
     
+    mutating func showPlayingCard(at location: CGPoint, scene: SKScene) {
+        // Get node at position
+        let node = scene.atPoint(location)   // For some reason this always returns the SKScene, not a playing card. Could be bcs the scene has a frame frame:{{-0, -1054}, {1366, 1054}}
+        if let sprite = node as? SKSpriteNode {
+            if sprite.name != nil && sprite.texture != SKTexture(imageNamed: config.cardbackName) {
+                labels.cardDisplay.texture = sprite.texture
+                labels.cardDisplay.zPosition = config.getZIndex()
+            }
+            else {
+                labels.cardDisplay.texture = nil
+            }
+        }
+    }
+    
     mutating func showTokens(addedTokens: [Card], scene: SKScene) {
-        
         for (i, gameCard) in addedTokens.enumerated() {
             let card = PlayingCard(card: gameCard, size: config.cardSize, databaseRef: nil)
+            let j = i/30
             card.anchorPoint = config.cardMiddle
             card.size = config.cardSize
-            card.position = CGPoint(x: config.cardSize.width/2, y: -config.cardSize.height/2 - CGFloat(i*4))
+            card.position = CGPoint(x: config.cardSize.width/2 + config.cardSize.width * CGFloat(j), y: -config.cardSize.height/2 - CGFloat(i) * config.cardOffset + config.cardOffset * CGFloat(30 * j))
             card.zPosition = config.getZIndex()
             card.texture = SKTexture(imageNamed: card.card.fileName)
             card.heldBy = "display"
@@ -373,7 +378,6 @@ struct GameGraphics {
         }
     }
     
-    
     //Orders the cards properly when a card is removed from the middle of a cell
     mutating func updateCardStack(card: CurrentPlayingCard, location: Location, gameBattleDeck: [[Battlefield]], hand: Hand) {
         
@@ -386,7 +390,7 @@ struct GameGraphics {
             for playingCard in playingCards {
                 
                 let currentPlayingCard = CurrentPlayingCard(playingCard: playingCard, startPosition: playingCard.position, touchPoint: playingCard.anchorPoint, location: location)
-                let position = CGPoint(x: stack.position.x + config.cardSize.width/2 - config.offsetX, y: stack.position.y - CGFloat(i) * config.battlefieldSpacing - config.cardSize.height/2 - config.offsetY)
+                let position = CGPoint(x: stack.position.x + config.cardSize.width/2 - config.offsetX, y: stack.position.y - CGFloat(i) * config.cardOffset - config.cardSize.height/2 - config.offsetY)
                 currentPlayingCard.move(to: position)
                 i = i + 1
             }
@@ -477,7 +481,7 @@ struct GameGraphics {
             let modelStack = modelField[stack]
             let cardCount = modelStack.cards.count - 1
             let deckPosition = graphicsStack.position
-            newPosition = CGPoint(x: deckPosition.x + config.cardSize.width/2 - config.offsetX, y: deckPosition.y - CGFloat(cardCount) * config.battlefieldSpacing - config.cardSize.height/2 - config.offsetY)
+            newPosition = CGPoint(x: deckPosition.x + config.cardSize.width/2 - config.offsetX, y: deckPosition.y - CGFloat(cardCount) * config.cardOffset - config.cardSize.height/2 - config.offsetY)
             playingCard.heldBy = "Battlefield"
         case .dataExtract():
             print("Error in move: Called dataExtract")

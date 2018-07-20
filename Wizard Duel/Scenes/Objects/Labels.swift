@@ -25,13 +25,7 @@ class Labels {
         let scale = config.getScale()
         xScale = scale.0
         yScale = scale.1
-        //cardDisplay Label
-        cardDisplay.color = .clear
-        cardDisplay.size = CGSize(width: config.cardSize.width * 2.5, height: config.cardSize.height * 2.5)
-        cardDisplay.anchorPoint = CGPoint(x: 1, y: 1)
-        cardDisplay.position = CGPoint(x: width - cardDisplay.size.width/2, y: -cardDisplay.size.height/2)
-        cardDisplay.zPosition = 500
-        scene.addChild(cardDisplay)
+        
         
         
         //New turn button
@@ -81,6 +75,16 @@ class Labels {
         #endif
     }
     
+    func setupCardDisplay(width: CGFloat) {
+        //cardDisplay Label
+        cardDisplay.color = .clear
+        cardDisplay.size = CGSize(width: config.cardSize.width * 2.5, height: config.cardSize.height * 2.5)
+        cardDisplay.anchorPoint = CGPoint(x: 1, y: 1)
+        cardDisplay.position = CGPoint(x: width, y: 0)
+        cardDisplay.zPosition = 500
+        
+    }
+    
     
     func isShuffleTapped(point: CGPoint) -> Bool {
         return shuffleDeck.contains(point)
@@ -125,6 +129,7 @@ class Labels {
         keepButton.yScale = yScale
         scene.addChild(keepButton)
     }
+
     
     func removeButtons() {
         if mulliganButton != nil {

@@ -87,22 +87,11 @@ class GameScene: SKScene {
     override func mouseMoved(with event: NSEvent) {
         // Get mouse position in scene coordinates
         let location = event.location(in: self)
-        showPlayingCard(at: location)
+        gameGraphics.showPlayingCard(at: location, scene: self)
     }
 #endif
     
-    func showPlayingCard(at location: CGPoint) {
-        // Get node at position
-        let node = self.atPoint(location)   // For some reason this always returns the SKScene, not a playing card. Could be bcs the scene has a frame frame:{{-0, -1054}, {1366, 1054}}
-        if let sprite = node as? SKSpriteNode {
-            if sprite.name != nil && sprite.texture != SKTexture(imageNamed: gameGraphics.config.cardbackName) {
-                labels.cardDisplay.texture = sprite.texture
-            }
-            else {
-                labels.cardDisplay.texture = nil
-            }
-        }
-    }
+    
     
     
     // Triggered when a single click is detected with no dragging
@@ -378,9 +367,9 @@ class GameScene: SKScene {
     }
         
     //Clears the database in preperation of a new game.
-    private func deleteFromDatabase() {
-        if currentPlayingCard?.playingCard.databaseRef != nil {
-            Database.database().reference().child("Updates").child((currentPlayingCard?.playingCard.databaseRef)!).removeValue()
+    private func deleteFromDatabase(playingCard: PlayingCard) {
+        if playingCard.databaseRef != nil {
+            Database.database().reference().child("Updates").child((playingCard.databaseRef)!).removeValue()
         }
         else {
             print("Failed to remove playing card from database")
@@ -432,7 +421,6 @@ class GameScene: SKScene {
     override func mouseDown(with event: NSEvent) {
         touchDown(atPoint: event.location(in: self))
     }
-    
     
     //Triggers on mouse right click. Decreases the counter on a dice
     override func rightMouseDown(with event: NSEvent) {
@@ -500,11 +488,13 @@ class GameScene: SKScene {
             else if firstCharacter == "-" {
                 if let playerSelf = gameGraphics.findPlayer(playerNumber: playerNumber) {
                     playerSelf.lifeDown()
+                    Database.database().reference().child("players").child(playerSelf.databaseKey).updateChildValues(["lifeTotal": String(playerSelf.getLife())])
                 }
             }
             else if firstCharacter == "=" {
                 if let playerSelf = gameGraphics.findPlayer(playerNumber: playerNumber) {
                     playerSelf.lifeUp()
+                    Database.database().reference().child("players").child(playerSelf.databaseKey).updateChildValues(["lifeTotal": String(playerSelf.getLife())])
                 }
             }
         }
@@ -570,9 +560,10 @@ class GameScene: SKScene {
         //Drop location is set as the location where the card is released.
         let startHeldBy = currentPlayingCard.playingCard.heldBy
         if let dropLocation = gameGraphics.dropLocation(from: pos, playingCard: currentPlayingCard.playingCard, game: game) {
+            let toDeleteCard = currentPlayingCard.playingCard
             moveLocation(currentPlayingCard: currentPlayingCard, location: dropLocation)
-            if currentPlayingCard.playingCard.heldBy != "Battlefield" && startHeldBy == "Battlefield" {
-                deleteFromDatabase()
+            if toDeleteCard.heldBy != "Battlefield" && startHeldBy == "Battlefield" {
+                deleteFromDatabase(playingCard: toDeleteCard)
             }
         } else {
             currentPlayingCard.returnToOriginalLocation()

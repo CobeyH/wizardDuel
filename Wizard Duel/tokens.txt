@@ -1,13 +1,7 @@
-1 Adorned Pouncer
-1 Angel of Sanctions
 1 Angel
-1 Anointer Priest
 1 Ape
-1 Ashaya, the Awoken World
 1 Assassin
 1 Avatar
-1 Aven Initiate
-1 Aven Wind Guide
 1 Bat
 1 Bear
 1 Beast 1
@@ -20,7 +14,6 @@
 1 Cat Soldier
 1 Cat
 1 Centaur
-1 Champion of Wits
 1 Cleric
 1 Clue 1
 1 Construct 1
@@ -32,8 +25,6 @@
 1 Djinn Monk
 1 Dragon
 1 Drake
-1 Dreamstealer
-1 Earthshaker Khenra
 1 Eldrazi Horror
 1 Eldrazi Scion 1
 1 Eldrazi Spawn
@@ -75,7 +66,6 @@
 1 Gargoyle
 1 Germ
 1 Giant Warrior
-1 Glyph Keeper
 1 Goat
 1 Goblin Rogue
 1 Goblin Soldier
@@ -86,11 +76,9 @@
 1 Gremlin
 1 Griffin
 1 Harpy
-1 Heart-Piercer Manticore
 1 Hellion 2
 1 Hippo
 1 Homunculus
-1 Honored Hydra
 1 Hornet
 1 Horror
 1 Horse
@@ -109,7 +97,6 @@
 1 Kor Ally
 1 Kor Soldier
 1 Kraken
-1 Labyrinth Guardian
 1 Land Mine
 1 Lightning Ranger
 1 Lizard
@@ -124,25 +111,20 @@
 1 Myr
 1 Octopus
 1 Ogre
-1 Oketra's Attendant
 1 Ooze 1
 1 Pegasus
 1 Pentavite
 1 Pirate
 1 Plant
-1 Proven Combatant
 1 Ragavan
 1 Rat
-1 Resilient Khenra
 1 Rhino
 1 Rukh
-1 Sacred Cat
 1 Saproling
 1 Satyr
 1 Serf
 1 Servo 2
 1 Shapeshifter
-1 Sinuous Striker
 1 Skeleton
 1 Sliver
 1 Snake 1
@@ -157,22 +139,15 @@
 1 Spirit
 1 Squid
 1 Squirrel
-1 Steadfast Sentinel
 1 Stoneforged Blade
-1 Sunscourge Champion
-1 Tah-Crop Skirmisher
-1 Temmet, Vizier of Naktamun
 1 Thopter 1
 1 Thrull
 1 Treasure 2
 1 Treefolk Shaman
 1 Treefolk Warrior
 1 Treefolk
-1 Trueheart Duelist
-1 Unwavering Initiate
 1 Vampire Knight
 1 Vampire
-1 Vizier of Many Faces
 1 Wall
 1 Warrior 1
 1 Warrior
