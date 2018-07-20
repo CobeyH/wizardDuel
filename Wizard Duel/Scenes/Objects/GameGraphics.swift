@@ -325,7 +325,7 @@ struct GameGraphics {
                 //NOTE: This is integer division to reset the cards to the top of the column every 30 cards
                 let j : Int = i/30
                 let posX = startPos.x + CGFloat(j) * config.cardSize.width
-                let posY = startPos.y - CGFloat(i) * config.battlefieldSpacing + config.battlefieldSpacing * CGFloat(30 * j)
+                let posY = startPos.y - CGFloat(i) * config.battlefieldSpacing * 3 + config.battlefieldSpacing * 3 * CGFloat(30 * j)
                 let position = CGPoint(x: posX, y: posY)
                 currentPlayingCard.move(to: position)
                 i = i + 1
