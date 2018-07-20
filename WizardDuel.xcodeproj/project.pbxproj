@@ -563,7 +563,7 @@
 				7E02B13720EC6FF90088FFEB /* Frameworks */,
 				7E02B13820EC6FF90088FFEB /* Resources */,
 				7E02B19920EC72220088FFEB /* Copy Card Images */,
-				A1B4E319921F2CB225D88732 /* [CP] Embed Pods Frameworks */,
+				D8888356159C3CD87F18FC8B /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -706,7 +706,7 @@
 /* Begin PBXShellScriptBuildPhase section */
 		0329664E20EC8F7300E57446 /* Copy Card Images */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 8;
+			buildActionMask = 12;
 			files = (
 			);
 			inputPaths = (
@@ -714,7 +714,7 @@
 			name = "Copy Card Images";
 			outputPaths = (
 			);
-			runOnlyForDeploymentPostprocessing = 1;
+			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "#!/bin/sh\n\nset -e\n\necho \"$SRCROOT\"\nrsync -r \"$SRCROOT/Wizard Duel/Content/\" \"$TARGET_BUILD_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH\"";
 			showEnvVarsInLog = 0;
@@ -803,7 +803,7 @@
 			shellScript = "#!/bin/sh\n\nset -e\n\necho \"$SRCROOT\"\nrsync -r \"$SRCROOT/Wizard Duel/Content/\" \"$TARGET_BUILD_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH\"\n";
 			showEnvVarsInLog = 0;
 		};
-		A1B4E319921F2CB225D88732 /* [CP] Embed Pods Frameworks */ = {
+		D8888356159C3CD87F18FC8B /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1185,7 +1185,7 @@
 				DEVELOPMENT_TEAM = QD694Y7TZY;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = "WizardDuel iOS/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.CobeyHollier.WizardDuel;
 				PRODUCT_NAME = WizardDuel;
@@ -1208,7 +1208,7 @@
 				DEVELOPMENT_TEAM = QD694Y7TZY;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = "WizardDuel iOS/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.CobeyHollier.WizardDuel;
 				PRODUCT_NAME = WizardDuel;

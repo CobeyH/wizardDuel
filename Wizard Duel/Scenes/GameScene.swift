@@ -414,6 +414,7 @@ class GameScene: SKScene {
         if let touch = touches.first {
             let location = touch.location(in: self)
             touchMoved(toPoint: location)
+            moveDice(atPoint: location)
         }
         super.touchesMoved(touches, with: event)
     }
@@ -481,7 +482,6 @@ class GameScene: SKScene {
         case [.command] where event.characters == "t":
             let addedTokens = game.createTokens()
             gameGraphics.showTokens(addedTokens: addedTokens, scene: self)
-            
             
         default:
             break

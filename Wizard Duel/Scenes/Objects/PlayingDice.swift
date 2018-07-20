@@ -12,8 +12,6 @@ final class PlayingDice: SKSpriteNode {
     //Holds the filename of the card
     let dice: Dice
     
-
-    
     //Creates a playing card Sprite which is assigned the texture of the back of the card. It inherits its other properties from the card struct
     init(dice: Dice, size: CGSize) {
         let texture = SKTexture(imageNamed: "dice1")
@@ -40,7 +38,6 @@ final class PlayingDice: SKSpriteNode {
     func setTexture() {
         let texture = SKTexture(imageNamed: "dice\(dice.value)")
         self.texture = texture
-        
     }
     
 }

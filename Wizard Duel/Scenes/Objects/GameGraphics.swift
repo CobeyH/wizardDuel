@@ -35,7 +35,6 @@ struct GameGraphics {
         let baseZPosition: CGFloat = config.zIndexIncrement
         
         
-        
         // Sets up the hand at the bottom of the screen
         hands.color = config.backgroundColour
         hands.size = CGSize(width: config.cardSize.width * 7, height: config.cardSize.height)
@@ -57,12 +56,6 @@ struct GameGraphics {
         deckCount.zPosition = config.getZIndex()
         deckCount.position = CGPoint(x: deck.position.x, y: deck.position.y + config.cardSize.height + config.offsetY + 1.5 * config.spacing)
         
-        //Sets up the dice
-        diceSpawner.texture = SKTexture(imageNamed: "dice1")
-        diceSpawner.size = CGSize(width: 30, height: 30)
-        diceSpawner.position = CGPoint(x: deck.position.x + config.cardSize.width * 4, y: -height + diceSpawner.size.height/2)
-        diceSpawner.anchorPoint = CGPoint(x:0.5, y:0.5)
-        
         // sets of the two Graveyards to the right of the deck
         for i in 0 ..< config.graveyardCount {
             let graveyard = SKSpriteNode(color: config.backgroundColour, size: config.cardSize)
@@ -71,12 +64,18 @@ struct GameGraphics {
             graveyard.zPosition = baseZPosition
             graveyards.append(graveyard)
         }
-        
+        //Creates an offscreen field where cards are placed and moved into the battlefield
         let dataExtract = SKSpriteNode(color: config.backgroundColour, size: config.cardSize)
         dataExtract.anchorPoint = config.cardMiddle
         dataExtract.position = CGPoint(x: -100, y: 100)
         dataExtract.zPosition = baseZPosition
         
+        diceSpawner.size = config.diceSizeFinal
+        //Sets up the dice
+        diceSpawner.texture = SKTexture(imageNamed: "dice1")
+        diceSpawner.size = CGSize(width: 30, height: 30)
+        diceSpawner.position = CGPoint(x: graveyards[2].position.x + config.cardSize.width/2 + config.diceSizeFinal.width/2 , y: -height + diceSpawner.size.height/2)
+        diceSpawner.anchorPoint = CGPoint(x:0.5, y:0.5)
         
         //Sets up all the battlefields in the arena
         let startPositions: [CGPoint] = [CGPoint(x: config.cardSize.width, y: -height/2 - config.offsetY), CGPoint(x: config.cardSize.width, y: 0), CGPoint(x: width/2, y: 0), CGPoint(x: width/2, y: -height/2 - config.offsetY) ]

@@ -16,8 +16,6 @@ public typealias Color = NSColor
 #endif
 
 struct GameGraphicsConfig {
-    
-    
     let cardSize: CGSize
     let offsetX: CGFloat
     let offsetY: CGFloat
@@ -25,12 +23,12 @@ struct GameGraphicsConfig {
     let playerInfoSize: CGSize
     let screenWidth: CGFloat
     let screenHeight: CGFloat
+    let diceSizeFinal: CGSize
     
     let diceSizeInitial = CGSize(width: 70, height: 70)
-    let diceSizeFinal = CGSize(width: 35, height: 35)
     let cardMiddle = CGPoint(x: 0.5, y: 0.5)
     let spacing: CGFloat
-    let battlefieldSpacing: CGFloat = 16
+    let battlefieldSpacing: CGFloat
     var zIndex: CGFloat = 10
     let zIndexIncrement: CGFloat = 2
     let backgroundName =  "background1.jpg"
@@ -38,9 +36,9 @@ struct GameGraphicsConfig {
     let battlefieldColour: Color
     let cardbackName = "cardback.png"
     let numberOfBackgrounds = 2
-
     let graveyardCount = 3
     
+    //Initializes all of the sizes to be consistant on all of the devices.
     init() {
         #if os(iOS)
         let frame = UIScreen.main.bounds
@@ -56,8 +54,11 @@ struct GameGraphicsConfig {
         self.offsetX = CGFloat(width/2)
         self.offsetY = -CGFloat(height/2)
         self.spacing = rect.height/100
+        self.battlefieldSpacing = rect.height/200
         self.margin = -rect.width/60
         self.playerInfoSize = CGSize(width: rect.width / 19, height: rect.height / 7.5)
+        self.diceSizeFinal = CGSize(width: rect.width/30, height: rect.width/30)
+        
         backgroundColour = Color.init(white: 1.0, alpha: 0.2)
         battlefieldColour = Color.init(white: 1.0, alpha: 0.05)
     }
@@ -66,5 +67,9 @@ struct GameGraphicsConfig {
     mutating func getZIndex() -> CGFloat {
         zIndex += zIndexIncrement
         return zIndex
+    }
+    
+    func getScale() -> (CGFloat,CGFloat) {
+        return (screenWidth * 0.00075, screenHeight * 0.001)
     }
 }
