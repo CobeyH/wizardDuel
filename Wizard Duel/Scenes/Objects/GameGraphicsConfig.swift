@@ -25,11 +25,11 @@ struct GameGraphicsConfig {
     let screenHeight: CGFloat
     let diceSizeFinal: CGSize
     let cardOffset: CGFloat
+    let battlefieldSpacing: CGFloat
+    let spacing: CGFloat
     
     let diceSizeInitial = CGSize(width: 70, height: 70)
     let cardMiddle = CGPoint(x: 0.5, y: 0.5)
-    let spacing: CGFloat
-    let battlefieldSpacing: CGFloat
     var zIndex: CGFloat = 10
     let zIndexIncrement: CGFloat = 2
     let backgroundName =  "background1.jpg"
@@ -38,6 +38,7 @@ struct GameGraphicsConfig {
     let cardbackName = "cardback.png"
     let numberOfBackgrounds = 2
     let graveyardCount = 3
+    let backgroundCount = 2
     
     //Initializes all of the sizes to be consistant on all of the devices.
     init() {
@@ -50,7 +51,7 @@ struct GameGraphicsConfig {
         self.screenWidth = rect.width
         self.screenHeight = rect.height
         let height = rect.height / 7.5
-        let width = rect.width / 17.5
+        let width = height * 0.7147
         self.cardSize = CGSize(width: width, height: height)
         self.offsetX = CGFloat(width/2)
         self.offsetY = -CGFloat(height/2)

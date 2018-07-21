@@ -24,7 +24,7 @@ public typealias TapGR = NSClickGestureRecognizer
 
 class GameScene: SKScene {
     // MARK: - Properties
-    
+
     let game = Game()
     private var gameGraphics = GameGraphics()
     private var labels = Labels()
@@ -60,10 +60,11 @@ class GameScene: SKScene {
         labels.setUpLabels(width: size.width, height: size.height, to: self)
         gameGraphics.addChildren(to: self)
         gameGraphics.setupBackground(to: self)
-        
+
 #if os(iOS)
        
 #elseif os(OSX)
+       //Creates a tracking area on the mac to track mouse hover movements.
         let options = [NSTrackingArea.Options.mouseMoved, NSTrackingArea.Options.activeInKeyWindow] as NSTrackingArea.Options
         let trackingArea = NSTrackingArea(rect:(view.frame),options:options,owner:self,userInfo:nil)
         view.addTrackingArea(trackingArea)
@@ -71,6 +72,7 @@ class GameScene: SKScene {
     }
     
 #if os(iOS)
+    //Recognized pinch gestures anywhere on the screen and triggers the deck to be displayed or hidden.
     @objc func pinch(sender: pinchGR) {
         if sender.state == .ended {
             if sender.scale < 0.4 {
@@ -84,15 +86,13 @@ class GameScene: SKScene {
     }
     
 #elseif os(OSX)
+    //Tracks mouse movement and sets the card display if a playing card is at the location.
     override func mouseMoved(with event: NSEvent) {
         // Get mouse position in scene coordinates
         let location = event.location(in: self)
         gameGraphics.showPlayingCard(at: location, scene: self)
     }
 #endif
-    
-    
-    
     
     // Triggered when a single click is detected with no dragging
     @objc func tap(sender: TapGR) {
@@ -112,13 +112,13 @@ class GameScene: SKScene {
                 newGame()
             }
             
-            //On new game checks if the keep hand button has been pressed
+            //On new game checks if the keep hand button has been pressed.
             if labels.keepButton.contains(touchLocation) {
                 mulliganCount = 0
                 labels.removeButtons()
                 game.deckURL = nil
             }
-            //Checks if the new turn button has been pressed
+            //Checks if the new turn button has been pressed.
             else if labels.isNewTurnTapped(point: touchLocation) {
                 let tappedCards = gameGraphics.newTurn(sender: playerNumber)
                 drawCard()
@@ -127,18 +127,18 @@ class GameScene: SKScene {
                 }
                 return
             }
-            //Checks if the shuffle button has been tapped
+            //Checks if the shuffle button has been tapped.
             else if labels.isShuffleTapped(point: touchLocation) {
                 game.deck.cards.shuffle()
                 gameGraphics.reconstructDeck(gameCards: game.deck.cards)
+            //Checks if the import button is pressed on iOS to import the deck.
             } else if labels.isImportPressed(point: touchLocation) {
                 guard let viewDelegate = viewDelegate else { return }
-                
                 viewDelegate.importDeck()
 
             }
             
-            //Increased the dice on a playing card if a dice is tapped
+            //Increased the dice value on a playing card if a dice is tapped
             if let playingCard = gameGraphics.cardFrom(position: touchLocation) {
                 if let playingDice = playingCard.childNode(withName: "dice") as? PlayingDice {
                     if playingDice.contains(convert(touchLocation, to: playingDice)) {
@@ -159,12 +159,14 @@ class GameScene: SKScene {
             //Checks if a a player info box is tapped and updates life totals locally and in the database.
             if let playerInfo = gameGraphics.findPlayer(at: touchLocation) {
                 let childPoint = convert(touchLocation, to: playerInfo)
+                //Checks if the click is near the life up label and increases the life if it is.
                 if gameGraphics.distanceBetween(pointA: playerInfo.healthUpLabel.position, pointB: childPoint) < 10 {
                     playerInfo.lifeUp()
                 }
                 else if gameGraphics.distanceBetween(pointA: playerInfo.healthDownLabel.position, pointB: childPoint) < 10 {
                     playerInfo.lifeDown()
                 }
+                //Updates life total on the player Info
                 Database.database().reference().child("players").child(playerInfo.databaseKey).updateChildValues(["lifeTotal": String(playerInfo.getLife())])
             }
             
@@ -192,14 +194,11 @@ class GameScene: SKScene {
         //This takes the location that the sender dropped the card.
         if let location = game.location(from: playingCard.card) {
             if case .battlefield(let field, let stack) = location {
-                //If the card is already in the database it should keep its old ID but if it is new it should be assigned a new ID
                 if playingCard.children.count != 0 {
                     let dice = playingCard.childNode(withName: "dice") as! PlayingDice
                     value = dice.dice.value
                 }
-                else {
-                    
-                }
+                //Checks if the playingcard has an ID, and if not, assigns it a new ID.
                 let databaseRef = playingCard.databaseRef ?? cardUpdate.childByAutoId().key
                 let updateDictionary = ["Sender": String(playerNumber),"Card": playingCard.card.name, "Field": String(field), "Stack": String(stack), "Tapped": String(playingCard.tapped), "DiceValue": String(value)]
                 if playingCard.databaseRef == nil {
@@ -289,6 +288,7 @@ class GameScene: SKScene {
     
     //Processes the update of card on the local game to unsure that all version of the game are up to date with each other.
     func processUpdate(snapshot: DataSnapshot) {
+        //Retrieves all the information from the snapshot.
         if let snapshotValue = snapshot.value as? Dictionary<String,String> {
             if let cardName = snapshotValue["Card"],
                 let sender = Int(snapshotValue["Sender"]!),
@@ -296,10 +296,11 @@ class GameScene: SKScene {
                 let relativeField = Int(snapshotValue["Field"]!),
                 let cardTapped = Bool(snapshotValue["Tapped"]!),
                 let diceValue = Int(snapshotValue["DiceValue"]!) {
-                
+
                 let fieldNumber = findField(sender: sender, relativeField: relativeField)
-                
+                //Prevents updates from the sender to be recieved by the sender again.
                 if sender != self.playerNumber {
+                    //Finds the playing card with the correct ID
                     var playingCard = self.gameGraphics.cards.filter({
                         let databaseRef = $0.databaseRef
                         return databaseRef == snapshot.key
@@ -307,6 +308,7 @@ class GameScene: SKScene {
                     
                     var location = Location.dataExtract()
                     
+                    //Updates the playing card if one is found other wise creates a new card locally.
                     if let playingCard = playingCard {
                         if let previousLocation = self.gameGraphics.dropLocation(from: playingCard.position, playingCard: playingCard, game: self.game) {
                             location = previousLocation
@@ -366,7 +368,7 @@ class GameScene: SKScene {
         }
     }
         
-    //Clears the database in preperation of a new game.
+    //Removes a playing card from the database.
     private func deleteFromDatabase(playingCard: PlayingCard) {
         if playingCard.databaseRef != nil {
             Database.database().reference().child("Updates").child((playingCard.databaseRef)!).removeValue()
@@ -438,12 +440,12 @@ class GameScene: SKScene {
                     return
                 }
             }
+            //Moves a playing card to the button of the deck when right clicked
             else if gameGraphics.deck.contains(position) {
                 let temp = playingCard.card
                 game.deck.removeBottom()
                 game.deck.cards.insert(temp, at: 0)
                 gameGraphics.reconstructDeck(gameCards: game.deck.cards)
-                
             }
         }
     }
@@ -460,10 +462,10 @@ class GameScene: SKScene {
         touchUp(atPoint: event.location(in: self))
     }
     
+    //Triggered when a key on the keyboard is pressed
     override func keyDown(with event: NSEvent) {
         switch event.modifierFlags.intersection(.deviceIndependentFlagsMask) {
         case [.command] where event.characters == "f":
-//            print("Command-F")
             gameGraphics.displayDeck()
         case [.command] where event.characters == "c":
             Database.database().reference().child("players").removeValue()
@@ -476,6 +478,7 @@ class GameScene: SKScene {
         }
         if let firstCharacter = event.characters?.first {
             if firstCharacter == "\u{1b}" {
+                //Removes tokens from the game or returns the deck to non-display mode.
                 for playingCard in gameGraphics.cards {
                     if playingCard.heldBy == "display" {
                         gameGraphics.hideTokens()
@@ -485,12 +488,14 @@ class GameScene: SKScene {
                     }
                 }
             }
+            //Decreases life by 1
             else if firstCharacter == "-" {
                 if let playerSelf = gameGraphics.findPlayer(playerNumber: playerNumber) {
                     playerSelf.lifeDown()
                     Database.database().reference().child("players").child(playerSelf.databaseKey).updateChildValues(["lifeTotal": String(playerSelf.getLife())])
                 }
             }
+            //Increases life by 1. It is a = and not a + so the user does not have to press shift.
             else if firstCharacter == "=" {
                 if let playerSelf = gameGraphics.findPlayer(playerNumber: playerNumber) {
                     playerSelf.lifeUp()
@@ -502,8 +507,9 @@ class GameScene: SKScene {
 #endif
     
     // MARK: - Touch Responders
+    //These are all the actions that are called by the triggers.
     
-    //Called when a single tap is detected. It sets the tapped card to active in order it initiate a movement of the card.
+    //Called when the mouse is pressed down. This sets acard to active in order it initiate a movement of the card.
     private func touchDown(atPoint point: CGPoint) {
         if gameGraphics.isDiceTapped(point: point) {
             let _ = gameGraphics.newDice(to: self)
@@ -518,6 +524,7 @@ class GameScene: SKScene {
             return
         }
         guard
+        //Checks if the card is allowed to be moved.
             let playingCard = gameGraphics.cardFrom(position: point),
             let parent = playingCard.parent,
             let location = game.location(from: playingCard.card),
@@ -526,13 +533,14 @@ class GameScene: SKScene {
             else {
                 return
         }
-        
+        //Set the card ready to be moved.
         let touchPoint = playingCard.convert(point, from: parent)
         gameGraphics.setActive(card: playingCard)
         currentPlayingCard = CurrentPlayingCard(playingCard: playingCard, startPosition: playingCard.position, touchPoint: touchPoint, location: location)
         
     }
     
+    //Updates the position of the dice to the new point.
     private func moveDice(atPoint point: CGPoint) {
         if let dice = gameGraphics.findDice(point: point) {
             dice.update(position: point)
@@ -547,13 +555,12 @@ class GameScene: SKScene {
         }
     }
     
-    //Called when the mouse is clicked once. It calls the move function when a card has been dragged and released to a new location
+    //Called when the mouse is released. It calls the move function when a card has been dragged and released to a new location
     private func touchUp(atPoint pos: CGPoint) {
         if let dice = gameGraphics.findDice(point: pos) {
             if let playingCard = gameGraphics.cardFrom(position: pos) {
                 gameGraphics.drop(playingDice: dice, on: playingCard)
                 updateDatabase(playingCard: playingCard)
-                
             }
         }
         guard let currentPlayingCard = currentPlayingCard else { return }
@@ -584,6 +591,7 @@ class GameScene: SKScene {
         
     }
     
+    //Moves a card from one location to another without dragging the card to the new location.
     func moveLocation(currentPlayingCard: CurrentPlayingCard, location: Location) {
         do {
             //Updates the model by removing the card from the origonal location and adding it to the new location.
@@ -616,13 +624,17 @@ class GameScene: SKScene {
         }
     }
     
-    
+    //Moves a card from the deck into the hand.
     func drawCard() {
-        let card = game.deck.bottomCard
-        let playingCard = gameGraphics.findPlayingCard(from: card!)
+        if let card = game.deck.bottomCard {
+        let playingCard = gameGraphics.findPlayingCard(from: card)
             currentPlayingCard = CurrentPlayingCard(playingCard: playingCard, startPosition: playingCard.position, touchPoint: playingCard.position, location: .deck())
             moveLocation(currentPlayingCard: currentPlayingCard!, location: .hand())
         gameGraphics.update(gameDeck: game.deck)
+        }
+        else {
+            print("Failed to draw a card")
+        }
     }
     
     private func requestNewGame() {
@@ -638,26 +650,30 @@ extension GameScene: ViewControllerDelegate {
         return game.state
     }
     
+    //Sets up a new game from scratch.
     func newGame() {
         game.new()
         gameGraphics.newGame(gameDecks: game.deck)
         gameGraphics.addCards(to: self)
         var commander: CurrentPlayingCard?
+        //If the deck has a card marked as commender moves it to the command zone.
         for playingCard in gameGraphics.cards {
             if playingCard.card.name == game.commander {
                 commander = CurrentPlayingCard(playingCard: playingCard, startPosition: gameGraphics.deck.position, touchPoint: gameGraphics.deck.position, location: .deck())
                 moveLocation(currentPlayingCard: commander!, location: .graveyard(2))
             }
         }
+        //Draws the correct number of cards for the player.
         if mulliganCount < 7 {
             for _ in 0..<(7 - mulliganCount % 7) {
                 drawCard()
             }
+            //Gives one free mulligan.
             if mulliganCount != 0 {
                 drawCard()
             }
         }
-        
+        //code to only do on the first iteration.
         if mulliganCount == 0 {
             gameGraphics.reset()
             labels.addMulligan(to: self)

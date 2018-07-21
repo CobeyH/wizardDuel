@@ -31,6 +31,7 @@ struct GameGraphics {
     private var playerInfos: [PlayerInfo] = []
     
     //MARK: - Setup Methods
+    //Sets up most of the background items such as the grey cells for cards.
     mutating func setup(width: CGFloat, height: CGFloat) {
         let baseZPosition: CGFloat = config.zIndexIncrement
         labels.setupCardDisplay(width: width)
@@ -71,10 +72,9 @@ struct GameGraphics {
         dataExtract.position = CGPoint(x: -100, y: 100)
         dataExtract.zPosition = baseZPosition
         
+        //Sets up the spawner for the dice.
         diceSpawner.size = config.diceSizeFinal
-        //Sets up the dice
         diceSpawner.texture = SKTexture(imageNamed: "dice1")
-        diceSpawner.size = CGSize(width: 30, height: 30)
         diceSpawner.position = CGPoint(x: graveyards[2].position.x + config.cardSize.width/2 + config.diceSizeFinal.width/2 , y: -height + diceSpawner.size.height/2)
         diceSpawner.anchorPoint = CGPoint(x:0.5, y:0.5)
         
@@ -85,7 +85,7 @@ struct GameGraphics {
                 for j in 0 ..< 3 {
                     let battlefieldCell = SKSpriteNode(color: config.battlefieldColour, size: config.cardSize)
                     battlefieldCell.anchorPoint = config.cardMiddle
-                    battlefieldCell.position = CGPoint(x: startPositions[k].x + config.offsetX + (config.cardSize.width + config.spacing/2) * CGFloat(i), y: -(config.cardSize.height + config.spacing/2) * CGFloat(j) + startPositions[k].y - config.cardSize.height/2)
+                    battlefieldCell.position = CGPoint(x: startPositions[k].x + config.offsetX + (config.cardSize.width + config.battlefieldSpacing) * CGFloat(i), y: -(config.cardSize.height + config.battlefieldSpacing) * CGFloat(j) + startPositions[k].y - config.cardSize.height/2)
                     battlefieldCell.zPosition = baseZPosition
                     allBattlefields[k].append(battlefieldCell)
                 }
@@ -128,7 +128,7 @@ struct GameGraphics {
         addCards(to: scene)
     }
     
-    //Adds the cards sprites to the visual deck
+    //Adds the cards to the scene.
     func addCards(to scene: SKScene) {
         for card in cards {
             scene.addChild(card)
@@ -149,7 +149,7 @@ struct GameGraphics {
     }
     
     //MARK: - Dice
-    
+    //Creates a new dice at the dice spawner.
     mutating func newDice(to scene: SKScene) -> PlayingDice {
         let dice = Dice(maxValue: 6)
         let playingDice = PlayingDice(dice: dice, size: config.diceSizeInitial)
@@ -160,6 +160,7 @@ struct GameGraphics {
         return playingDice
     }
     
+    //Deletes a dice from the battlefield.
     mutating func deleteDice(to scene: SKScene, toDelete: PlayingDice) {
         for dice in dices {
            if dice == toDelete {
@@ -169,6 +170,7 @@ struct GameGraphics {
         }
     }
     
+    //Checks if a dice has been clicked.
     func isDiceTapped(point: CGPoint) -> Bool{
         if diceSpawner.contains(point) {
             return true
@@ -176,6 +178,7 @@ struct GameGraphics {
         else { return false}
     }
     
+    //Returns the dice at a position.
     func findDice(point: CGPoint) -> PlayingDice? {
         for dice in dices {
             if dice.contains(point) {
@@ -185,6 +188,7 @@ struct GameGraphics {
         return nil
     }
     
+    //Returns the dice that is the child of a card.
     func findDiceFromCard(playingCard: PlayingCard) -> PlayingDice? {
         if let dice = playingCard.childNode(withName: "dice") {
             return dice as? PlayingDice
@@ -193,6 +197,7 @@ struct GameGraphics {
         return nil
     }
     
+    //Makes the dice a child of the playingCard when it is dropped on a card.
     func drop(playingDice: PlayingDice, on playingCard: PlayingCard) {
         playingDice.name = "dice"
         playingDice.removeFromParent()
@@ -202,13 +207,14 @@ struct GameGraphics {
     }
     
     //MARK: PlayerUpdates
-    
+    //Adds a player info box to the game when I new player joins.
     mutating func addPlayer(playerName: String, playerNumber: Int, lifeTotal: Int, to scene: SKScene, playerNumberSelf: Int, databaseKey: String) {
         let player = PlayerInfo(lifeTotal: lifeTotal, playerName: playerName, playerNumber: playerNumber, to: scene, databaseKey: databaseKey)
         playerInfos.append(player)
         player.movePlayerInfo(playerNumberSelf: playerNumberSelf)
     }
     
+    //Returns a player from a player number.
     func findPlayer(playerNumber: Int) -> PlayerInfo? {
         for playerInfo in playerInfos {
             if playerInfo.playerNumber == playerNumber {
@@ -218,6 +224,7 @@ struct GameGraphics {
         return nil
     }
     
+    //Returns a player info at a position.
     func findPlayer(at point: CGPoint) -> PlayerInfo? {
         for playerInfo in playerInfos {
             if playerInfo.contains(point) {
@@ -246,16 +253,17 @@ struct GameGraphics {
         return candidateCards.last
     }
     
-    
+    //Moves playing card to highest zPosition.
     mutating func setActive(card: PlayingCard) {
         card.zPosition = config.getZIndex()
     }
     
+    //Moves dice card to highest zPosition.
     mutating func setDiceActive(dice: PlayingDice) {
         dice.zPosition = config.getZIndex()
     }
     
-    
+    //Removes all cards from the game.
     mutating func newGame(gameDecks: Deck) {
         for card in cards {
             card.removeFromParent()
@@ -264,6 +272,7 @@ struct GameGraphics {
         setupCards(gameDecks: gameDecks)
     }
     
+    //Returns the diagonal distance between two points.
     func distanceBetween(pointA: CGPoint, pointB: CGPoint) -> Int {
         let lengthX = pow((pointA.x - pointB.x), 2)
         let lengthY = pow((pointA.y - pointB.y), 2)
@@ -271,7 +280,7 @@ struct GameGraphics {
         return Int(length)
     }
     
-    //Untaps all of the cards when the new turn button is pressed
+    //Untaps all of the cards when the new turn button is pressed,
     func newTurn(sender: Int) -> [PlayingCard] {
         let database = Database.database().reference().child("Updates")
         var tappedCards: [PlayingCard] = []
@@ -290,11 +299,10 @@ struct GameGraphics {
                 })
             }
         }
-        print(tappedCards)
         return tappedCards
     }
     
-    //Rotates the card sideways if it is upright and turns it upright if it was sideways
+    //Rotates the card sideways if it is upright and turns it upright if it was sideways.
     func tapCard(card: PlayingCard) {
         let angle: Double = card.tapped ? Double.pi/2 : -Double.pi/2
         let rotation = SKAction.rotate(byAngle: CGFloat(angle), duration: 0.0)
@@ -303,7 +311,7 @@ struct GameGraphics {
         card.tapped = card.tapped ? false : true
     }
     
-    //Moves the card onto the battlefield for searching the deck
+    //Moves the card onto the battlefield for searching the deck.
     mutating func displayDeck() {
         let startPos = CGPoint(x:deck.position.x + config.cardSize.width/2 - config.offsetX, y: -config.offsetY - config.cardSize.height * 2)
         //Checks if each card in Cards is in the deck and if so moves them to be displayed
@@ -324,6 +332,7 @@ struct GameGraphics {
         }
     }
     
+    //Returns the cards to the origonal place in the deck after being displayed.
     mutating func reconstructDeck(gameCards: [Card]) {
         for (i,card) in gameCards.enumerated() {
             for playingCard in cards {
@@ -338,9 +347,10 @@ struct GameGraphics {
         }
     }
     
+    //Enlarges the card at the location specified in the top right corner.
     mutating func showPlayingCard(at location: CGPoint, scene: SKScene) {
         // Get node at position
-        let node = scene.atPoint(location)   // For some reason this always returns the SKScene, not a playing card. Could be bcs the scene has a frame frame:{{-0, -1054}, {1366, 1054}}
+        let node = scene.atPoint(location)
         if let sprite = node as? SKSpriteNode {
             if sprite.name != nil && sprite.texture != SKTexture(imageNamed: config.cardbackName) {
                 labels.cardDisplay.texture = sprite.texture
@@ -352,6 +362,7 @@ struct GameGraphics {
         }
     }
     
+    //Shows an list of specific cards that are outside of the players deck.
     mutating func showTokens(addedTokens: [Card], scene: SKScene) {
         for (i, gameCard) in addedTokens.enumerated() {
             let card = PlayingCard(card: gameCard, size: config.cardSize, databaseRef: nil)
@@ -369,6 +380,7 @@ struct GameGraphics {
         }
     }
     
+    //Removed the tokens from the scene.
     mutating func hideTokens() {
         for playingCard in cards {
             if playingCard.heldBy == "display" {
@@ -400,11 +412,8 @@ struct GameGraphics {
             let playingCards = cardsInCell(location: location, gameBattleDeck: gameBattleDeck , hand: hand)
             let counter : Double = ((playingCards.count + 1) > 7) ? Double(playingCards.count) : 7.0
             for playingCard in playingCards {
-                
                 setActive(card: playingCard)
                 let currentPlayingCard = CurrentPlayingCard(playingCard: playingCard, startPosition: playingCard.position, touchPoint: playingCard.anchorPoint, location: location)
-                
-                
                 let position =  CGPoint(x: config.offsetX + config.spacing + CGFloat((i * 7.0)/counter) * config.cardSize.width, y: hands.position.y)
                 i = i + 1
                 currentPlayingCard.move(to: position)
@@ -501,6 +510,7 @@ struct GameGraphics {
         }
     }
     
+    //After getting an update from the database, add the image to the local scene in the correct place.
     mutating func addFromDatabase(name: String, field: Int, stack: Int, scene: SKScene) -> PlayingCard {
         let gameCard = Card(name: name)
         let card = PlayingCard(card: gameCard, size: config.cardSize, databaseRef: nil)
@@ -515,8 +525,7 @@ struct GameGraphics {
         return card
     }
     
-    
-    
+    //Deleted a card from the scene
     mutating func deleteCard(playingCard: PlayingCard) {
         playingCard.removeFromParent()
         cards.remove(at: cards.index(of: playingCard)!)
@@ -566,7 +575,7 @@ struct GameGraphics {
         return nil
     }
     
-    
+    //Find the card in the graphics that corespond to a card in the model.
     func findPlayingCard(from card: Card) -> PlayingCard {
         for playingCard in cards {
             if playingCard.card == card {
@@ -578,8 +587,7 @@ struct GameGraphics {
     
     // MARK: - Private
     
-    
-    
+    //Updates the counted for number of cards in the deck.
     func update(gameDeck: Deck) {
         deckCount.text = "\(gameDeck.cards.count)"
     }

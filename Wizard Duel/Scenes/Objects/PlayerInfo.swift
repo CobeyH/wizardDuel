@@ -79,7 +79,6 @@ class PlayerInfo: SKSpriteNode {
         self.position = infoLocations[(4 + Int(playerNumber) - playerNumberSelf) % 4]
     }
     
-    
     func getLife() -> Int {
         return lifeTotal
     }
@@ -92,7 +91,6 @@ class PlayerInfo: SKSpriteNode {
     func lifeUp() {
         lifeTotal = lifeTotal + 1
         updateLife()
-        
     }
     
     func updateLife() {
