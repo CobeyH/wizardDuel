@@ -1,4 +1,3 @@
-WizardDuel for MacOS
-This is my first big Swift project that will be used to play Magic the Gathering online with friends.
+WizardDuel for MacOS and iOS
+A cross platform implementation of the card game "Magic the Gathering". Supports up to 4 players using Google's Firebase to send communications between players.
 The framework was taken from FreeCell2 by Gary Kerr
-

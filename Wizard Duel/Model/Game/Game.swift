@@ -98,7 +98,6 @@ class Game {
             graveyard.removeBottom()
         case .hand():
             hands.removeCard(card: card)
-            
         case .battlefield(let field, let stack):
             let battlefield = allBattlefields[field]
             let stack = battlefield[stack]

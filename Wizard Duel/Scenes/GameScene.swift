@@ -192,6 +192,7 @@ class GameScene: SKScene {
         let cardUpdate = Database.database().reference().child("Updates")
         var value = 0
         //This takes the location that the sender dropped the card.
+        
         if let location = game.location(from: playingCard.card) {
             if case .battlefield(let field, let stack) = location {
                 if playingCard.children.count != 0 {
@@ -200,9 +201,10 @@ class GameScene: SKScene {
                 }
                 //Checks if the playingcard has an ID, and if not, assigns it a new ID.
                 let databaseRef = playingCard.databaseRef ?? cardUpdate.childByAutoId().key
-                let updateDictionary = ["Sender": String(playerNumber),"Card": playingCard.card.name, "Field": String(field), "Stack": String(stack), "Tapped": String(playingCard.tapped), "DiceValue": String(value)]
+                var updateDictionary = ["Sender": String(playerNumber), "Card": playingCard.card.name, "Field": String(field), "Stack": String(stack), "Tapped": String(playingCard.tapped), "DiceValue": String(value)]
                 if playingCard.databaseRef == nil {
                     playingCard.databaseRef = databaseRef
+                    updateDictionary["Owner"] = String(self.playerNumber)
                     cardUpdate.child(databaseRef).setValue(updateDictionary)
                 }
                 else {
@@ -259,11 +261,11 @@ class GameScene: SKScene {
         //Deletes a card from the database if the card is removed from the battlefield
         cardUpdate.observe(.childRemoved, with: { (snapshot) in
             if let snapshotValue = snapshot.value as? Dictionary<String,String> {
-                let sender = Int(snapshotValue["Sender"]!)
+                let owner = Int(snapshotValue["Owner"]!)
                 let stack = Int(snapshotValue["Stack"]!)
                 let relativeField = Int(snapshotValue["Field"]!)
-                if sender != self.playerNumber {
-                    let fieldNumber = self.findField(sender: sender!, relativeField: relativeField!)
+                if owner != self.playerNumber {
+                    let fieldNumber = self.findField(sender: owner!, relativeField: relativeField!)
                     for playingCard in self.gameGraphics.cards.reversed() {
                         if playingCard.databaseRef == snapshot.key {
                             self.gameGraphics.deleteCard(playingCard: playingCard)
@@ -305,7 +307,7 @@ class GameScene: SKScene {
                         let databaseRef = $0.databaseRef
                         return databaseRef == snapshot.key
                     }).first
-                    
+            
                     var location = Location.dataExtract()
                     
                     //Updates the playing card if one is found other wise creates a new card locally.
@@ -572,21 +574,18 @@ class GameScene: SKScene {
             if toDeleteCard.heldBy != "Battlefield" && startHeldBy == "Battlefield" {
                 deleteFromDatabase(playingCard: toDeleteCard)
             }
+            
+            updateDatabase(playingCard: currentPlayingCard.playingCard)
         } else {
             currentPlayingCard.returnToOriginalLocation()
         }
         
-        let close: Bool = gameGraphics.distanceBetween(pointA: currentPlayingCard.startPosition, pointB: pos) < 5
-        if currentPlayingCard.playingCard.heldBy == "Battlefield" && close {
-            let playingCard = currentPlayingCard.playingCard
-            gameGraphics.tapCard(card: playingCard)
-            Database.database().reference().child("Updates").child(playingCard.databaseRef!).updateChildValues(["Tapped": playingCard.tapped, "Sender": playerNumber])
-            
-        }
-        if currentPlayingCard.touchPoint != currentPlayingCard.startPosition {
-            updateDatabase(playingCard: currentPlayingCard.playingCard)
-        }
-        
+//        let close: Bool = gameGraphics.distanceBetween(pointA: currentPlayingCard.startPosition, pointB: pos) < 5
+//        if currentPlayingCard.playingCard.heldBy == "Battlefield" && close {
+//            let playingCard = currentPlayingCard.playingCard
+//            gameGraphics.tapCard(card: playingCard)
+//            Database.database().reference().child("Updates").child(playingCard.databaseRef!).updateChildValues(["Tapped": playingCard.tapped, "Sender": playerNumber])
+//        }
         self.currentPlayingCard = nil
         
     }
