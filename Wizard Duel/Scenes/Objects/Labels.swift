@@ -9,7 +9,6 @@
 import SpriteKit
 
 class Labels {
-    private var config = GameGraphicsConfig()
     var shuffleDeck: SKLabelNode = SKLabelNode(fontNamed: "Planewalker")
     var newTurnButton: SKLabelNode = SKLabelNode(fontNamed: "Planewalker")
     var cardDisplay: SKSpriteNode = SKSpriteNode(color: .red, size: CGSize(width: 50, height: 50))
@@ -39,7 +38,8 @@ class Labels {
         newTurnButton.yScale = yScale
         scene.addChild(newTurnButton)
         
-        
+        //Adds buttons that have keyboard shortcuts on Mac OSX
+        #if os(iOS)
         //New game button
         newGameButton.fontSize = 30
         newGameButton.color = SKColor.black
@@ -50,7 +50,6 @@ class Labels {
         newGameButton.yScale = yScale
         scene.addChild(newGameButton)
         
-        #if os(iOS)
         searchDeck = SKLabelNode(fontNamed: "Planewalker")
         if let searchDeck = searchDeck {
             searchDeck.fontSize = 30

@@ -25,6 +25,9 @@
 		0377EE6220F8954E00C6F94B /* tokens.txt in Resources */ = {isa = PBXBuildFile; fileRef = 0377EE5F20F8954E00C6F94B /* tokens.txt */; };
 		0378867020ACA38E00B2B2E4 /* MasterDeck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0378866F20ACA38E00B2B2E4 /* MasterDeck.swift */; };
 		039785CD20A52CA0005C2F1C /* testDeck.txt in Resources */ = {isa = PBXBuildFile; fileRef = 039785CC20A52CA0005C2F1C /* testDeck.txt */; };
+		03B66FBC2125EA7E005827ED /* Database.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B66FBB2125EA7E005827ED /* Database.swift */; };
+		03B66FBD2125EA7E005827ED /* Database.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B66FBB2125EA7E005827ED /* Database.swift */; };
+		03B66FBE2125EA7E005827ED /* Database.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B66FBB2125EA7E005827ED /* Database.swift */; };
 		03B8994720E03E5200CBEFDC /* PlayerInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B8994620E03E5200CBEFDC /* PlayerInfo.swift */; };
 		03D5AD4120A8C8AE001E29CE /* Battlefield.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03D5AD4020A8C8AE001E29CE /* Battlefield.swift */; };
 		03EE278320C70B8E00427770 /* Dice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03EE278220C70B8E00427770 /* Dice.swift */; };
@@ -172,6 +175,7 @@
 		0377EE5F20F8954E00C6F94B /* tokens.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = tokens.txt; sourceTree = "<group>"; };
 		0378866F20ACA38E00B2B2E4 /* MasterDeck.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterDeck.swift; sourceTree = "<group>"; };
 		039785CC20A52CA0005C2F1C /* testDeck.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = testDeck.txt; sourceTree = "<group>"; };
+		03B66FBB2125EA7E005827ED /* Database.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Database.swift; sourceTree = "<group>"; };
 		03B8994620E03E5200CBEFDC /* PlayerInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerInfo.swift; sourceTree = "<group>"; };
 		03D5AD4020A8C8AE001E29CE /* Battlefield.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Battlefield.swift; sourceTree = "<group>"; };
 		03EE278220C70B8E00427770 /* Dice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dice.swift; sourceTree = "<group>"; };
@@ -287,9 +291,10 @@
 			isa = PBXGroup;
 			children = (
 				4E396EB41EF3E39400F8696A /* Objects */,
-				4E71F2521F439933002E66D3 /* GameScene.sks */,
 				4E984C0D1F58D48E00FD8BD7 /* GameSceneDelegate.swift */,
 				4E396E861EF3DF8600F8696A /* GameScene.swift */,
+				03B66FBB2125EA7E005827ED /* Database.swift */,
+				4E71F2521F439933002E66D3 /* GameScene.sks */,
 			);
 			path = Scenes;
 			sourceTree = "<group>";
@@ -563,7 +568,7 @@
 				7E02B13720EC6FF90088FFEB /* Frameworks */,
 				7E02B13820EC6FF90088FFEB /* Resources */,
 				7E02B19920EC72220088FFEB /* Copy Card Images */,
-				D8888356159C3CD87F18FC8B /* [CP] Embed Pods Frameworks */,
+				9AA9B3E73989813D423B7F74 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -604,7 +609,7 @@
 					};
 					7E02B13920EC6FF90088FFEB = {
 						CreatedOnToolsVersion = 9.4.1;
-						DevelopmentTeam = 2M3W3R4VFQ;
+						DevelopmentTeam = QD694Y7TZY;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -803,7 +808,7 @@
 			shellScript = "#!/bin/sh\n\nset -e\n\necho \"$SRCROOT\"\nrsync -r \"$SRCROOT/Wizard Duel/Content/\" \"$TARGET_BUILD_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH\"\n";
 			showEnvVarsInLog = 0;
 		};
-		D8888356159C3CD87F18FC8B /* [CP] Embed Pods Frameworks */ = {
+		9AA9B3E73989813D423B7F74 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -862,6 +867,7 @@
 				4EF3F2991F48795D004197A8 /* CurrentPlayingCard.swift in Sources */,
 				03F7197320B0A16900B70122 /* Labels.swift in Sources */,
 				4E71F1E31F438893002E66D3 /* Card.swift in Sources */,
+				03B66FBC2125EA7E005827ED /* Database.swift in Sources */,
 				03F157B220BC856D000301EB /* LoginInfo.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -912,6 +918,7 @@
 				7E02B15B20EC70B50088FFEB /* HasState.swift in Sources */,
 				7E02B16520EC70B50088FFEB /* Move.swift in Sources */,
 				7E02B15620EC70B50088FFEB /* Card.swift in Sources */,
+				03B66FBD2125EA7E005827ED /* Database.swift in Sources */,
 				7E02B15720EC70B50088FFEB /* LoginInfo.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -950,6 +957,7 @@
 				7E02B16D20EC70B50088FFEB /* HasState.swift in Sources */,
 				7E02B17720EC70B50088FFEB /* Move.swift in Sources */,
 				7E02B16820EC70B50088FFEB /* Card.swift in Sources */,
+				03B66FBE2125EA7E005827ED /* Database.swift in Sources */,
 				7E02B16920EC70B50088FFEB /* LoginInfo.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1230,12 +1238,12 @@
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = 2M3W3R4VFQ;
+				DEVELOPMENT_TEAM = QD694Y7TZY;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = "WizardDuel macOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				PRODUCT_BUNDLE_IDENTIFIER = com.AdrianRuigrok.WizardDuel;
+				PRODUCT_BUNDLE_IDENTIFIER = com.CobeyHollier.WizardDuel;
 				PRODUCT_NAME = WizardDuel;
 				SDKROOT = macosx;
 				SWIFT_VERSION = 4.0;
@@ -1253,12 +1261,12 @@
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = 2M3W3R4VFQ;
+				DEVELOPMENT_TEAM = QD694Y7TZY;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = "WizardDuel macOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				PRODUCT_BUNDLE_IDENTIFIER = com.AdrianRuigrok.WizardDuel;
+				PRODUCT_BUNDLE_IDENTIFIER = com.CobeyHollier.WizardDuel;
 				PRODUCT_NAME = WizardDuel;
 				SDKROOT = macosx;
 				SWIFT_VERSION = 4.0;

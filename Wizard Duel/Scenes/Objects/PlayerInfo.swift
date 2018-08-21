@@ -9,7 +9,6 @@
 import SpriteKit
 
 class PlayerInfo: SKSpriteNode {
-    let config = GameGraphicsConfig()
     let playerName: String
     let playerNumber: Int
     var lifeTotal: Int
@@ -23,7 +22,7 @@ class PlayerInfo: SKSpriteNode {
     
     init(lifeTotal: Int, playerName: String, playerNumber: Int, to scene: SKScene, databaseKey: String) {
         let texture = SKTexture(imageNamed: "playerInfo")
-        let size = config.playerInfoSize
+        let size = config.cardSize
         self.playerName = playerName
         self.playerNumber = playerNumber
         self.healthUpLabel = SKLabelNode()
@@ -31,9 +30,11 @@ class PlayerInfo: SKSpriteNode {
         self.lifeTotal = lifeTotal
         self.healthLabel = SKLabelNode()
         self.databaseKey = databaseKey
-        self.xscale = config.getScale().0
-        self.yscale = config.getScale().1
         
+//        self.xscale = config.getScale().0
+//        self.yscale = config.getScale().1
+        self.xscale = 1
+        self.yscale = 1
         super.init(texture: texture, color: .clear, size: size)
         self.anchorPoint = CGPoint(x: 0.5, y: 1)
         scene.addChild(self)
@@ -62,8 +63,8 @@ class PlayerInfo: SKSpriteNode {
         healthLabel.text = "40"
         healthUpLabel.text = "+"
         healthDownLabel.text = "-"
-        healthUpLabel.position = CGPoint(x: config.playerInfoSize.width/4, y: healthLabel.position.y)
-        healthDownLabel.position = CGPoint(x: -config.playerInfoSize.width/4, y: healthLabel.position.y)
+        healthUpLabel.position = CGPoint(x: config.cardSize.width/4, y: healthLabel.position.y)
+        healthDownLabel.position = CGPoint(x: -config.cardSize.width/4, y: healthLabel.position.y)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -75,7 +76,7 @@ class PlayerInfo: SKSpriteNode {
             fatalError("Too many players in the database")
         }
         
-        let infoLocations = [CGPoint(x: config.playerInfoSize.width/2, y: -config.screenHeight/2 + config.playerInfoSize.height/2) ,CGPoint(x: config.playerInfoSize.width/2, y: 0), CGPoint(x: config.screenWidth - config.playerInfoSize.width/2, y: 0), CGPoint(x: config.screenWidth - config.playerInfoSize.width/2, y: -config.screenHeight/2 + config.playerInfoSize.height/2)]
+        let infoLocations = [CGPoint(x: config.cardSize.width/2, y: -config.screenHeight/2 + config.cardSize.height/2) ,CGPoint(x: config.cardSize.width/2, y: 0), CGPoint(x: config.screenWidth - config.cardSize.width/2, y: 0), CGPoint(x: config.screenWidth - config.cardSize.width/2, y: -config.screenHeight/2 + config.cardSize.height/2)]
         self.position = infoLocations[(4 + Int(playerNumber) - playerNumberSelf) % 4]
     }
     

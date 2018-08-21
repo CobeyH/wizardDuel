@@ -1,3 +1,14 @@
 WizardDuel for MacOS and iOS
 A cross platform implementation of the card game "Magic the Gathering". Supports up to 4 players using Google's Firebase to send communications between players.
-The framework was taken from FreeCell2 by Gary Kerr
+
+There are different control schemes used on the two platforms.
+Mac
+Command + n starts a new game
+Command + t shows tokens that can be added to the game
+Command + f will display the cards in your deck
+Esc key will hide the tokens or the deck from display mode
+The + and - keys can be used to increase and decrease your life total
+Dragging a dice on top of a card will add a dice to that card. The value on the dice can be increased with a click and derceased with a right click
+
+IOS
+A two finger pinch going outwards is used to display the deck while a closing pinch will hide it.

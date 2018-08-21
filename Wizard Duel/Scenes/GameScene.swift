@@ -55,7 +55,7 @@ class GameScene: SKScene {
         self.size = view.bounds.size
         gameGraphics.setup(width: size.width, height: size.height)
         gameGraphics.setupCards(gameDecks: game.deck)
-        gameGraphics.setupBackground(to: self)
+        
         
         labels.setUpLabels(width: size.width, height: size.height, to: self)
         gameGraphics.addChildren(to: self)
@@ -262,14 +262,15 @@ class GameScene: SKScene {
         cardUpdate.observe(.childRemoved, with: { (snapshot) in
             if let snapshotValue = snapshot.value as? Dictionary<String,String> {
                 let owner = Int(snapshotValue["Owner"]!)
+                let sender = Int(snapshotValue["Sender"]!)
                 let stack = Int(snapshotValue["Stack"]!)
                 let relativeField = Int(snapshotValue["Field"]!)
                 if owner != self.playerNumber {
-                    let fieldNumber = self.findField(sender: owner!, relativeField: relativeField!)
+                    let fieldNumber = self.findField(sender: sender!, relativeField: relativeField!)
                     for playingCard in self.gameGraphics.cards.reversed() {
                         if playingCard.databaseRef == snapshot.key {
-                            self.gameGraphics.deleteCard(playingCard: playingCard)
                             self.game.allBattlefields[fieldNumber][stack!].removeCard(card: playingCard.card)
+                            self.gameGraphics.deleteCard(playingCard: playingCard)
                         }
                     }
                 }
@@ -573,6 +574,9 @@ class GameScene: SKScene {
             moveLocation(currentPlayingCard: currentPlayingCard, location: dropLocation)
             if toDeleteCard.heldBy != "Battlefield" && startHeldBy == "Battlefield" {
                 deleteFromDatabase(playingCard: toDeleteCard)
+                currentPlayingCard.playingCard.databaseRef = nil
+                self.currentPlayingCard = nil
+                return
             }
             
             updateDatabase(playingCard: currentPlayingCard.playingCard)
@@ -580,14 +584,7 @@ class GameScene: SKScene {
             currentPlayingCard.returnToOriginalLocation()
         }
         
-//        let close: Bool = gameGraphics.distanceBetween(pointA: currentPlayingCard.startPosition, pointB: pos) < 5
-//        if currentPlayingCard.playingCard.heldBy == "Battlefield" && close {
-//            let playingCard = currentPlayingCard.playingCard
-//            gameGraphics.tapCard(card: playingCard)
-//            Database.database().reference().child("Updates").child(playingCard.databaseRef!).updateChildValues(["Tapped": playingCard.tapped, "Sender": playerNumber])
-//        }
         self.currentPlayingCard = nil
-        
     }
     
     //Moves a card from one location to another without dragging the card to the new location.

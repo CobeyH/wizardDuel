@@ -5,7 +5,7 @@ target 'WizardDuel iOS' do
     platform :ios, '11.0'
     
     # Pods for Wizard Duel
-    #  pod 'Firebase'
+    # pod 'Firebase'
     #  pod 'Firebase/Auth'
     #  pod 'Firebase/Database'
 end

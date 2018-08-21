@@ -12,11 +12,8 @@ import Firebase
 import FirebaseDatabase
 #endif
 
-
 struct GameGraphics {
-    
     //MARK: - Initalizers
-    public var config = GameGraphicsConfig()
     private var labels = Labels()
     private var graveyards: [SKSpriteNode] = []
     var hands: SKSpriteNode = SKSpriteNode(color: .red, size: CGSize(width: 75, height: 40))
@@ -24,7 +21,7 @@ struct GameGraphics {
     var allBattlefields: [[SKSpriteNode]] = [[], [], [], []]
     private var deckCount: SKLabelNode = SKLabelNode(fontNamed: "planewalker")
     private var diceSpawner: SKSpriteNode = SKSpriteNode(color: .red, size: CGSize(width: 75, height: 40))
-    
+    private var background: SKSpriteNode = SKSpriteNode(color: .clear, size: CGSize(width: 75, height: 40))
     
     var cards: [PlayingCard] = []
     private var dices: [PlayingDice] = []
@@ -138,14 +135,16 @@ struct GameGraphics {
     
     //Creates the background and sets its image
     func setupBackground(to scene: SKScene) {
-        let backgroundTexture = SKTexture(imageNamed: config.backgroundName)
-        let background: SKSpriteNode = SKSpriteNode( color: .clear, size: CGSize(width: scene.size.width, height: scene.size.height))
-        
-        background.texture = backgroundTexture
+        background.size = CGSize(width: scene.size.width, height: scene.size.height)
+        background.texture = SKTexture(imageNamed: config.backgroundName)
         background.anchorPoint = CGPoint(x: 0, y: 1)
         background.zPosition = -5
         scene.addChild(background)
         
+    }
+    
+    mutating func changeBackground(on scene: SKScene) {
+        background.texture = SKTexture(imageNamed: config.getBackground())
     }
     
     //MARK: - Dice
@@ -288,12 +287,13 @@ struct GameGraphics {
             if let databaseRef = playingCard.databaseRef {
                 database.child(databaseRef).observeSingleEvent(of: .value, with: {(snapshot) in
                     if let value = snapshot.value as? NSDictionary {
-                        let databaseSender = value["Sender"] as? String
-                        let senderInt = Int(databaseSender!)
+                        if let databaseSender = value["Owner"] as? String {
+                        let senderInt = Int(databaseSender)
                         if playingCard.tapped && senderInt == sender {
                             self.tapCard(card: playingCard)
                             tappedCards.append(playingCard)
                             Database.database().reference().child("Updates").child(playingCard.databaseRef!).updateChildValues(["Tapped": "false"])
+                        }
                         }
                     }
                 })
@@ -350,8 +350,11 @@ struct GameGraphics {
     //Enlarges the card at the location specified in the top right corner.
     mutating func showPlayingCard(at location: CGPoint, scene: SKScene) {
         // Get node at position
-        let node = scene.atPoint(location)
-        if let sprite = node as? SKSpriteNode {
+        let node = scene.nodes(at: location)
+        if var sprite = node.first as? SKSpriteNode {
+            if sprite == labels.cardDisplay {
+                sprite = (node[1] as? SKSpriteNode)!
+            }
             if sprite.name != nil && sprite.texture != SKTexture(imageNamed: config.cardbackName) {
                 labels.cardDisplay.texture = sprite.texture
                 labels.cardDisplay.zPosition = config.getZIndex()
@@ -531,7 +534,6 @@ struct GameGraphics {
         cards.remove(at: cards.index(of: playingCard)!)
     }
     
-    
     //Returns the location at the point passed in
     func dropLocation(from position: CGPoint, playingCard: PlayingCard, game: Game) -> Location? {
         for (i, graveyard) in graveyards.enumerated() {
@@ -562,15 +564,14 @@ struct GameGraphics {
         
         if deck.contains(position) {
             return .deck()
-            
         }
         
         for (i, battlefield) in allBattlefields.enumerated() {
             for (j, stack) in battlefield.enumerated() {
-            if stack.contains(position) {
-                return .battlefield(i, j)
+                if stack.contains(position) {
+                    return .battlefield(i, j)
+                }
             }
-        }
         }
         return nil
     }
