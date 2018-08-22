@@ -20,9 +20,6 @@
 		0377EE5820F892D600C6F94B /* tokens.txt in Resources */ = {isa = PBXBuildFile; fileRef = 0377EE5720F892D600C6F94B /* tokens.txt */; };
 		0377EE5920F892D600C6F94B /* tokens.txt in Resources */ = {isa = PBXBuildFile; fileRef = 0377EE5720F892D600C6F94B /* tokens.txt */; };
 		0377EE5A20F892D600C6F94B /* tokens.txt in Resources */ = {isa = PBXBuildFile; fileRef = 0377EE5720F892D600C6F94B /* tokens.txt */; };
-		0377EE6020F8954E00C6F94B /* tokens.txt in Resources */ = {isa = PBXBuildFile; fileRef = 0377EE5F20F8954E00C6F94B /* tokens.txt */; };
-		0377EE6120F8954E00C6F94B /* tokens.txt in Resources */ = {isa = PBXBuildFile; fileRef = 0377EE5F20F8954E00C6F94B /* tokens.txt */; };
-		0377EE6220F8954E00C6F94B /* tokens.txt in Resources */ = {isa = PBXBuildFile; fileRef = 0377EE5F20F8954E00C6F94B /* tokens.txt */; };
 		0378867020ACA38E00B2B2E4 /* MasterDeck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0378866F20ACA38E00B2B2E4 /* MasterDeck.swift */; };
 		039785CD20A52CA0005C2F1C /* testDeck.txt in Resources */ = {isa = PBXBuildFile; fileRef = 039785CC20A52CA0005C2F1C /* testDeck.txt */; };
 		03B66FBC2125EA7E005827ED /* Database.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B66FBB2125EA7E005827ED /* Database.swift */; };
@@ -144,7 +141,6 @@
 		7E02B19720EC71820088FFEB /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 03FACC6B20CB83AE00BC8F89 /* GoogleService-Info.plist */; };
 		7E02B19A20EC737C0088FFEB /* ViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EA1E2941F6609DB0061E64D /* ViewControllerDelegate.swift */; };
 		7E02B19B20EC737C0088FFEB /* ViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EA1E2941F6609DB0061E64D /* ViewControllerDelegate.swift */; };
-		7E02B19D20EC73EC0088FFEB /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7E02B19C20EC73E60088FFEB /* Info.plist */; };
 		7E77AA12210056DE00927E98 /* PW.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7E77AA10210056DE00927E98 /* PW.otf */; };
 		7E77AA13210056DE00927E98 /* PW.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7E77AA10210056DE00927E98 /* PW.otf */; };
 		7E77AA14210056DE00927E98 /* PW.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7E77AA10210056DE00927E98 /* PW.otf */; };
@@ -586,7 +582,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0940;
-				LastUpgradeCheck = 0930;
+				LastUpgradeCheck = 0940;
 				ORGANIZATIONNAME = "Gary Kerr";
 				TargetAttributes = {
 					4E396E7C1EF3DF8600F8696A = {
@@ -646,7 +642,6 @@
 				7E77AA15210056DE00927E98 /* PlanewalkerBold.otf in Resources */,
 				03779E2A20B481C800F2DA43 /* testDeck2.txt in Resources */,
 				0377EE5820F892D600C6F94B /* tokens.txt in Resources */,
-				0377EE6020F8954E00C6F94B /* tokens.txt in Resources */,
 				4E396E8E1EF3DF8600F8696A /* Main.storyboard in Resources */,
 				039785CD20A52CA0005C2F1C /* testDeck.txt in Resources */,
 				7E77AA12210056DE00927E98 /* PW.otf in Resources */,
@@ -675,7 +670,6 @@
 				7E02B13120EC6FF90088FFEB /* Main.storyboard in Resources */,
 				0377EE5920F892D600C6F94B /* tokens.txt in Resources */,
 				7E02B19020EC71760088FFEB /* kittenDeck.txt in Resources */,
-				0377EE6120F8954E00C6F94B /* tokens.txt in Resources */,
 				7E02B19320EC71810088FFEB /* testDeck2.txt in Resources */,
 				7E02B13420EC6FF90088FFEB /* LaunchScreen.storyboard in Resources */,
 				7E02B19420EC71810088FFEB /* GoogleService-Info.plist in Resources */,
@@ -691,7 +685,6 @@
 				7E02B15220EC702D0088FFEB /* Main.storyboard in Resources */,
 				0350AE2420F153BC00A86E5E /* Muldrotha.txt in Resources */,
 				7E02B19520EC71820088FFEB /* testDeck.txt in Resources */,
-				7E02B19D20EC73EC0088FFEB /* Info.plist in Resources */,
 				0377EE5A20F892D600C6F94B /* tokens.txt in Resources */,
 				7E02B19120EC71770088FFEB /* kittenDeck.txt in Resources */,
 				0365695E20F7C8DC00EE9839 /* Tokens.xcassets in Resources */,
@@ -700,7 +693,6 @@
 				7E02B14B20EC6FF90088FFEB /* Assets.xcassets in Resources */,
 				7E02B15320EC703C0088FFEB /* Info.plist in Resources */,
 				7E02B19720EC71820088FFEB /* GoogleService-Info.plist in Resources */,
-				0377EE6220F8954E00C6F94B /* tokens.txt in Resources */,
 				7E77AA17210056DE00927E98 /* PlanewalkerBold.otf in Resources */,
 				7E02B18B20EC70C30088FFEB /* GameScene.sks in Resources */,
 			);

@@ -32,7 +32,7 @@ class Labels {
         cardDisplay.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         newTurnButton.color = SKColor.black
         newTurnButton.text = "New Turn"
-        newTurnButton.position = CGPoint(x: width/2 + config.cardSize.width * 5, y: -height - config.margin + config.spacing * 4)
+        newTurnButton.position = CGPoint(x: width - config.cardSize.width * 3, y: -height - config.margin + config.spacing * 4)
         newTurnButton.zPosition = 5
         newTurnButton.xScale = xScale
         newTurnButton.yScale = yScale

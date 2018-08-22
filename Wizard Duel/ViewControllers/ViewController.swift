@@ -47,16 +47,19 @@ class ViewController: NSViewController {
             delegate.newGame()
         }
     }
+    
+    @IBAction func importDeck(_ sender: NSMenuItem) {
+        print("Import")
+    }
 
     // MARK: - Private
-
     private func configureScene() {
         if let view = self.skView {
             let mainScreen = NSScreen.main
             var screenFrame = mainScreen!.visibleFrame
             screenFrame.size.height += 30
             view.frame = screenFrame
-            
+            ;
             if let scene = SKScene(fileNamed: "GameScene") as? GameScene {
                 // Set the scale mode to scale to fit the window
                 scene.scaleMode = .aspectFit

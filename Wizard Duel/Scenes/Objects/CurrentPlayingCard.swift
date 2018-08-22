@@ -36,7 +36,6 @@ struct CurrentPlayingCard {
     //Returns the card to the where it started. Used when an invalid move is made and the card must be reset.
     func returnToOriginalLocation() {
         move(to: startPosition)
-        print("Returned")
     }
     
 }

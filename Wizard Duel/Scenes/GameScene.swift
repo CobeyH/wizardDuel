@@ -475,7 +475,8 @@ class GameScene: SKScene {
         case [.command] where event.characters == "t":
             let addedTokens = game.createTokens()
             gameGraphics.showTokens(addedTokens: addedTokens, scene: self)
-            
+        case [.command] where event.characters == "b":
+            gameGraphics.changeBackground(on: self)
         default:
             break
         }
@@ -683,5 +684,4 @@ extension GameScene: ViewControllerDelegate {
             }
         }
     }
-    
 }

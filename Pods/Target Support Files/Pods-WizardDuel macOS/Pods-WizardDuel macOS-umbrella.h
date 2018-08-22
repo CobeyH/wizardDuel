@@ -11,6 +11,6 @@
 #endif
 
 
-FOUNDATION_EXPORT double Pods_Wizard_DuelVersionNumber;
-FOUNDATION_EXPORT const unsigned char Pods_Wizard_DuelVersionString[];
+FOUNDATION_EXPORT double Pods_WizardDuel_macOSVersionNumber;
+FOUNDATION_EXPORT const unsigned char Pods_WizardDuel_macOSVersionString[];
 

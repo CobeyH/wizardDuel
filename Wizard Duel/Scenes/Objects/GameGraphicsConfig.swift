@@ -44,7 +44,7 @@ public var config: GameGraphicsConfig = {
     let cardbackName = "cardback.png"
     let numberOfBackgrounds = 2
     let graveyardCount = 3
-    let backgroundCount = 2
+    let backgroundCount = 6
     
     //Initializes all of the sizes to be consistant on all of the devices.
     init() {
@@ -56,8 +56,6 @@ public var config: GameGraphicsConfig = {
         let rect = frame.size
         self.screenWidth = rect.width
         self.screenHeight = rect.height
-        print(self.screenWidth, "Width")
-        print(self.screenHeight, "Height")
         var height = rect.height / 7.5
         var width = rect.width / 18
         if width/height > 0.7147 {
@@ -85,7 +83,7 @@ public var config: GameGraphicsConfig = {
     
     mutating func getBackground() -> String {
         backgroundIndex += 1
-        return "background\(backgroundIndex % 2 + 1).jpg"
+        return "background\(backgroundIndex % backgroundCount + 1).jpg"
     }
     
     func getScale() -> (CGFloat,CGFloat) {

@@ -132,7 +132,6 @@ struct GameGraphics {
         }
     }
     
-    
     //Creates the background and sets its image
     func setupBackground(to scene: SKScene) {
         background.size = CGSize(width: scene.size.width, height: scene.size.height)
@@ -140,7 +139,6 @@ struct GameGraphics {
         background.anchorPoint = CGPoint(x: 0, y: 1)
         background.zPosition = -5
         scene.addChild(background)
-        
     }
     
     mutating func changeBackground(on scene: SKScene) {
@@ -501,7 +499,6 @@ struct GameGraphics {
         default:
             print("Called illegal move to tokens or dataExtract")
             newPosition = CGPoint(x: 0, y: 0)
-        
             
         }
         if playingCard.tapped && playingCard.heldBy != "Battlefield" {
@@ -592,5 +589,4 @@ struct GameGraphics {
     func update(gameDeck: Deck) {
         deckCount.text = "\(gameDeck.cards.count)"
     }
-    
 }
