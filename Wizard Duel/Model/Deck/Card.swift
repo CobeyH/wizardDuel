@@ -60,8 +60,7 @@ static func cardsFromFile(url: URL?) -> ([Card],String) {
             //Creates an array of strings with each index in the array holding one line of the file.
             let cardInfos: [String] = content.components(separatedBy: CharacterSet.newlines)
             
-            //Loops through the array of text lines and splits them after the number of cards. Then splits the number of cards and card name
-            //into two variables.
+            //Loops through the array of text lines and splits them after the number of cards. Then splits the number of cards and card name into two variables.
             for (cardInfo) in cardInfos {
                 if cardInfo.count > 3 {
                     let cardInfoArray = cardInfo.split(separator: " ", maxSplits: 1)

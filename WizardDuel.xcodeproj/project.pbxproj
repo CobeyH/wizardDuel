@@ -587,9 +587,9 @@
 				TargetAttributes = {
 					4E396E7C1EF3DF8600F8696A = {
 						CreatedOnToolsVersion = 8.3.2;
-						DevelopmentTeam = 2M3W3R4VFQ;
+						DevelopmentTeam = QD694Y7TZY;
 						LastSwiftMigration = 0900;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 					};
 					4E396E931EF3DF8600F8696A = {
 						CreatedOnToolsVersion = 8.3.2;
@@ -601,12 +601,12 @@
 					7E02B12820EC6FF90088FFEB = {
 						CreatedOnToolsVersion = 9.4.1;
 						DevelopmentTeam = QD694Y7TZY;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 					};
 					7E02B13920EC6FF90088FFEB = {
 						CreatedOnToolsVersion = 9.4.1;
 						DevelopmentTeam = QD694Y7TZY;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 					};
 				};
 			};
@@ -1105,9 +1105,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = 2M3W3R4VFQ;
+				DEVELOPMENT_TEAM = QD694Y7TZY;
 				INFOPLIST_FILE = "$(SRCROOT)/Wizard Duel/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.CobeyHollier.WizardDuel;
@@ -1123,9 +1123,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = 2M3W3R4VFQ;
+				DEVELOPMENT_TEAM = QD694Y7TZY;
 				INFOPLIST_FILE = "$(SRCROOT)/Wizard Duel/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.CobeyHollier.WizardDuel;
@@ -1180,8 +1180,8 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = QD694Y7TZY;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = "WizardDuel iOS/Info.plist";
@@ -1203,8 +1203,8 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = QD694Y7TZY;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = "WizardDuel iOS/Info.plist";
@@ -1227,8 +1227,8 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_IDENTITY = "-";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = QD694Y7TZY;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -1250,8 +1250,8 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_IDENTITY = "-";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = QD694Y7TZY;
 				GCC_C_LANGUAGE_STANDARD = gnu11;

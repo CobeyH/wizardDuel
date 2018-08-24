@@ -9,6 +9,7 @@
 import Cocoa
 import SpriteKit
 import GameplayKit
+import FirebaseDatabase
 
 class ViewController: NSViewController {
 
@@ -49,7 +50,18 @@ class ViewController: NSViewController {
     }
     
     @IBAction func importDeck(_ sender: NSMenuItem) {
-        print("Import")
+        let URL = Card.deck()
+            if let URL = URL {
+            let deckRef = Database.database().reference().child("Decks").childByAutoId()
+            let cardTouple = Card.cardsFromFile(url: URL)
+            deckRef.child("name").setValue(URL.lastPathComponent)
+            for card in cardTouple.0 {
+                deckRef.child("Cards").childByAutoId().setValue(["card": String(card.name)])
+            }
+            if cardTouple.1 != "nil" {
+                deckRef.child("Commander").setValue(cardTouple.1)
+            }
+        }
     }
 
     // MARK: - Private
@@ -81,8 +93,6 @@ class ViewController: NSViewController {
             view.showsNodeCount = true
         }
     }
-    
-    
 
     @objc func tap(sender: NSClickGestureRecognizer) {
         let scene = self.delegate as! GameScene
