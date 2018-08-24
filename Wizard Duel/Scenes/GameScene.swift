@@ -85,6 +85,14 @@ class GameScene: SKScene {
         }
     }
     
+    @objc func longPress(sender: UILongPressGestureRecognizer) {
+        let locationInView = sender.location(in: view)
+        let sceneView = view as? SKView
+        if let locationInScene = sceneView?.convert(locationInView, to:scene!) {
+            gameGraphics.showPlayingCard(at: locationInScene, scene: self)
+        }
+    }
+    
 #elseif os(OSX)
     //Tracks mouse movement and sets the card display if a playing card is at the location.
     override func mouseMoved(with event: NSEvent) {

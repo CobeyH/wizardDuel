@@ -79,7 +79,6 @@ class ViewController: NSViewController {
                 view.presentScene(scene)
                 delegate = scene
                 
-                
                 let doubleTapGR = NSClickGestureRecognizer(target: self, action: #selector(doubleTap))
                 doubleTapGR.numberOfClicksRequired = 2
                 let tapGR = NSClickGestureRecognizer(target: self, action: #selector(tap))

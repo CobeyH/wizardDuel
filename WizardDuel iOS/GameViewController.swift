@@ -89,11 +89,7 @@ class GameViewController: UIViewController, UIDocumentPickerDelegate {
     //Used on IOS to view cards. Long press puts the user into viewing mode and then touch moves changes the currently viewed card.
     @objc func longPress(sender: UILongPressGestureRecognizer) {
         let scene = self.delegate as! GameScene
-        let locationInView = sender.location(in: view)
-        let sceneView = view as? SKView
-        if let locationInScene = sceneView?.convert(locationInView, to:scene) {
-            scene.showPlayingCard(at: locationInScene)
-        }
+        scene.longPress(sender: sender)
     }
     
     @objc func pinch(sender: UIPinchGestureRecognizer) {
