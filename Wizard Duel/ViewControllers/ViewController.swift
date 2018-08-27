@@ -13,7 +13,7 @@ import FirebaseDatabase
 
 class ViewController: NSViewController {
 
-    weak var delegate: ViewControllerDelegate?
+    weak var delegate: ViewControllerDelegate? //gameScene
     @IBOutlet var skView: SKView!
     
     override func viewDidLoad() {
@@ -42,7 +42,7 @@ class ViewController: NSViewController {
     }
 
     @IBAction func newGame(_ sender: NSMenuItem) {
-        if newGame() {
+        if newGamePrompt() {
             guard let delegate = delegate else { return }
             
             delegate.newGame()
@@ -50,16 +50,16 @@ class ViewController: NSViewController {
     }
     
     @IBAction func importDeck(_ sender: NSMenuItem) {
-        let URL = Card.deck()
+        let URL = Card.pickDeck()
             if let URL = URL {
             let deckRef = Database.database().reference().child("Decks").childByAutoId()
-            let cardTouple = Card.cardsFromFile(url: URL)
-            deckRef.child("name").setValue(URL.lastPathComponent)
-            for card in cardTouple.0 {
-                deckRef.child("Cards").childByAutoId().setValue(["card": String(card.name)])
-            }
-            if cardTouple.1 != "nil" {
-                deckRef.child("Commander").setValue(cardTouple.1)
+            let rawData = Card.cardsFromFile(url: URL)
+                let rawName = URL.lastPathComponent.split(separator: ".", maxSplits: 1)
+            deckRef.child("Name").setValue(rawName.first)
+            for cardName in rawData {
+                if cardName.count > 0 {
+                    deckRef.child("Cards").childByAutoId().setValue(["Name": String(cardName)])
+                }
             }
         }
     }
@@ -104,7 +104,7 @@ class ViewController: NSViewController {
         scene.doubleTap(sender: sender)
     }
 
-    private func newGame() -> Bool {
+    private func newGamePrompt() -> Bool {
         let alert = NSAlert()
         alert.alertStyle = .informational
         alert.messageText = "New Game?"
@@ -139,14 +139,11 @@ extension ViewController: GameSceneDelegate {
     
     
     func newGame(currentGameState: Game.State, gameScene: GameScene) -> Bool {
-        if newGame() {
+        if newGamePrompt() {
             
             return true
        
         }
         return false
     }
-
-
-    
 }

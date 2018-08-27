@@ -8,6 +8,5 @@
 
 protocol GameSceneDelegate: class {
     func newGame(currentGameState: Game.State, gameScene: GameScene) -> Bool
-    func importDeck()
     
 }

@@ -13,7 +13,7 @@ PODS:
   - GoogleToolboxForMac/Defines (2.1.4)
   - "GoogleToolboxForMac/NSData+zlib (2.1.4)":
     - GoogleToolboxForMac/Defines (= 2.1.4)
-  - GTMSessionFetcher/Core (1.1.15)
+  - GTMSessionFetcher/Core (1.2.0)
   - leveldb-library (1.20)
 
 DEPENDENCIES:
@@ -23,7 +23,7 @@ DEPENDENCIES:
   - FirebaseStorage (from `https://github.com/firebase/firebase-ios-sdk.git`, tag `5.0.0`)
 
 SPEC REPOS:
-  https://github.com/CocoaPods/Specs.git:
+  https://github.com/cocoapods/specs.git:
     - GoogleToolboxForMac
     - GTMSessionFetcher
     - leveldb-library
@@ -62,9 +62,9 @@ SPEC CHECKSUMS:
   FirebaseDatabase: 697eb53e5b4fe7cd4fa8756c1f82a9fca011345f
   FirebaseStorage: 7ca4bb7b58a25fa647b04f524033fc7cb7eb272b
   GoogleToolboxForMac: 91c824d21e85b31c2aae9bb011c5027c9b4e738f
-  GTMSessionFetcher: 5fa5b80fd20e439ef5f545fb2cb3ca6c6714caa2
+  GTMSessionFetcher: 0c4baf0a73acd0041bf9f71ea018deedab5ea84e
   leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
 
-PODFILE CHECKSUM: 46eeefdcab661daabc8d0833918bdae35b962d39
+PODFILE CHECKSUM: 8ce3f9d9b177017c198666286d7e091d221778cf
 
-COCOAPODS: 1.5.0
+COCOAPODS: 1.5.2

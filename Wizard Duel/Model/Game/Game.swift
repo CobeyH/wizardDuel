@@ -52,13 +52,15 @@ class Game {
     // MARK: - Methods
     func new() {
         if deckURL == nil {
-            deckURL = Card.deck()
+            deckURL = Card.pickDeck()
         }
-        newDeck(withURL: deckURL)
+        let rawData = Card.cardsFromFile(url: deckURL)
+        let deckTouple = Card.parseDeck(strings: rawData)
+        newDeck(deckTouple: deckTouple)
+        
     }
 
-    func newDeck(withURL: URL?) {
-        let deckTouple = Card.cardsFromFile(url: deckURL)
+    func newDeck(deckTouple: ([Card],String)) {
         let cards = deckTouple.0.shuffled()
         commander = deckTouple.1
         graveyards.forEach({ $0.cards = [] })
@@ -120,7 +122,8 @@ class Game {
     
     func createTokens() -> [Card] {
         let URL = Bundle.main.url(forResource: "tokens", withExtension: "txt")
-        let addedTokens = Card.cardsFromFile(url: URL)
+        let rawData = Card.cardsFromFile(url: URL)
+        let addedTokens = Card.parseDeck(strings: rawData)
         for token in addedTokens.0 {
             
                 do {

@@ -10,7 +10,7 @@ import UIKit
 import SpriteKit
 import GameplayKit
 
-class GameViewController: UIViewController, UIDocumentPickerDelegate {
+class GameViewController: UIViewController {
     
     weak var delegate: ViewControllerDelegate?
     @IBOutlet var skView: SKView!
@@ -98,58 +98,20 @@ class GameViewController: UIViewController, UIDocumentPickerDelegate {
     }
     
     private func newGame(gameScene: GameScene) -> Bool {
-        // create the alert
-        let alertController = UIAlertController(title: "Add New Name", message: "", preferredStyle: .alert)
-        let saveAction = UIAlertAction(title: "Save", style: .default, handler: { alert -> Void in
-            let textField = alertController.textFields![0] as UITextField
-            print(textField.text ?? "")
-            let newName = textField.text
-            if newName!.count > 0 {
-                UserDefaults.standard.set(newName, forKey: "PlayerName")
-            }
-            gameScene.newGame()
-        })
-        let cancelAction = UIAlertAction(title: "Cancel", style: .default, handler: { (action : UIAlertAction!) -> Void in })
-        alertController.addTextField { (textField : UITextField!) -> Void in
-            let defaultName = UserDefaults.standard.string(forKey: "PlayerName")
-            if let defaultName = defaultName {
-                textField.text = defaultName
-            }
-           textField.placeholder = "Enter First Name"
-        }
-        
-        alertController.addAction(saveAction)
-        alertController.addAction(cancelAction)
-        
-        self.present(alertController, animated: true, completion: nil)
+        let navigationVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "newPlayerNavigationController") as! UINavigationController
+           let viewController =  navigationVC.topViewController as! PlayerDetailsViewController
+        navigationVC.modalPresentationStyle = .formSheet
+        let scene = self.delegate as! GameScene
+        viewController.gameScene = scene
+        self.present(navigationVC, animated: true, completion: nil)
         
         return false
     }
-    
-    internal func importDeck() {
-        let documentPicker = UIDocumentPickerViewController(documentTypes: ["public.text"], in: .import)
-        documentPicker.delegate = self
-        documentPicker.modalPresentationStyle = .formSheet
-        self.present(documentPicker, animated: true)
-    }
-
-    func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentAt url: URL) {
-        if controller.documentPickerMode == .import {
-            let gameScene = self.delegate as! GameScene
-            gameScene.game.newDeck(withURL: url)
-        }
-        // do we need to dismiss it here?
-    }
-    
-    func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
-        print("view was cancelled")
-        dismiss(animated: true, completion: nil)
-    }
-
 }
 
 
 extension GameViewController: GameSceneDelegate {
+    
     
     func newGame(currentGameState: Game.State, gameScene: GameScene) -> Bool {
         if newGame(gameScene: gameScene) {

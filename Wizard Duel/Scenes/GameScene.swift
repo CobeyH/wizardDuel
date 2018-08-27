@@ -1,4 +1,4 @@
-//
+    //
 //  GameScene.swift
 //  Freegraveyard2
 //
@@ -56,14 +56,11 @@ class GameScene: SKScene {
         gameGraphics.setup(width: size.width, height: size.height)
         gameGraphics.setupCards(gameDecks: game.deck)
         
-        
         labels.setUpLabels(width: size.width, height: size.height, to: self)
         gameGraphics.addChildren(to: self)
         gameGraphics.setupBackground(to: self)
 
-#if os(iOS)
-       
-#elseif os(OSX)
+#if os(OSX)
        //Creates a tracking area on the mac to track mouse hover movements.
         let options = [NSTrackingArea.Options.mouseMoved, NSTrackingArea.Options.activeInKeyWindow] as NSTrackingArea.Options
         let trackingArea = NSTrackingArea(rect:(view.frame),options:options,owner:self,userInfo:nil)
@@ -139,11 +136,6 @@ class GameScene: SKScene {
             else if labels.isShuffleTapped(point: touchLocation) {
                 game.deck.cards.shuffle()
                 gameGraphics.reconstructDeck(gameCards: game.deck.cards)
-            //Checks if the import button is pressed on iOS to import the deck.
-            } else if labels.isImportPressed(point: touchLocation) {
-                guard let viewDelegate = viewDelegate else { return }
-                viewDelegate.importDeck()
-
             }
             
             //Increased the dice value on a playing card if a dice is tapped
@@ -657,7 +649,10 @@ extension GameScene: ViewControllerDelegate {
     
     //Sets up a new game from scratch.
     func newGame() {
+        //TODO Make this cross platform
+        #if os(OSX)
         game.new()
+        #endif
         gameGraphics.newGame(gameDecks: game.deck)
         gameGraphics.addCards(to: self)
         var commander: CurrentPlayingCard?
@@ -682,7 +677,6 @@ extension GameScene: ViewControllerDelegate {
         if mulliganCount == 0 {
             gameGraphics.reset()
             labels.addMulligan(to: self)
-            
             
             if let playerName = UserDefaults.standard.string(forKey: "PlayerName") {
                 addToDatabase(playerName)

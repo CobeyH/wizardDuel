@@ -6,8 +6,8 @@ target 'WizardDuel iOS' do
     
     # Pods for Wizard Duel
     # pod 'Firebase'
-    #  pod 'Firebase/Auth'
-    #  pod 'Firebase/Database'
+    # pod 'Firebase/Auth'
+    # pod 'Firebase/Database'
 end
 
 target 'WizardDuel macOS' do
@@ -15,7 +15,7 @@ target 'WizardDuel macOS' do
   use_frameworks!
 
 # Pods for Wizard Duel
-pod 'FirebaseCore', :git => 'https://github.com/firebase/firebase-ios-sdk.git', :tag => '5.0.0'
+ pod 'FirebaseCore', :git => 'https://github.com/firebase/firebase-ios-sdk.git', :tag => '5.0.0'
 pod 'FirebaseAuth', :git => 'https://github.com/firebase/firebase-ios-sdk.git', :tag => '5.0.0'
 pod 'FirebaseDatabase', :git => 'https://github.com/firebase/firebase-ios-sdk.git', :tag => '5.0.0'
 pod 'FirebaseStorage', :git => 'https://github.com/firebase/firebase-ios-sdk.git', :tag => '5.0.0'

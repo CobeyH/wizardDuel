@@ -15,7 +15,6 @@ class Labels {
     var mulliganButton: SKLabelNode?
     let keepButton: SKLabelNode = SKLabelNode(fontNamed: "Planewalker")
     let newGameButton: SKLabelNode = SKLabelNode(fontNamed: "Planewalker")
-    var searchDeck: SKLabelNode?
     var xScale: CGFloat = 0
     var yScale: CGFloat = 0
     
@@ -50,17 +49,6 @@ class Labels {
         newGameButton.yScale = yScale
         scene.addChild(newGameButton)
         
-        searchDeck = SKLabelNode(fontNamed: "Planewalker")
-        if let searchDeck = searchDeck {
-            searchDeck.fontSize = 30
-            searchDeck.color = SKColor.black
-            searchDeck.text = "Import Deck"
-            searchDeck.position = CGPoint(x: newTurnButton.position.x, y: newGameButton.position.y + config.spacing * 4)
-            searchDeck.zPosition = 5
-            searchDeck.xScale = xScale
-            searchDeck.yScale = yScale
-            scene.addChild(searchDeck)
-        }
         #elseif os(OSX)
         //Shuffle Deck Dutton
         shuffleDeck.fontSize = 30
@@ -92,16 +80,6 @@ class Labels {
     func isNewTurnTapped(point: CGPoint) -> Bool {
         return newTurnButton.contains(point)
     }
-    
-    func isImportPressed(point: CGPoint) -> Bool {
-        if let searchDeck = searchDeck {
-            if searchDeck.contains(point) {
-                return true
-            }
-        }
-        return false
-    }
-    
 
     func setCardDisplay(playingCard: PlayingCard) {
         cardDisplay.texture = SKTexture(imageNamed: "\(playingCard.name!).full.jpg")
