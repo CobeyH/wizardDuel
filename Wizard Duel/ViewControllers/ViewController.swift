@@ -22,9 +22,6 @@ class ViewController: NSViewController {
         
     }
     
-    
-
-    
     // MARK: - Actions
 
     @IBAction func showStatistics(_ sender: NSMenuItem) {

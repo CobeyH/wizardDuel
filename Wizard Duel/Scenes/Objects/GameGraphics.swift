@@ -76,9 +76,9 @@ struct GameGraphics {
         diceSpawner.anchorPoint = CGPoint(x:0.5, y:0.5)
         
         //Sets up all the battlefields in the arena
-        let startPositions: [CGPoint] = [CGPoint(x: config.cardSize.width, y: -height/2 - config.offsetY), CGPoint(x: config.cardSize.width, y: 0), CGPoint(x: width/2, y: 0), CGPoint(x: width/2, y: -height/2 - config.offsetY) ]
+        let startPositions: [CGPoint] = [CGPoint(x: 0, y: -height/2 - config.offsetY), CGPoint(x: 0, y: 0), CGPoint(x: width - 8*(config.cardSize.width + config.battlefieldSpacing), y: 0), CGPoint(x: width - 8*(config.cardSize.width + config.battlefieldSpacing), y: -height/2 - config.offsetY)]
         for k in 0 ..< 4 {
-            for i in 0 ..< 7 {
+            for i in 0 ..< 8 {
                 for j in 0 ..< 3 {
                     let battlefieldCell = SKSpriteNode(color: config.battlefieldColour, size: config.cardSize)
                     battlefieldCell.anchorPoint = config.cardMiddle
