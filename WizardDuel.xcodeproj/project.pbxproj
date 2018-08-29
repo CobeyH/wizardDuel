@@ -9,13 +9,23 @@
 /* Begin PBXBuildFile section */
 		0038551424A33936C40C4A8E /* Pods_WizardDuel_macOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BF272E29E9CDB86E62DE151 /* Pods_WizardDuel_macOS.framework */; };
 		0303327720A6026E00C7594B /* PlayingCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E396EB71EF3E4AB00F8696A /* PlayingCard.swift */; };
+		03362DF721309D6800596D52 /* PlayerDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03362DF621309D6800596D52 /* PlayerDetailsViewController.swift */; };
 		0350AE2220F153BC00A86E5E /* Muldrotha.txt in Resources */ = {isa = PBXBuildFile; fileRef = 0350AE2120F153BC00A86E5E /* Muldrotha.txt */; };
 		0350AE2320F153BC00A86E5E /* Muldrotha.txt in Resources */ = {isa = PBXBuildFile; fileRef = 0350AE2120F153BC00A86E5E /* Muldrotha.txt */; };
 		0350AE2420F153BC00A86E5E /* Muldrotha.txt in Resources */ = {isa = PBXBuildFile; fileRef = 0350AE2120F153BC00A86E5E /* Muldrotha.txt */; };
+		0365695C20F7C8DC00EE9839 /* Tokens.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0365695B20F7C8DC00EE9839 /* Tokens.xcassets */; };
+		0365695D20F7C8DC00EE9839 /* Tokens.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0365695B20F7C8DC00EE9839 /* Tokens.xcassets */; };
+		0365695E20F7C8DC00EE9839 /* Tokens.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0365695B20F7C8DC00EE9839 /* Tokens.xcassets */; };
 		036EE1E220C85E3200A768A0 /* PlayingDice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 036EE1E120C85E3200A768A0 /* PlayingDice.swift */; };
 		03779E2A20B481C800F2DA43 /* testDeck2.txt in Resources */ = {isa = PBXBuildFile; fileRef = 03779E2920B481C700F2DA43 /* testDeck2.txt */; };
+		0377EE5820F892D600C6F94B /* tokens.txt in Resources */ = {isa = PBXBuildFile; fileRef = 0377EE5720F892D600C6F94B /* tokens.txt */; };
+		0377EE5920F892D600C6F94B /* tokens.txt in Resources */ = {isa = PBXBuildFile; fileRef = 0377EE5720F892D600C6F94B /* tokens.txt */; };
+		0377EE5A20F892D600C6F94B /* tokens.txt in Resources */ = {isa = PBXBuildFile; fileRef = 0377EE5720F892D600C6F94B /* tokens.txt */; };
 		0378867020ACA38E00B2B2E4 /* MasterDeck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0378866F20ACA38E00B2B2E4 /* MasterDeck.swift */; };
 		039785CD20A52CA0005C2F1C /* testDeck.txt in Resources */ = {isa = PBXBuildFile; fileRef = 039785CC20A52CA0005C2F1C /* testDeck.txt */; };
+		03B66FBC2125EA7E005827ED /* Database.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B66FBB2125EA7E005827ED /* Database.swift */; };
+		03B66FBD2125EA7E005827ED /* Database.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B66FBB2125EA7E005827ED /* Database.swift */; };
+		03B66FBE2125EA7E005827ED /* Database.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B66FBB2125EA7E005827ED /* Database.swift */; };
 		03B8994720E03E5200CBEFDC /* PlayerInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B8994620E03E5200CBEFDC /* PlayerInfo.swift */; };
 		03D5AD4120A8C8AE001E29CE /* Battlefield.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03D5AD4020A8C8AE001E29CE /* Battlefield.swift */; };
 		03EE278320C70B8E00427770 /* Dice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03EE278220C70B8E00427770 /* Dice.swift */; };
@@ -132,9 +142,13 @@
 		7E02B19720EC71820088FFEB /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 03FACC6B20CB83AE00BC8F89 /* GoogleService-Info.plist */; };
 		7E02B19A20EC737C0088FFEB /* ViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EA1E2941F6609DB0061E64D /* ViewControllerDelegate.swift */; };
 		7E02B19B20EC737C0088FFEB /* ViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EA1E2941F6609DB0061E64D /* ViewControllerDelegate.swift */; };
-		7E02B19D20EC73EC0088FFEB /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7E02B19C20EC73E60088FFEB /* Info.plist */; };
+		7E77AA12210056DE00927E98 /* PW.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7E77AA10210056DE00927E98 /* PW.otf */; };
+		7E77AA13210056DE00927E98 /* PW.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7E77AA10210056DE00927E98 /* PW.otf */; };
+		7E77AA14210056DE00927E98 /* PW.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7E77AA10210056DE00927E98 /* PW.otf */; };
+		7E77AA15210056DE00927E98 /* PlanewalkerBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7E77AA11210056DE00927E98 /* PlanewalkerBold.otf */; };
+		7E77AA16210056DE00927E98 /* PlanewalkerBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7E77AA11210056DE00927E98 /* PlanewalkerBold.otf */; };
+		7E77AA17210056DE00927E98 /* PlanewalkerBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7E77AA11210056DE00927E98 /* PlanewalkerBold.otf */; };
 		7E7EFE3E20CC363B00338E4A /* kittenDeck.txt in Resources */ = {isa = PBXBuildFile; fileRef = 7E7EFE3D20CC363A00338E4A /* kittenDeck.txt */; };
-		7EA388E320E01101004FF04D /* Fonts in Resources */ = {isa = PBXBuildFile; fileRef = 7EA388E220E01101004FF04D /* Fonts */; };
 		B3BACB7EA661E5EAD10864A6 /* Pods_Wizard_DuelTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D27772C1DEEFEF61388F285 /* Pods_Wizard_DuelTests.framework */; };
 /* End PBXBuildFile section */
 
@@ -150,11 +164,16 @@
 
 /* Begin PBXFileReference section */
 		013630CD78B883F7903F6EEF /* Pods-WizardDuel iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WizardDuel iOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-WizardDuel iOS/Pods-WizardDuel iOS.release.xcconfig"; sourceTree = "<group>"; };
+		03362DF621309D6800596D52 /* PlayerDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerDetailsViewController.swift; sourceTree = "<group>"; };
 		0350AE2120F153BC00A86E5E /* Muldrotha.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Muldrotha.txt; sourceTree = "<group>"; };
+		0365695B20F7C8DC00EE9839 /* Tokens.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Tokens.xcassets; sourceTree = "<group>"; };
 		036EE1E120C85E3200A768A0 /* PlayingDice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayingDice.swift; sourceTree = "<group>"; };
 		03779E2920B481C700F2DA43 /* testDeck2.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = testDeck2.txt; sourceTree = "<group>"; };
+		0377EE5720F892D600C6F94B /* tokens.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = tokens.txt; sourceTree = "<group>"; };
+		0377EE5F20F8954E00C6F94B /* tokens.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = tokens.txt; sourceTree = "<group>"; };
 		0378866F20ACA38E00B2B2E4 /* MasterDeck.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterDeck.swift; sourceTree = "<group>"; };
 		039785CC20A52CA0005C2F1C /* testDeck.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = testDeck.txt; sourceTree = "<group>"; };
+		03B66FBB2125EA7E005827ED /* Database.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Database.swift; sourceTree = "<group>"; };
 		03B8994620E03E5200CBEFDC /* PlayerInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerInfo.swift; sourceTree = "<group>"; };
 		03D5AD4020A8C8AE001E29CE /* Battlefield.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Battlefield.swift; sourceTree = "<group>"; };
 		03EE278220C70B8E00427770 /* Dice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dice.swift; sourceTree = "<group>"; };
@@ -209,8 +228,9 @@
 		7E02B13520EC6FF90088FFEB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7E02B13A20EC6FF90088FFEB /* WizardDuel.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WizardDuel.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7E02B19C20EC73E60088FFEB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7E77AA10210056DE00927E98 /* PW.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = PW.otf; path = Fonts/PW.otf; sourceTree = "<group>"; };
+		7E77AA11210056DE00927E98 /* PlanewalkerBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = PlanewalkerBold.otf; path = Fonts/PlanewalkerBold.otf; sourceTree = "<group>"; };
 		7E7EFE3D20CC363A00338E4A /* kittenDeck.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = kittenDeck.txt; sourceTree = "<group>"; };
-		7EA388E220E01101004FF04D /* Fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Fonts; sourceTree = "<group>"; };
 		815E421A264786F281579619 /* libPods-WizardDuel iOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-WizardDuel iOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8BF272E29E9CDB86E62DE151 /* Pods_WizardDuel_macOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WizardDuel_macOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		94A65812CEDF7BF3EDC08661 /* Pods-Wizard DuelTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Wizard DuelTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Wizard DuelTests/Pods-Wizard DuelTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -269,9 +289,10 @@
 			isa = PBXGroup;
 			children = (
 				4E396EB41EF3E39400F8696A /* Objects */,
-				4E71F2521F439933002E66D3 /* GameScene.sks */,
 				4E984C0D1F58D48E00FD8BD7 /* GameSceneDelegate.swift */,
 				4E396E861EF3DF8600F8696A /* GameScene.swift */,
+				03B66FBB2125EA7E005827ED /* Database.swift */,
+				4E71F2521F439933002E66D3 /* GameScene.sks */,
 			);
 			path = Scenes;
 			sourceTree = "<group>";
@@ -285,6 +306,7 @@
 				7E02B12020EC6FF80088FFEB /* WizardDuel Shared */,
 				7E02B12A20EC6FF90088FFEB /* WizardDuel iOS */,
 				7E02B13B20EC6FF90088FFEB /* WizardDuel macOS */,
+				0365695B20F7C8DC00EE9839 /* Tokens.xcassets */,
 				4E396E7E1EF3DF8600F8696A /* Products */,
 				D1BF0367E655FD99886F6EA7 /* Pods */,
 				4C5ED64C41C2BB81BD56A89B /* Frameworks */,
@@ -310,10 +332,10 @@
 				4E71F1EE1F438A27002E66D3 /* Utils */,
 				4EA1E2931F66006C0061E64D /* ViewControllers */,
 				4E396E801EF3DF8600F8696A /* AppDelegate.swift */,
-				4E396E8C1EF3DF8600F8696A /* Main.storyboard */,
-				7EA388E220E01101004FF04D /* Fonts */,
 				4E396E8F1EF3DF8600F8696A /* Info.plist */,
+				0377EE5720F892D600C6F94B /* tokens.txt */,
 				0350AE2120F153BC00A86E5E /* Muldrotha.txt */,
+				0377EE5F20F8954E00C6F94B /* tokens.txt */,
 				7E7EFE3D20CC363A00338E4A /* kittenDeck.txt */,
 				039785CC20A52CA0005C2F1C /* testDeck.txt */,
 				03779E2920B481C700F2DA43 /* testDeck2.txt */,
@@ -436,6 +458,8 @@
 			isa = PBXGroup;
 			children = (
 				7E02B12420EC6FF90088FFEB /* Assets.xcassets */,
+				7E77AA11210056DE00927E98 /* PlanewalkerBold.otf */,
+				7E77AA10210056DE00927E98 /* PW.otf */,
 			);
 			path = "WizardDuel Shared";
 			sourceTree = "<group>";
@@ -445,6 +469,7 @@
 			children = (
 				7E02B12B20EC6FF90088FFEB /* AppDelegate.swift */,
 				7E02B12D20EC6FF90088FFEB /* GameViewController.swift */,
+				03362DF621309D6800596D52 /* PlayerDetailsViewController.swift */,
 				7E02B12F20EC6FF90088FFEB /* Main.storyboard */,
 				7E02B13220EC6FF90088FFEB /* LaunchScreen.storyboard */,
 				7E02B13520EC6FF90088FFEB /* Info.plist */,
@@ -456,6 +481,7 @@
 			isa = PBXGroup;
 			children = (
 				7E02B19C20EC73E60088FFEB /* Info.plist */,
+				4E396E8C1EF3DF8600F8696A /* Main.storyboard */,
 			);
 			path = "WizardDuel macOS";
 			sourceTree = "<group>";
@@ -558,14 +584,14 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0940;
-				LastUpgradeCheck = 0930;
+				LastUpgradeCheck = 0940;
 				ORGANIZATIONNAME = "Gary Kerr";
 				TargetAttributes = {
 					4E396E7C1EF3DF8600F8696A = {
 						CreatedOnToolsVersion = 8.3.2;
 						DevelopmentTeam = QD694Y7TZY;
 						LastSwiftMigration = 0900;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 					};
 					4E396E931EF3DF8600F8696A = {
 						CreatedOnToolsVersion = 8.3.2;
@@ -581,8 +607,8 @@
 					};
 					7E02B13920EC6FF90088FFEB = {
 						CreatedOnToolsVersion = 9.4.1;
-						DevelopmentTeam = 2M3W3R4VFQ;
-						ProvisioningStyle = Automatic;
+						DevelopmentTeam = QD694Y7TZY;
+						ProvisioningStyle = Manual;
 					};
 				};
 			};
@@ -612,12 +638,15 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0365695C20F7C8DC00EE9839 /* Tokens.xcassets in Resources */,
 				0350AE2220F153BC00A86E5E /* Muldrotha.txt in Resources */,
 				4E350B9E1F489BFF0009FD4B /* README in Resources */,
+				7E77AA15210056DE00927E98 /* PlanewalkerBold.otf in Resources */,
 				03779E2A20B481C800F2DA43 /* testDeck2.txt in Resources */,
-				7EA388E320E01101004FF04D /* Fonts in Resources */,
+				0377EE5820F892D600C6F94B /* tokens.txt in Resources */,
 				4E396E8E1EF3DF8600F8696A /* Main.storyboard in Resources */,
 				039785CD20A52CA0005C2F1C /* testDeck.txt in Resources */,
+				7E77AA12210056DE00927E98 /* PW.otf in Resources */,
 				7E7EFE3E20CC363B00338E4A /* kittenDeck.txt in Resources */,
 				03FACC6C20CB83AE00BC8F89 /* GoogleService-Info.plist in Resources */,
 				4E71F2531F439933002E66D3 /* GameScene.sks in Resources */,
@@ -635,9 +664,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7E77AA13210056DE00927E98 /* PW.otf in Resources */,
+				7E77AA16210056DE00927E98 /* PlanewalkerBold.otf in Resources */,
+				0365695D20F7C8DC00EE9839 /* Tokens.xcassets in Resources */,
 				0350AE2320F153BC00A86E5E /* Muldrotha.txt in Resources */,
 				7E02B19220EC71810088FFEB /* testDeck.txt in Resources */,
 				7E02B13120EC6FF90088FFEB /* Main.storyboard in Resources */,
+				0377EE5920F892D600C6F94B /* tokens.txt in Resources */,
 				7E02B19020EC71760088FFEB /* kittenDeck.txt in Resources */,
 				7E02B19320EC71810088FFEB /* testDeck2.txt in Resources */,
 				7E02B13420EC6FF90088FFEB /* LaunchScreen.storyboard in Resources */,
@@ -654,12 +687,15 @@
 				7E02B15220EC702D0088FFEB /* Main.storyboard in Resources */,
 				0350AE2420F153BC00A86E5E /* Muldrotha.txt in Resources */,
 				7E02B19520EC71820088FFEB /* testDeck.txt in Resources */,
-				7E02B19D20EC73EC0088FFEB /* Info.plist in Resources */,
+				0377EE5A20F892D600C6F94B /* tokens.txt in Resources */,
 				7E02B19120EC71770088FFEB /* kittenDeck.txt in Resources */,
+				0365695E20F7C8DC00EE9839 /* Tokens.xcassets in Resources */,
 				7E02B19620EC71820088FFEB /* testDeck2.txt in Resources */,
+				7E77AA14210056DE00927E98 /* PW.otf in Resources */,
 				7E02B14B20EC6FF90088FFEB /* Assets.xcassets in Resources */,
 				7E02B15320EC703C0088FFEB /* Info.plist in Resources */,
 				7E02B19720EC71820088FFEB /* GoogleService-Info.plist in Resources */,
+				7E77AA17210056DE00927E98 /* PlanewalkerBold.otf in Resources */,
 				7E02B18B20EC70C30088FFEB /* GameScene.sks in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -753,7 +789,7 @@
 		};
 		7ED1E33A20D4461700BC762B /* Copy Card Images */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 12;
+			buildActionMask = 8;
 			files = (
 			);
 			inputPaths = (
@@ -761,7 +797,7 @@
 			name = "Copy Card Images";
 			outputPaths = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
+			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
 			shellScript = "#!/bin/sh\n\nset -e\n\necho \"$SRCROOT\"\nrsync -r \"$SRCROOT/Wizard Duel/Content/\" \"$TARGET_BUILD_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH\"\n";
 			showEnvVarsInLog = 0;
@@ -803,6 +839,7 @@
 				4EF3F2991F48795D004197A8 /* CurrentPlayingCard.swift in Sources */,
 				03F7197320B0A16900B70122 /* Labels.swift in Sources */,
 				4E71F1E31F438893002E66D3 /* Card.swift in Sources */,
+				03B66FBC2125EA7E005827ED /* Database.swift in Sources */,
 				03F157B220BC856D000301EB /* LoginInfo.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -837,6 +874,7 @@
 				7E02B16320EC70B50088FFEB /* GameError.swift in Sources */,
 				7E02B17A20EC70C30088FFEB /* PlayingCard.swift in Sources */,
 				7E02B16720EC70B50088FFEB /* GameResult.swift in Sources */,
+				03362DF721309D6800596D52 /* PlayerDetailsViewController.swift in Sources */,
 				7E02B15920EC70B50088FFEB /* ContainsCard.swift in Sources */,
 				7E02B12E20EC6FF90088FFEB /* GameViewController.swift in Sources */,
 				7E02B17B20EC70C30088FFEB /* PlayerInfo.swift in Sources */,
@@ -853,6 +891,7 @@
 				7E02B15B20EC70B50088FFEB /* HasState.swift in Sources */,
 				7E02B16520EC70B50088FFEB /* Move.swift in Sources */,
 				7E02B15620EC70B50088FFEB /* Card.swift in Sources */,
+				03B66FBD2125EA7E005827ED /* Database.swift in Sources */,
 				7E02B15720EC70B50088FFEB /* LoginInfo.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -891,6 +930,7 @@
 				7E02B16D20EC70B50088FFEB /* HasState.swift in Sources */,
 				7E02B17720EC70B50088FFEB /* Move.swift in Sources */,
 				7E02B16820EC70B50088FFEB /* Card.swift in Sources */,
+				03B66FBE2125EA7E005827ED /* Database.swift in Sources */,
 				7E02B16920EC70B50088FFEB /* LoginInfo.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1046,7 +1086,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = QD694Y7TZY;
 				INFOPLIST_FILE = "$(SRCROOT)/Wizard Duel/Info.plist";
@@ -1064,7 +1104,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = QD694Y7TZY;
 				INFOPLIST_FILE = "$(SRCROOT)/Wizard Duel/Info.plist";
@@ -1126,7 +1166,7 @@
 				DEVELOPMENT_TEAM = QD694Y7TZY;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = "WizardDuel iOS/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.CobeyHollier.WizardDuel;
 				PRODUCT_NAME = WizardDuel;
@@ -1149,7 +1189,7 @@
 				DEVELOPMENT_TEAM = QD694Y7TZY;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = "WizardDuel iOS/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.CobeyHollier.WizardDuel;
 				PRODUCT_NAME = WizardDuel;
@@ -1168,15 +1208,15 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_IDENTITY = "-";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = 2M3W3R4VFQ;
+				DEVELOPMENT_TEAM = QD694Y7TZY;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = "WizardDuel macOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				PRODUCT_BUNDLE_IDENTIFIER = com.AdrianRuigrok.WizardDuel;
+				PRODUCT_BUNDLE_IDENTIFIER = com.CobeyHollier.WizardDuel;
 				PRODUCT_NAME = WizardDuel;
 				SDKROOT = macosx;
 				SWIFT_VERSION = 4.0;
@@ -1191,15 +1231,15 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_IDENTITY = "-";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = 2M3W3R4VFQ;
+				DEVELOPMENT_TEAM = QD694Y7TZY;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = "WizardDuel macOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				PRODUCT_BUNDLE_IDENTIFIER = com.AdrianRuigrok.WizardDuel;
+				PRODUCT_BUNDLE_IDENTIFIER = com.CobeyHollier.WizardDuel;
 				PRODUCT_NAME = WizardDuel;
 				SDKROOT = macosx;
 				SWIFT_VERSION = 4.0;

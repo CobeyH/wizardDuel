@@ -9,10 +9,11 @@
 import Cocoa
 import SpriteKit
 import GameplayKit
+import FirebaseDatabase
 
 class ViewController: NSViewController {
 
-    weak var delegate: ViewControllerDelegate?
+    weak var delegate: ViewControllerDelegate? //gameScene
     @IBOutlet var skView: SKView!
     
     override func viewDidLoad() {
@@ -20,9 +21,6 @@ class ViewController: NSViewController {
         configureScene()
         
     }
-    
-    
-
     
     // MARK: - Actions
 
@@ -41,29 +39,42 @@ class ViewController: NSViewController {
     }
 
     @IBAction func newGame(_ sender: NSMenuItem) {
-        if newGame() {
+        if newGamePrompt() {
             guard let delegate = delegate else { return }
             
             delegate.newGame()
         }
     }
+    
+    @IBAction func importDeck(_ sender: NSMenuItem) {
+        let URL = Card.pickDeck()
+            if let URL = URL {
+            let deckRef = Database.database().reference().child("Decks").childByAutoId()
+            let rawData = Card.cardsFromFile(url: URL)
+                let rawName = URL.lastPathComponent.split(separator: ".", maxSplits: 1)
+            deckRef.child("Name").setValue(rawName.first)
+            for cardName in rawData {
+                if cardName.count > 0 {
+                    deckRef.child("Cards").childByAutoId().setValue(["Name": String(cardName)])
+                }
+            }
+        }
+    }
 
     // MARK: - Private
-
     private func configureScene() {
         if let view = self.skView {
             let mainScreen = NSScreen.main
             var screenFrame = mainScreen!.visibleFrame
             screenFrame.size.height += 30
             view.frame = screenFrame
-            
+            ;
             if let scene = SKScene(fileNamed: "GameScene") as? GameScene {
                 // Set the scale mode to scale to fit the window
                 scene.scaleMode = .aspectFit
                 scene.viewDelegate = self
                 view.presentScene(scene)
                 delegate = scene
-                
                 
                 let doubleTapGR = NSClickGestureRecognizer(target: self, action: #selector(doubleTap))
                 doubleTapGR.numberOfClicksRequired = 2
@@ -78,8 +89,6 @@ class ViewController: NSViewController {
             view.showsNodeCount = true
         }
     }
-    
-    
 
     @objc func tap(sender: NSClickGestureRecognizer) {
         let scene = self.delegate as! GameScene
@@ -92,7 +101,7 @@ class ViewController: NSViewController {
         scene.doubleTap(sender: sender)
     }
 
-    private func newGame() -> Bool {
+    private func newGamePrompt() -> Bool {
         let alert = NSAlert()
         alert.alertStyle = .informational
         alert.messageText = "New Game?"
@@ -121,16 +130,17 @@ class ViewController: NSViewController {
 // MARK: - GameSceneDelegate
 
 extension ViewController: GameSceneDelegate {
+    func importDeck() {
+        print("importing deck")
+    }
+    
     
     func newGame(currentGameState: Game.State, gameScene: GameScene) -> Bool {
-        if newGame() {
+        if newGamePrompt() {
             
             return true
        
         }
         return false
     }
-
-
-    
 }

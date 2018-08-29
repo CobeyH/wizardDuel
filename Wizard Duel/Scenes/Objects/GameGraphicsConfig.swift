@@ -15,56 +15,78 @@ public typealias Color = UIColor
 public typealias Color = NSColor
 #endif
 
-struct GameGraphicsConfig {
-    
-    
+
+public var config: GameGraphicsConfig = {
+    return GameGraphicsConfig()
+}()
+
+ public struct GameGraphicsConfig {
+   
     let cardSize: CGSize
     let offsetX: CGFloat
     let offsetY: CGFloat
     let margin: CGFloat
-    let playerInfoSize: CGSize
     let screenWidth: CGFloat
     let screenHeight: CGFloat
-    
-    let diceSizeInitial = CGSize(width: 70, height: 70)
-    let diceSizeFinal = CGSize(width: 35, height: 35)
-    let cardMiddle = CGPoint(x: 0.5, y: 0.5)
+    let diceSizeFinal: CGSize
+    let cardOffset: CGFloat
+    let battlefieldSpacing: CGFloat
     let spacing: CGFloat
-    let battlefieldSpacing: CGFloat = 16
-    var zIndex: CGFloat = 10
-    let zIndexIncrement: CGFloat = 2
-    let backgroundName =  "background1.jpg"
     let backgroundColour: Color
     let battlefieldColour: Color
+    
+    let diceSizeInitial = CGSize(width: 70, height: 70)
+    let cardMiddle = CGPoint(x: 0.5, y: 0.5)
+    var zIndex: CGFloat = 10
+    var backgroundIndex = 0
+    let zIndexIncrement: CGFloat = 2
+    let backgroundName =  "background2.jpg"
     let cardbackName = "cardback.png"
     let numberOfBackgrounds = 2
-
     let graveyardCount = 3
+    let backgroundCount = 6
     
+    //Initializes all of the sizes to be consistant on all of the devices.
     init() {
         #if os(iOS)
-        let frame = UIScreen.main.bounds
+        let screenBounds = UIScreen.main.bounds
         #elseif os(OSX)
-        let frame = NSScreen.main?.frame ?? CGRect.zero
+        let screenBounds = NSScreen.main?.frame ?? CGRect.zero
         #endif
-        let rect = frame.size
-        self.screenWidth = rect.width
-        self.screenHeight = rect.height
-        let height = rect.height / 7.5
-        let width = rect.width / 17.5
+        let screenSize = screenBounds.size
+        self.screenWidth = screenSize.width
+        self.screenHeight = screenSize.height
+        var height = screenSize.height / 7.5
+        var width = screenSize.width / 17
+        if width/height < 0.7147 {
+            height = width / 0.7147
+        } else {
+            width = height * 0.7147
+        }
         self.cardSize = CGSize(width: width, height: height)
         self.offsetX = CGFloat(width/2)
         self.offsetY = -CGFloat(height/2)
-        self.spacing = rect.height/100
-        self.margin = -rect.width/60
-        self.playerInfoSize = CGSize(width: rect.width / 19, height: rect.height / 7.5)
+        self.spacing = screenSize.height/100
+        self.battlefieldSpacing = screenSize.height/200
+        self.margin = -screenSize.width/60
+        self.diceSizeFinal = CGSize(width: screenSize.width/30, height: screenSize.width/30)
+        self.cardOffset = cardSize.height/8.75
+        
         backgroundColour = Color.init(white: 1.0, alpha: 0.2)
         battlefieldColour = Color.init(white: 1.0, alpha: 0.05)
     }
 
-
     mutating func getZIndex() -> CGFloat {
         zIndex += zIndexIncrement
         return zIndex
+    }
+    
+    mutating func getBackground() -> String {
+        backgroundIndex += 1
+        return "background\(backgroundIndex % backgroundCount + 1).jpg"
+    }
+    
+    func getScale() -> (CGFloat,CGFloat) {
+        return (screenWidth * 0.00075, screenHeight * 0.001)
     }
 }

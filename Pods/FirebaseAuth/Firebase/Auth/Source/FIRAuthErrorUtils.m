@@ -357,7 +357,7 @@ static NSString *const kFIRAuthErrorMessageNotificationNotForwarded = @"If app d
  */
 static NSString *const kFIRAuthErrorMessageAppNotVerified = @"Firebase could not retrieve the "
     "silent push notification and therefore could not verify your app. Ensure that you configured "
-    "your app correctly to recieve push notifications.";
+    "your app correctly to receive push notifications.";
 
 /** @var kFIRAuthErrorMessageCaptchaCheckFailed
     @brief Message for @c FIRAuthErrorCodeCaptchaCheckFailed error code.
@@ -412,6 +412,12 @@ static NSString *const kFIRAuthErrorMessageNullUser = @"A null user object was p
  */
 static NSString *const kFIRAuthErrorMessageInternalError = @"An internal error has occurred, "
     "print and inspect the error details for more information.";
+
+/** @var kFIRAuthErrorMessageMalformedJWT
+    @brief Error message constant describing @c FIRAuthErrorCodeMalformedJWT errors.
+ */
+static NSString *const kFIRAuthErrorMessageMalformedJWT =
+    @"Failed to parse JWT. Check the userInfo dictionary for the full token.";
 
 /** @var FIRAuthErrorDescription
     @brief The error descrioption, based on the error code.
@@ -531,6 +537,8 @@ static NSString *FIRAuthErrorDescription(FIRAuthErrorCode code) {
       return kFIRAuthErrorMessageNullUser;
     case FIRAuthErrorCodeWebInternalError:
       return kFIRAuthErrorMessageWebInternalError;
+    case FIRAuthErrorCodeMalformedJWT:
+      return kFIRAuthErrorMessageMalformedJWT;
   }
 }
 
@@ -652,6 +660,8 @@ static NSString *const FIRAuthErrorCodeString(FIRAuthErrorCode code) {
       return @"ERROR_NULL_USER";
     case FIRAuthErrorCodeWebInternalError:
       return @"ERROR_WEB_INTERNAL_ERROR";
+    case FIRAuthErrorCodeMalformedJWT:
+      return @"ERROR_MALFORMED_JWT";
   }
 }
 
@@ -733,6 +743,18 @@ static NSString *const FIRAuthErrorCodeString(FIRAuthErrorCode code) {
   return [self errorWithCode:FIRAuthInternalErrorCodeUnexpectedErrorResponse userInfo:@{
     FIRAuthErrorUserInfoDeserializedResponseKey : deserializedResponse
   }];
+}
+
++ (NSError *)malformedJWTErrorWithToken:(NSString *)token
+                        underlyingError:(NSError *_Nullable)underlyingError {
+  NSMutableDictionary *userInfo =
+      [NSMutableDictionary dictionaryWithObject:kFIRAuthErrorMessageMalformedJWT
+                                         forKey:NSLocalizedDescriptionKey];
+  [userInfo setObject:token forKey:FIRAuthErrorUserInfoDataKey];
+  if (underlyingError != nil) {
+    [userInfo setObject:underlyingError forKey:NSUnderlyingErrorKey];
+  }
+  return [self errorWithCode:FIRAuthInternalErrorCodeMalformedJWT userInfo:[userInfo copy]];
 }
 
 + (NSError *)unexpectedResponseWithData:(NSData *)data

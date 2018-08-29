@@ -2,15 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>UIAppFonts</key>
-	<array>
-		<string>PlanewalkerBold.otf</string>
-		<string>Planewalker.otf</string>
-	</array>
+	<key>ATSApplicationFontsPath</key>
+	<string></string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
-	<key>ATSApplicationFontsPath</key>
-	<string>Fonts</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIconFile</key>
@@ -37,5 +32,10 @@
 	<string>Main</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>PW.otf</string>
+		<string>Planewalker.otf</string>
+	</array>
 </dict>
 </plist>

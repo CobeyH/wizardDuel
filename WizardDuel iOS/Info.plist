@@ -42,5 +42,10 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>UIAppFonts</key>
+	<array>
+		<string>PW.otf</string>
+		<string>Planewalker.otf</string>
+	</array>
 </dict>
 </plist>

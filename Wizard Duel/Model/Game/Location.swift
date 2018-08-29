@@ -11,6 +11,7 @@ enum Location {
     case deck()
     case battlefield(Int, Int)
     case dataExtract()
+    case tokens()
 }
 
 
@@ -26,8 +27,9 @@ extension Location: CustomDebugStringConvertible {
         case .battlefield(let value1, let value2):
             return "battlefield(\(value1),\(value2)"
         case .dataExtract():
-            return "DataExtract"
-            
+            return "dataExtract"
+        case .tokens:
+            return "tokens"
         }
     }
 }

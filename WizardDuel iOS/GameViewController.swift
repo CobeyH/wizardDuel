@@ -89,11 +89,7 @@ class GameViewController: UIViewController {
     //Used on IOS to view cards. Long press puts the user into viewing mode and then touch moves changes the currently viewed card.
     @objc func longPress(sender: UILongPressGestureRecognizer) {
         let scene = self.delegate as! GameScene
-        let locationInView = sender.location(in: view)
-        let sceneView = view as? SKView
-        if let locationInScene = sceneView?.convert(locationInView, to:scene) {
-            scene.showPlayingCard(at: locationInScene)
-        }
+        scene.longPress(sender: sender)
     }
     
     @objc func pinch(sender: UIPinchGestureRecognizer) {
@@ -102,37 +98,20 @@ class GameViewController: UIViewController {
     }
     
     private func newGame(gameScene: GameScene) -> Bool {
-        // create the alert
-        let alertController = UIAlertController(title: "Add New Name", message: "", preferredStyle: .alert)
-        let saveAction = UIAlertAction(title: "Save", style: .default, handler: { alert -> Void in
-            let textField = alertController.textFields![0] as UITextField
-            print(textField.text ?? "")
-            let newName = textField.text
-            if newName!.count > 0 {
-                UserDefaults.standard.set(newName, forKey: "PlayerName")
-            }
-            gameScene.newGame()
-        })
-        let cancelAction = UIAlertAction(title: "Cancel", style: .default, handler: { (action : UIAlertAction!) -> Void in })
-        alertController.addTextField { (textField : UITextField!) -> Void in
-            let defaultName = UserDefaults.standard.string(forKey: "PlayerName")
-            if let defaultName = defaultName {
-                textField.text = defaultName
-            }
-           textField.placeholder = "Enter First Name"
-        }
-        
-        alertController.addAction(saveAction)
-        alertController.addAction(cancelAction)
-        
-        self.present(alertController, animated: true, completion: nil)
+        let navigationVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "newPlayerNavigationController") as! UINavigationController
+           let viewController =  navigationVC.topViewController as! PlayerDetailsViewController
+        navigationVC.modalPresentationStyle = .formSheet
+        let scene = self.delegate as! GameScene
+        viewController.gameScene = scene
+        self.present(navigationVC, animated: true, completion: nil)
         
         return false
     }
-    
 }
 
+
 extension GameViewController: GameSceneDelegate {
+    
     
     func newGame(currentGameState: Game.State, gameScene: GameScene) -> Bool {
         if newGame(gameScene: gameScene) {
