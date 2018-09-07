@@ -1,6 +1,6 @@
     //
 //  GameScene.swift
-//  Freegraveyard2
+//  Wizard Duel
 //
 //  Created by gary on 16/06/2017.
 //  Copyright © 2017 Gary Kerr. All rights reserved.
@@ -84,9 +84,11 @@ class GameScene: SKScene {
     
     @objc func longPress(sender: UILongPressGestureRecognizer) {
         let locationInView = sender.location(in: view)
-        let sceneView = view as? SKView
-        if let locationInScene = sceneView?.convert(locationInView, to:scene!) {
+        if let locationInScene = view?.convert(locationInView, to:scene!) {
             gameGraphics.showPlayingCard(at: locationInScene, scene: self)
+        }
+        if sender.state == UIGestureRecognizerState.ended {
+            gameGraphics.hideCardDisplay()
         }
     }
     

@@ -63,6 +63,7 @@ struct GameGraphics {
             graveyard.zPosition = baseZPosition
             graveyards.append(graveyard)
         }
+        
         //Creates an offscreen field where cards are placed and moved into the battlefield
         let dataExtract = SKSpriteNode(color: config.backgroundColour, size: config.cardSize)
         dataExtract.anchorPoint = config.cardMiddle
@@ -361,6 +362,10 @@ struct GameGraphics {
                 labels.cardDisplay.texture = nil
             }
         }
+    }
+    
+    mutating func hideCardDisplay() {
+        labels.cardDisplay.texture = nil
     }
     
     //Shows an list of specific cards that are outside of the players deck.
