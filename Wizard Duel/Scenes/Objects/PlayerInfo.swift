@@ -30,9 +30,6 @@ class PlayerInfo: SKSpriteNode {
         self.lifeTotal = lifeTotal
         self.healthLabel = SKLabelNode()
         self.databaseKey = databaseKey
-        
-//        self.xscale = config.getScale().0
-//        self.yscale = config.getScale().1
         self.xscale = 1
         self.yscale = 1
         super.init(texture: texture, color: .clear, size: size)
@@ -46,6 +43,7 @@ class PlayerInfo: SKSpriteNode {
         labels.append(healthUpLabel)
         labels.append(healthDownLabel)
         
+        
         for (i,label) in labels.enumerated() {
             label.fontSize = 25
             label.fontName = "Planewalker"
@@ -55,7 +53,6 @@ class PlayerInfo: SKSpriteNode {
             label.verticalAlignmentMode = .center
             label.xScale = xscale
             label.yScale = yscale
-            
             self.addChild(label)
         }
         

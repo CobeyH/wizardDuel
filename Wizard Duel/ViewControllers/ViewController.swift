@@ -10,6 +10,7 @@ import Cocoa
 import SpriteKit
 import GameplayKit
 import FirebaseDatabase
+import FirebaseCore
 
 class ViewController: NSViewController {
 
@@ -18,6 +19,7 @@ class ViewController: NSViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        FirebaseApp.configure()
         configureScene()
         
     }

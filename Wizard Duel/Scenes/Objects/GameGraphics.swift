@@ -92,7 +92,6 @@ struct GameGraphics {
         
     }
     
-    
     //Adds all the sprite images of the cards to the deck to create a stack of cards
     mutating func setupCards(gameDecks: Deck) {
         
