@@ -93,7 +93,7 @@ struct GameGraphics {
     }
     
     //Adds all the sprite images of the cards to the deck to create a stack of cards
-    mutating func setupCards(gameDecks: Deck) {
+    mutating func setupCards(from gameDecks: Deck) {
         
         let deckPosition = deck.position
         for (i, gameCard) in gameDecks.cards.enumerated() {
@@ -141,13 +141,13 @@ struct GameGraphics {
         scene.addChild(background)
     }
     
-    mutating func changeBackground(on scene: SKScene) {
+    mutating func changeBackground(of scene: SKScene) {
         background.texture = SKTexture(imageNamed: config.getBackground())
     }
     
     //MARK: - Dice
     //Creates a new dice at the dice spawner.
-    mutating func newDice(to scene: SKScene) -> PlayingDice {
+    mutating func addDice(to scene: SKScene) -> PlayingDice {
         let dice = Dice(maxValue: 6)
         let playingDice = PlayingDice(dice: dice, size: config.diceSizeInitial)
         playingDice.zPosition = config.getZIndex()
@@ -158,7 +158,7 @@ struct GameGraphics {
     }
     
     //Deletes a dice from the battlefield.
-    mutating func deleteDice(to scene: SKScene, toDelete: PlayingDice) {
+    mutating func deleteDice(from scene: SKScene, toDelete: PlayingDice) {
         for dice in dices {
            if dice == toDelete {
             dice.removeFromParent()
@@ -168,7 +168,7 @@ struct GameGraphics {
     }
     
     //Checks if a dice has been clicked.
-    func isDiceTapped(point: CGPoint) -> Bool{
+    func isDiceTapped(at point: CGPoint) -> Bool{
         if diceSpawner.contains(point) {
             return true
         }
@@ -176,7 +176,7 @@ struct GameGraphics {
     }
     
     //Returns the dice at a position.
-    func findDice(point: CGPoint) -> PlayingDice? {
+    func findDice(at point: CGPoint) -> PlayingDice? {
         for dice in dices {
             if dice.contains(point) {
                 return dice
@@ -186,7 +186,7 @@ struct GameGraphics {
     }
     
     //Returns the dice that is the child of a card.
-    func findDiceFromCard(playingCard: PlayingCard) -> PlayingDice? {
+    func findDice(from playingCard: PlayingCard) -> PlayingDice? {
         if let dice = playingCard.childNode(withName: "dice") {
             return dice as? PlayingDice
             
@@ -209,10 +209,11 @@ struct GameGraphics {
         let player = PlayerInfo(lifeTotal: lifeTotal, playerName: playerName, playerNumber: playerNumber, to: scene, databaseKey: databaseKey)
         playerInfos.append(player)
         player.movePlayerInfo(playerNumberSelf: playerNumberSelf)
+        
     }
     
     //Returns a player from a player number.
-    func findPlayer(playerNumber: Int) -> PlayerInfo? {
+    func findPlayer(with playerNumber: Int) -> PlayerInfo? {
         for playerInfo in playerInfos {
             if playerInfo.playerNumber == playerNumber {
                 return playerInfo
@@ -261,12 +262,12 @@ struct GameGraphics {
     }
     
     //Removes all cards from the game.
-    mutating func newGame(gameDecks: Deck) {
+    mutating func newGame(with gameDecks: Deck) {
         for card in cards {
             card.removeFromParent()
         }
         cards = []
-        setupCards(gameDecks: gameDecks)
+        setupCards(from: gameDecks)
     }
     
     //Returns the diagonal distance between two points.
@@ -278,7 +279,7 @@ struct GameGraphics {
     }
     
     //Untaps all of the cards when the new turn button is pressed,
-    func newTurn(sender: Int) -> [PlayingCard] {
+    func untapCards(for sender: Int) -> [PlayingCard] {
         let database = Database.database().reference().child("Updates")
         var tappedCards: [PlayingCard] = []
         for playingCard in cards {
@@ -288,7 +289,7 @@ struct GameGraphics {
                         if let databaseSender = value["Owner"] as? String {
                         let senderInt = Int(databaseSender)
                         if playingCard.tapped && senderInt == sender {
-                            self.tapCard(card: playingCard)
+                            self.tap(card: playingCard)
                             tappedCards.append(playingCard)
                             Database.database().reference().child("Updates").child(playingCard.databaseRef!).updateChildValues(["Tapped": "false"])
                         }
@@ -301,7 +302,7 @@ struct GameGraphics {
     }
     
     //Rotates the card sideways if it is upright and turns it upright if it was sideways.
-    func tapCard(card: PlayingCard) {
+    func tap(card: PlayingCard) {
         let angle: Double = card.tapped ? Double.pi/2 : -Double.pi/2
         let rotation = SKAction.rotate(byAngle: CGFloat(angle), duration: 0.0)
         card.run(rotation)
@@ -506,7 +507,7 @@ struct GameGraphics {
             
         }
         if playingCard.tapped && playingCard.heldBy != "Battlefield" {
-            tapCard(card: playingCard)
+            tap(card: playingCard)
         }
         currentPlayingCard.move(to: newPosition)
         if currentPlayingCard.playingCard.heldBy == "Deck" {
@@ -530,7 +531,7 @@ struct GameGraphics {
     }
     
     //Deleted a card from the scene
-    mutating func deleteCard(playingCard: PlayingCard) {
+    mutating func delete(playingCard: PlayingCard) {
         playingCard.removeFromParent()
         cards.remove(at: cards.index(of: playingCard)!)
     }

@@ -56,7 +56,7 @@ class GameScene: SKScene {
         super.didMove(to: view)
         self.size = view.bounds.size
         gameGraphics.setup(width: size.width, height: size.height)
-        gameGraphics.setupCards(gameDecks: game.deck)
+        gameGraphics.setupCards(from: game.deck)
         
         labels.setUpLabels(width: size.width, height: size.height, to: self)
         gameGraphics.addChildren(to: self)
@@ -109,7 +109,7 @@ class GameScene: SKScene {
             }
             //Checks if the new turn button has been pressed.
             else if labels.isNewTurnTapped(point: touchLocation) {
-                let tappedCards = gameGraphics.newTurn(sender: playerNumber)
+                let tappedCards = gameGraphics.untapCards(for: playerNumber)
                 drawCard()
                 for playingCard in tappedCards {
                     Database.database().reference().child("Updates").child(playingCard.databaseRef!).updateChildValues(["Tapped": "false"])
@@ -136,7 +136,7 @@ class GameScene: SKScene {
             //Taps a card if it is pressed and the tap is not on a dice.
             if let playingCard = gameGraphics.cardFrom(position: touchLocation) {
                 if playingCard.heldBy == "Battlefield" {
-                    gameGraphics.tapCard(card: playingCard)
+                    gameGraphics.tap(card: playingCard)
                     Database.database().reference().child("Updates").child(playingCard.databaseRef!).updateChildValues(["Tapped": String(playingCard.tapped), "Sender": String(playerNumber)])
                 }
             }
@@ -158,7 +158,7 @@ class GameScene: SKScene {
     }
     
     //If a double tap is detected on the deck a card will be drawn
-    @objc func doubleTap(sender: TapGR) {
+    @objc func doubleTap(by sender: TapGR) {
         if sender.state == .ended {
             var touchLocation: CGPoint = sender.location(in: sender.view)
             touchLocation = self.convertPoint(fromView: touchLocation)
@@ -227,7 +227,7 @@ class GameScene: SKScene {
                     playingDice.dice.diceDown()
                     database.updateDatabase(playingCard: playingCard)
                     if playingDice.dice.value < 1 {
-                        gameGraphics.deleteDice(to: self, toDelete: playingDice)
+                        gameGraphics.deleteDice(from: self, toDelete: playingDice)
                     } else {
                         playingDice.setTexture()
                     }
@@ -267,7 +267,7 @@ class GameScene: SKScene {
             let addedTokens = game.createTokens()
             gameGraphics.showTokens(addedTokens: addedTokens, scene: self)
         case [.command] where event.characters == "b":
-            gameGraphics.changeBackground(on: self)
+            gameGraphics.changeBackground(of: self)
         default:
             break
         }
@@ -285,14 +285,14 @@ class GameScene: SKScene {
             }
             //Decreases life by 1
             else if firstCharacter == "-" {
-                if let playerSelf = gameGraphics.findPlayer(playerNumber: playerNumber) {
+                if let playerSelf = gameGraphics.findPlayer(with: playerNumber) {
                     playerSelf.lifeDown()
                     Database.database().reference().child("players").child(playerSelf.databaseKey).updateChildValues(["lifeTotal": String(playerSelf.getLife())])
                 }
             }
             //Increases life by 1. It is a = and not a + so the user does not have to press shift.
-            else if firstCharacter == "=" {
-                if let playerSelf = gameGraphics.findPlayer(playerNumber: playerNumber) {
+            else if firstCharacter == "=" { 
+                if let playerSelf = gameGraphics.findPlayer(with: playerNumber) {
                     playerSelf.lifeUp()
                     Database.database().reference().child("players").child(playerSelf.databaseKey).updateChildValues(["lifeTotal": String(playerSelf.getLife())])
                 }
@@ -306,16 +306,16 @@ class GameScene: SKScene {
     
     //Called when the mouse is pressed down. This sets acard to active in order it initiate a movement of the card.
     private func touchDown(atPoint point: CGPoint) {
-        if gameGraphics.isDiceTapped(point: point) {
-            let _ = gameGraphics.newDice(to: self)
+        if gameGraphics.isDiceTapped(at: point) {
+            let _ = gameGraphics.addDice(to: self)
         }
         if let playingCard = gameGraphics.cardFrom(position: point) {
             let dicePoint = convert(point, to: playingCard)
-            if let dice = gameGraphics.findDice(point: dicePoint) {
+            if let dice = gameGraphics.findDice(at: dicePoint) {
                 gameGraphics.setDiceActive(dice: dice)
             }
         }
-        if gameGraphics.findDice(point: point) != nil {
+        if gameGraphics.findDice(at: point) != nil {
             return
         }
         guard
@@ -337,7 +337,7 @@ class GameScene: SKScene {
     
     //Updates the position of the dice to the new point.
     private func moveDice(atPoint point: CGPoint) {
-        if let dice = gameGraphics.findDice(point: point) {
+        if let dice = gameGraphics.findDice(at: point) {
             dice.update(position: point)
         }
     }
@@ -345,14 +345,14 @@ class GameScene: SKScene {
     //Updates the position of the card as the card is being dragged
     private func touchMoved(toPoint pos: CGPoint) {
         guard let currentPlayingCard = currentPlayingCard else { return }
-        if gameGraphics.findDice(point: pos) == nil {
+        if gameGraphics.findDice(at: pos) == nil {
             currentPlayingCard.update(position: pos)
         }
     }
     
     //Called when the mouse is released. It calls the move function when a card has been dragged and released to a new location
     private func touchUp(atPoint pos: CGPoint) {
-        if let dice = gameGraphics.findDice(point: pos) {
+        if let dice = gameGraphics.findDice(at: pos) {
             if let playingCard = gameGraphics.cardFrom(position: pos) {
                 gameGraphics.drop(playingDice: dice, on: playingCard)
                 database.updateDatabase(playingCard: playingCard)
@@ -443,7 +443,7 @@ extension GameScene: ViewControllerDelegate {
         #if os(OSX)
         game.new()
         #endif
-        gameGraphics.newGame(gameDecks: game.deck)
+        gameGraphics.newGame(with: game.deck)
         gameGraphics.addCards(to: self)
         var commander: CurrentPlayingCard?
         //If the deck has a card marked as commender moves it to the command zone.

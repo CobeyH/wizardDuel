@@ -111,7 +111,7 @@ class WDDatabase {
                     for playingCard in self.gameGraphics.cards.reversed() {
                         if playingCard.databaseRef == snapshot.key {
                             self.gameScene?.game.allBattlefields[fieldNumber][stack!].removeCard(card: playingCard.card)
-                            self.gameGraphics.deleteCard(playingCard: playingCard)
+                            self.gameGraphics.delete(playingCard: playingCard)
                         }
                     }
                 }
@@ -157,14 +157,14 @@ class WDDatabase {
                         if let previousLocation = self.gameGraphics.dropLocation(from: playingCard.position, playingCard: playingCard, game: (gameScene?.game)!) {
                             location = previousLocation
                             if diceValue > 0 && playingCard.children.count == 0 {
-                                let newPlayingDice = gameGraphics.newDice(to: gameScene!)
+                                let newPlayingDice = gameGraphics.addDice(to: gameScene!)
                                 gameGraphics.drop(playingDice: newPlayingDice, on: playingCard)
                             }
                             else if playingCard.children.count != 0 && diceValue == 0{
                                 playingCard.removeAllChildren()
                             }
                             else {
-                                if let playingDice = gameGraphics.findDiceFromCard(playingCard: playingCard) {
+                                if let playingDice = gameGraphics.findDice(from: playingCard) {
                                     playingDice.dice.value = diceValue
                                     playingDice.setTexture()
                                 }
@@ -179,7 +179,7 @@ class WDDatabase {
                     if let playingCard = playingCard {
                         let currentPlayingCard = CurrentPlayingCard(playingCard: playingCard, startPosition: playingCard.position, touchPoint: playingCard.position, location: location)
                         if currentPlayingCard.playingCard.tapped != cardTapped {
-                            self.gameGraphics.tapCard(card: currentPlayingCard.playingCard)
+                            self.gameGraphics.tap(card: currentPlayingCard.playingCard)
                             return
                         }
                         
@@ -203,7 +203,7 @@ class WDDatabase {
             if let playerName = snapshotValue["player"],
                 let playerNumber = Int(snapshotValue["playNumber"]!),
                 let lifeTotal = Int(snapshotValue["lifeTotal"]!) {
-                if let player = gameGraphics.findPlayer(playerNumber: playerNumber) {
+                if let player = gameGraphics.findPlayer(with: playerNumber) {
                     player.lifeTotal = lifeTotal
                     player.updateLife()
                     

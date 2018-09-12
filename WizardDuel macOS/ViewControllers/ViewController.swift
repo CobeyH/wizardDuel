@@ -100,7 +100,7 @@ class ViewController: NSViewController {
     @objc func doubleTap(sender: NSClickGestureRecognizer) {
         let scene = self.delegate as! GameScene
         
-        scene.doubleTap(sender: sender)
+        scene.doubleTap(by: sender)
     }
 
     private func newGamePrompt() -> Bool {
