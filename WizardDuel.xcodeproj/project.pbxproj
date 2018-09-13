@@ -10,9 +10,6 @@
 		0038551424A33936C40C4A8E /* Pods_WizardDuel_macOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BF272E29E9CDB86E62DE151 /* Pods_WizardDuel_macOS.framework */; };
 		0303327720A6026E00C7594B /* PlayingCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E396EB71EF3E4AB00F8696A /* PlayingCard.swift */; };
 		03362DF721309D6800596D52 /* PlayerDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03362DF621309D6800596D52 /* PlayerDetailsViewController.swift */; };
-		0350AE2220F153BC00A86E5E /* Muldrotha.txt in Resources */ = {isa = PBXBuildFile; fileRef = 0350AE2120F153BC00A86E5E /* Muldrotha.txt */; };
-		0350AE2320F153BC00A86E5E /* Muldrotha.txt in Resources */ = {isa = PBXBuildFile; fileRef = 0350AE2120F153BC00A86E5E /* Muldrotha.txt */; };
-		0350AE2420F153BC00A86E5E /* Muldrotha.txt in Resources */ = {isa = PBXBuildFile; fileRef = 0350AE2120F153BC00A86E5E /* Muldrotha.txt */; };
 		0365695C20F7C8DC00EE9839 /* Tokens.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0365695B20F7C8DC00EE9839 /* Tokens.xcassets */; };
 		0365695D20F7C8DC00EE9839 /* Tokens.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0365695B20F7C8DC00EE9839 /* Tokens.xcassets */; };
 		0365695E20F7C8DC00EE9839 /* Tokens.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0365695B20F7C8DC00EE9839 /* Tokens.xcassets */; };
@@ -23,9 +20,11 @@
 		0377EE5A20F892D600C6F94B /* tokens.txt in Resources */ = {isa = PBXBuildFile; fileRef = 0377EE5720F892D600C6F94B /* tokens.txt */; };
 		0378867020ACA38E00B2B2E4 /* MasterDeck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0378866F20ACA38E00B2B2E4 /* MasterDeck.swift */; };
 		039785CD20A52CA0005C2F1C /* testDeck.txt in Resources */ = {isa = PBXBuildFile; fileRef = 039785CC20A52CA0005C2F1C /* testDeck.txt */; };
-		03B66FBC2125EA7E005827ED /* Database.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B66FBB2125EA7E005827ED /* Database.swift */; };
-		03B66FBD2125EA7E005827ED /* Database.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B66FBB2125EA7E005827ED /* Database.swift */; };
-		03B66FBE2125EA7E005827ED /* Database.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B66FBB2125EA7E005827ED /* Database.swift */; };
+		039FF9352145ABCA005844B8 /* IOSGameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 039FF9342145ABCA005844B8 /* IOSGameScene.swift */; };
+		039FF9372145B95E005844B8 /* MacGameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 039FF9362145B95E005844B8 /* MacGameScene.swift */; };
+		03B66FBC2125EA7E005827ED /* WDDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B66FBB2125EA7E005827ED /* WDDatabase.swift */; };
+		03B66FBD2125EA7E005827ED /* WDDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B66FBB2125EA7E005827ED /* WDDatabase.swift */; };
+		03B66FBE2125EA7E005827ED /* WDDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B66FBB2125EA7E005827ED /* WDDatabase.swift */; };
 		03B8994720E03E5200CBEFDC /* PlayerInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B8994620E03E5200CBEFDC /* PlayerInfo.swift */; };
 		03D5AD4120A8C8AE001E29CE /* Battlefield.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03D5AD4020A8C8AE001E29CE /* Battlefield.swift */; };
 		03EE278320C70B8E00427770 /* Dice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03EE278220C70B8E00427770 /* Dice.swift */; };
@@ -53,7 +52,6 @@
 		4E71F1F71F438AEA002E66D3 /* GameTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E71F1F61F438AEA002E66D3 /* GameTests.swift */; };
 		4E71F1F91F43913E002E66D3 /* GameError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E71F1F81F43913E002E66D3 /* GameError.swift */; };
 		4E71F2531F439933002E66D3 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 4E71F2521F439933002E66D3 /* GameScene.sks */; };
-		4E7B17841F5AFAB100D771FC /* GameResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E7B17831F5AFAB100D771FC /* GameResult.swift */; };
 		4E984C0E1F58D48E00FD8BD7 /* GameSceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E984C0D1F58D48E00FD8BD7 /* GameSceneDelegate.swift */; };
 		4EA1E2951F6609DB0061E64D /* ViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EA1E2941F6609DB0061E64D /* ViewControllerDelegate.swift */; };
 		4EE685EA1F578EB80005984F /* GameGraphics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EE685E91F578EB80005984F /* GameGraphics.swift */; };
@@ -91,7 +89,6 @@
 		7E02B16420EC70B50088FFEB /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EF3F2961F485D7A004197A8 /* Location.swift */; };
 		7E02B16520EC70B50088FFEB /* Move.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E004E471F57797B00F12974 /* Move.swift */; };
 		7E02B16620EC70B50088FFEB /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EF3F29A1F489690004197A8 /* State.swift */; };
-		7E02B16720EC70B50088FFEB /* GameResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E7B17831F5AFAB100D771FC /* GameResult.swift */; };
 		7E02B16820EC70B50088FFEB /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E71F1E21F438893002E66D3 /* Card.swift */; };
 		7E02B16920EC70B50088FFEB /* LoginInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03F157B120BC856D000301EB /* LoginInfo.swift */; };
 		7E02B16A20EC70B50088FFEB /* CanAddCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EF3F2901F4857F8004197A8 /* CanAddCard.swift */; };
@@ -109,7 +106,6 @@
 		7E02B17620EC70B50088FFEB /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EF3F2961F485D7A004197A8 /* Location.swift */; };
 		7E02B17720EC70B50088FFEB /* Move.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E004E471F57797B00F12974 /* Move.swift */; };
 		7E02B17820EC70B50088FFEB /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EF3F29A1F489690004197A8 /* State.swift */; };
-		7E02B17920EC70B50088FFEB /* GameResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E7B17831F5AFAB100D771FC /* GameResult.swift */; };
 		7E02B17A20EC70C30088FFEB /* PlayingCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E396EB71EF3E4AB00F8696A /* PlayingCard.swift */; };
 		7E02B17B20EC70C30088FFEB /* PlayerInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B8994620E03E5200CBEFDC /* PlayerInfo.swift */; };
 		7E02B17C20EC70C30088FFEB /* PlayingDice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 036EE1E120C85E3200A768A0 /* PlayingDice.swift */; };
@@ -132,8 +128,6 @@
 		7E02B18D20EC70C30088FFEB /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E396E861EF3DF8600F8696A /* GameScene.swift */; };
 		7E02B18E20EC70CB0088FFEB /* Shuffle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E71F1EF1F438A3C002E66D3 /* Shuffle.swift */; };
 		7E02B18F20EC70CC0088FFEB /* Shuffle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E71F1EF1F438A3C002E66D3 /* Shuffle.swift */; };
-		7E02B19020EC71760088FFEB /* kittenDeck.txt in Resources */ = {isa = PBXBuildFile; fileRef = 7E7EFE3D20CC363A00338E4A /* kittenDeck.txt */; };
-		7E02B19120EC71770088FFEB /* kittenDeck.txt in Resources */ = {isa = PBXBuildFile; fileRef = 7E7EFE3D20CC363A00338E4A /* kittenDeck.txt */; };
 		7E02B19220EC71810088FFEB /* testDeck.txt in Resources */ = {isa = PBXBuildFile; fileRef = 039785CC20A52CA0005C2F1C /* testDeck.txt */; };
 		7E02B19320EC71810088FFEB /* testDeck2.txt in Resources */ = {isa = PBXBuildFile; fileRef = 03779E2920B481C700F2DA43 /* testDeck2.txt */; };
 		7E02B19420EC71810088FFEB /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 03FACC6B20CB83AE00BC8F89 /* GoogleService-Info.plist */; };
@@ -148,7 +142,6 @@
 		7E77AA15210056DE00927E98 /* PlanewalkerBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7E77AA11210056DE00927E98 /* PlanewalkerBold.otf */; };
 		7E77AA16210056DE00927E98 /* PlanewalkerBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7E77AA11210056DE00927E98 /* PlanewalkerBold.otf */; };
 		7E77AA17210056DE00927E98 /* PlanewalkerBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7E77AA11210056DE00927E98 /* PlanewalkerBold.otf */; };
-		7E7EFE3E20CC363B00338E4A /* kittenDeck.txt in Resources */ = {isa = PBXBuildFile; fileRef = 7E7EFE3D20CC363A00338E4A /* kittenDeck.txt */; };
 		B3BACB7EA661E5EAD10864A6 /* Pods_Wizard_DuelTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D27772C1DEEFEF61388F285 /* Pods_Wizard_DuelTests.framework */; };
 /* End PBXBuildFile section */
 
@@ -165,7 +158,6 @@
 /* Begin PBXFileReference section */
 		013630CD78B883F7903F6EEF /* Pods-WizardDuel iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WizardDuel iOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-WizardDuel iOS/Pods-WizardDuel iOS.release.xcconfig"; sourceTree = "<group>"; };
 		03362DF621309D6800596D52 /* PlayerDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerDetailsViewController.swift; sourceTree = "<group>"; };
-		0350AE2120F153BC00A86E5E /* Muldrotha.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Muldrotha.txt; sourceTree = "<group>"; };
 		0365695B20F7C8DC00EE9839 /* Tokens.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Tokens.xcassets; sourceTree = "<group>"; };
 		036EE1E120C85E3200A768A0 /* PlayingDice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayingDice.swift; sourceTree = "<group>"; };
 		03779E2920B481C700F2DA43 /* testDeck2.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = testDeck2.txt; sourceTree = "<group>"; };
@@ -173,7 +165,9 @@
 		0377EE5F20F8954E00C6F94B /* tokens.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = tokens.txt; sourceTree = "<group>"; };
 		0378866F20ACA38E00B2B2E4 /* MasterDeck.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterDeck.swift; sourceTree = "<group>"; };
 		039785CC20A52CA0005C2F1C /* testDeck.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = testDeck.txt; sourceTree = "<group>"; };
-		03B66FBB2125EA7E005827ED /* Database.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Database.swift; sourceTree = "<group>"; };
+		039FF9342145ABCA005844B8 /* IOSGameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IOSGameScene.swift; sourceTree = "<group>"; };
+		039FF9362145B95E005844B8 /* MacGameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacGameScene.swift; sourceTree = "<group>"; };
+		03B66FBB2125EA7E005827ED /* WDDatabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WDDatabase.swift; sourceTree = "<group>"; };
 		03B8994620E03E5200CBEFDC /* PlayerInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerInfo.swift; sourceTree = "<group>"; };
 		03D5AD4020A8C8AE001E29CE /* Battlefield.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Battlefield.swift; sourceTree = "<group>"; };
 		03EE278220C70B8E00427770 /* Dice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dice.swift; sourceTree = "<group>"; };
@@ -205,7 +199,6 @@
 		4E71F1F61F438AEA002E66D3 /* GameTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameTests.swift; sourceTree = "<group>"; };
 		4E71F1F81F43913E002E66D3 /* GameError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameError.swift; sourceTree = "<group>"; };
 		4E71F2521F439933002E66D3 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
-		4E7B17831F5AFAB100D771FC /* GameResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameResult.swift; sourceTree = "<group>"; };
 		4E984C0D1F58D48E00FD8BD7 /* GameSceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSceneDelegate.swift; sourceTree = "<group>"; };
 		4EA1E2941F6609DB0061E64D /* ViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerDelegate.swift; sourceTree = "<group>"; };
 		4EE685E91F578EB80005984F /* GameGraphics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameGraphics.swift; sourceTree = "<group>"; };
@@ -230,7 +223,6 @@
 		7E02B19C20EC73E60088FFEB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7E77AA10210056DE00927E98 /* PW.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = PW.otf; path = Fonts/PW.otf; sourceTree = "<group>"; };
 		7E77AA11210056DE00927E98 /* PlanewalkerBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = PlanewalkerBold.otf; path = Fonts/PlanewalkerBold.otf; sourceTree = "<group>"; };
-		7E7EFE3D20CC363A00338E4A /* kittenDeck.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = kittenDeck.txt; sourceTree = "<group>"; };
 		815E421A264786F281579619 /* libPods-WizardDuel iOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-WizardDuel iOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8BF272E29E9CDB86E62DE151 /* Pods_WizardDuel_macOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WizardDuel_macOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		94A65812CEDF7BF3EDC08661 /* Pods-Wizard DuelTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Wizard DuelTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Wizard DuelTests/Pods-Wizard DuelTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -291,7 +283,7 @@
 				4E396EB41EF3E39400F8696A /* Objects */,
 				4E984C0D1F58D48E00FD8BD7 /* GameSceneDelegate.swift */,
 				4E396E861EF3DF8600F8696A /* GameScene.swift */,
-				03B66FBB2125EA7E005827ED /* Database.swift */,
+				03B66FBB2125EA7E005827ED /* WDDatabase.swift */,
 				4E71F2521F439933002E66D3 /* GameScene.sks */,
 			);
 			path = Scenes;
@@ -330,13 +322,10 @@
 				4E71F1DB1F438830002E66D3 /* Model */,
 				4E2E3F091F56266700BF0862 /* Scenes */,
 				4E71F1EE1F438A27002E66D3 /* Utils */,
-				4EA1E2931F66006C0061E64D /* ViewControllers */,
 				4E396E801EF3DF8600F8696A /* AppDelegate.swift */,
 				4E396E8F1EF3DF8600F8696A /* Info.plist */,
 				0377EE5720F892D600C6F94B /* tokens.txt */,
-				0350AE2120F153BC00A86E5E /* Muldrotha.txt */,
 				0377EE5F20F8954E00C6F94B /* tokens.txt */,
-				7E7EFE3D20CC363A00338E4A /* kittenDeck.txt */,
 				039785CC20A52CA0005C2F1C /* testDeck.txt */,
 				03779E2920B481C700F2DA43 /* testDeck2.txt */,
 				03FACC6B20CB83AE00BC8F89 /* GoogleService-Info.plist */,
@@ -401,7 +390,6 @@
 				4EF3F2961F485D7A004197A8 /* Location.swift */,
 				4E004E471F57797B00F12974 /* Move.swift */,
 				4EF3F29A1F489690004197A8 /* State.swift */,
-				4E7B17831F5AFAB100D771FC /* GameResult.swift */,
 			);
 			path = Game;
 			sourceTree = "<group>";
@@ -468,6 +456,7 @@
 			isa = PBXGroup;
 			children = (
 				7E02B12B20EC6FF90088FFEB /* AppDelegate.swift */,
+				039FF9342145ABCA005844B8 /* IOSGameScene.swift */,
 				7E02B12D20EC6FF90088FFEB /* GameViewController.swift */,
 				03362DF621309D6800596D52 /* PlayerDetailsViewController.swift */,
 				7E02B12F20EC6FF90088FFEB /* Main.storyboard */,
@@ -480,7 +469,9 @@
 		7E02B13B20EC6FF90088FFEB /* WizardDuel macOS */ = {
 			isa = PBXGroup;
 			children = (
+				4EA1E2931F66006C0061E64D /* ViewControllers */,
 				7E02B19C20EC73E60088FFEB /* Info.plist */,
+				039FF9362145B95E005844B8 /* MacGameScene.swift */,
 				4E396E8C1EF3DF8600F8696A /* Main.storyboard */,
 			);
 			path = "WizardDuel macOS";
@@ -567,6 +558,7 @@
 				7E02B13720EC6FF90088FFEB /* Frameworks */,
 				7E02B13820EC6FF90088FFEB /* Resources */,
 				7E02B19920EC72220088FFEB /* Copy Card Images */,
+				51A0A3CC2E458F8CF4DD82DD /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -639,7 +631,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				0365695C20F7C8DC00EE9839 /* Tokens.xcassets in Resources */,
-				0350AE2220F153BC00A86E5E /* Muldrotha.txt in Resources */,
 				4E350B9E1F489BFF0009FD4B /* README in Resources */,
 				7E77AA15210056DE00927E98 /* PlanewalkerBold.otf in Resources */,
 				03779E2A20B481C800F2DA43 /* testDeck2.txt in Resources */,
@@ -647,7 +638,6 @@
 				4E396E8E1EF3DF8600F8696A /* Main.storyboard in Resources */,
 				039785CD20A52CA0005C2F1C /* testDeck.txt in Resources */,
 				7E77AA12210056DE00927E98 /* PW.otf in Resources */,
-				7E7EFE3E20CC363B00338E4A /* kittenDeck.txt in Resources */,
 				03FACC6C20CB83AE00BC8F89 /* GoogleService-Info.plist in Resources */,
 				4E71F2531F439933002E66D3 /* GameScene.sks in Resources */,
 			);
@@ -667,11 +657,9 @@
 				7E77AA13210056DE00927E98 /* PW.otf in Resources */,
 				7E77AA16210056DE00927E98 /* PlanewalkerBold.otf in Resources */,
 				0365695D20F7C8DC00EE9839 /* Tokens.xcassets in Resources */,
-				0350AE2320F153BC00A86E5E /* Muldrotha.txt in Resources */,
 				7E02B19220EC71810088FFEB /* testDeck.txt in Resources */,
 				7E02B13120EC6FF90088FFEB /* Main.storyboard in Resources */,
 				0377EE5920F892D600C6F94B /* tokens.txt in Resources */,
-				7E02B19020EC71760088FFEB /* kittenDeck.txt in Resources */,
 				7E02B19320EC71810088FFEB /* testDeck2.txt in Resources */,
 				7E02B13420EC6FF90088FFEB /* LaunchScreen.storyboard in Resources */,
 				7E02B19420EC71810088FFEB /* GoogleService-Info.plist in Resources */,
@@ -685,10 +673,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				7E02B15220EC702D0088FFEB /* Main.storyboard in Resources */,
-				0350AE2420F153BC00A86E5E /* Muldrotha.txt in Resources */,
 				7E02B19520EC71820088FFEB /* testDeck.txt in Resources */,
 				0377EE5A20F892D600C6F94B /* tokens.txt in Resources */,
-				7E02B19120EC71770088FFEB /* kittenDeck.txt in Resources */,
 				0365695E20F7C8DC00EE9839 /* Tokens.xcassets in Resources */,
 				7E02B19620EC71820088FFEB /* testDeck2.txt in Resources */,
 				7E77AA14210056DE00927E98 /* PW.otf in Resources */,
@@ -772,6 +758,28 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		51A0A3CC2E458F8CF4DD82DD /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-WizardDuel macOS/Pods-WizardDuel macOS-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-WizardDuel macOS/Pods-WizardDuel macOS-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		7E02B19920EC72220088FFEB /* Copy Card Images */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 8;
@@ -834,12 +842,11 @@
 				4E71F1E91F438955002E66D3 /* Graveyard.swift in Sources */,
 				03B8994720E03E5200CBEFDC /* PlayerInfo.swift in Sources */,
 				4E2E3F0D1F56288E00BF0862 /* Resetable.swift in Sources */,
-				4E7B17841F5AFAB100D771FC /* GameResult.swift in Sources */,
 				0303327720A6026E00C7594B /* PlayingCard.swift in Sources */,
 				4EF3F2991F48795D004197A8 /* CurrentPlayingCard.swift in Sources */,
 				03F7197320B0A16900B70122 /* Labels.swift in Sources */,
 				4E71F1E31F438893002E66D3 /* Card.swift in Sources */,
-				03B66FBC2125EA7E005827ED /* Database.swift in Sources */,
+				03B66FBC2125EA7E005827ED /* WDDatabase.swift in Sources */,
 				03F157B220BC856D000301EB /* LoginInfo.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -873,9 +880,9 @@
 				7E02B15C20EC70B50088FFEB /* Deck.swift in Sources */,
 				7E02B16320EC70B50088FFEB /* GameError.swift in Sources */,
 				7E02B17A20EC70C30088FFEB /* PlayingCard.swift in Sources */,
-				7E02B16720EC70B50088FFEB /* GameResult.swift in Sources */,
 				03362DF721309D6800596D52 /* PlayerDetailsViewController.swift in Sources */,
 				7E02B15920EC70B50088FFEB /* ContainsCard.swift in Sources */,
+				039FF9352145ABCA005844B8 /* IOSGameScene.swift in Sources */,
 				7E02B12E20EC6FF90088FFEB /* GameViewController.swift in Sources */,
 				7E02B17B20EC70C30088FFEB /* PlayerInfo.swift in Sources */,
 				7E02B17D20EC70C30088FFEB /* CurrentPlayingCard.swift in Sources */,
@@ -891,7 +898,7 @@
 				7E02B15B20EC70B50088FFEB /* HasState.swift in Sources */,
 				7E02B16520EC70B50088FFEB /* Move.swift in Sources */,
 				7E02B15620EC70B50088FFEB /* Card.swift in Sources */,
-				03B66FBD2125EA7E005827ED /* Database.swift in Sources */,
+				03B66FBD2125EA7E005827ED /* WDDatabase.swift in Sources */,
 				7E02B15720EC70B50088FFEB /* LoginInfo.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -914,7 +921,6 @@
 				7E02B16E20EC70B50088FFEB /* Deck.swift in Sources */,
 				7E02B17520EC70B50088FFEB /* GameError.swift in Sources */,
 				7E02B18420EC70C30088FFEB /* PlayingCard.swift in Sources */,
-				7E02B17920EC70B50088FFEB /* GameResult.swift in Sources */,
 				7E02B16B20EC70B50088FFEB /* ContainsCard.swift in Sources */,
 				7E02B18520EC70C30088FFEB /* PlayerInfo.swift in Sources */,
 				7E02B18720EC70C30088FFEB /* CurrentPlayingCard.swift in Sources */,
@@ -930,8 +936,9 @@
 				7E02B16D20EC70B50088FFEB /* HasState.swift in Sources */,
 				7E02B17720EC70B50088FFEB /* Move.swift in Sources */,
 				7E02B16820EC70B50088FFEB /* Card.swift in Sources */,
-				03B66FBE2125EA7E005827ED /* Database.swift in Sources */,
+				03B66FBE2125EA7E005827ED /* WDDatabase.swift in Sources */,
 				7E02B16920EC70B50088FFEB /* LoginInfo.swift in Sources */,
+				039FF9372145B95E005844B8 /* MacGameScene.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
