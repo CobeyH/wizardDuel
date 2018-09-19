@@ -25,10 +25,10 @@ class GameScene: SKScene {
     
     // MARK: - Properties
     let game = Game()
-    var gameGraphics = GameGraphics()
+    public var gameGraphics = GameGraphics()
     private var labels = Labels()
     private lazy var database: WDDatabase = {
-        let database =  WDDatabase(gameScene: self, gameGraphics: gameGraphics)
+        let database =  WDDatabase(gameScene: self)
         return database
     }()
     private var currentPlayingCard: CurrentPlayingCard?
