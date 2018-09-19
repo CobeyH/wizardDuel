@@ -16,13 +16,11 @@ class WDDatabase {
     let database = Database.database().reference()
     var playerNumber = 0
     var gameScene: GameScene
-    var gameGraphics: GameGraphics
     let players: DatabaseReference
     
     
-    init(gameScene: GameScene, gameGraphics: GameGraphics) {
+    init(gameScene: GameScene) {
         self.gameScene = gameScene
-        self.gameGraphics = gameGraphics
         self.players = database.child("players")
     }
     
@@ -34,7 +32,7 @@ class WDDatabase {
             self.playerNumber = Int(snapshot.childrenCount)
             let playerDictonary = ["player": player, "playNumber": String(self.playerNumber), "lifeTotal": "40"]
             let databaseRef = self.players.childByAutoId()
-            self.gameGraphics.addPlayer(playerName: player, playerNumber: self.playerNumber, lifeTotal: 40, to: self.gameScene, playerNumberSelf: self.playerNumber, databaseKey: databaseRef.key)
+            self.gameScene.gameGraphics.addPlayer(playerName: player, playerNumber: self.playerNumber, lifeTotal: 40, to: self.gameScene, playerNumberSelf: self.playerNumber, databaseKey: databaseRef.key)
             databaseRef.setValue(playerDictonary) {
                 (error, reference) in
                 if error != nil {
@@ -104,10 +102,10 @@ class WDDatabase {
                 let relativeField = Int(snapshotValue["Field"]!)
                 if owner != self.playerNumber {
                     let fieldNumber = self.findField(sender: sender!, relativeField: relativeField!)
-                    for playingCard in self.gameGraphics.cards.reversed() {
+                    for playingCard in self.gameScene.gameGraphics.cards.reversed() {
                         if playingCard.databaseRef == snapshot.key {
                             self.gameScene.game.allBattlefields[fieldNumber][stack!].removeCard(card: playingCard.card)
-                            self.gameGraphics.delete(playingCard: playingCard)
+                            self.gameScene.gameGraphics.delete(playingCard: playingCard)
                         }
                     }
                 }
@@ -141,7 +139,7 @@ class WDDatabase {
                 //Prevents updates from the sender to be recieved by the sender again.
                 if sender != self.playerNumber {
                     //Finds the playing card with the correct ID
-                    var playingCard = gameGraphics.cards.filter({
+                    var playingCard = gameScene.gameGraphics.cards.filter({
                         let databaseRef = $0.databaseRef
                         return databaseRef == snapshot.key
                     }).first
@@ -150,24 +148,24 @@ class WDDatabase {
                     
                     //Updates the playing card if one is found other wise creates a new card locally.
                     if let playingCard = playingCard {
-                        if let previousLocation = self.gameGraphics.dropLocation(from: playingCard.position, playingCard: playingCard, game: (gameScene.game)) {
+                        if let previousLocation = self.gameScene.gameGraphics.dropLocation(from: playingCard.position, playingCard: playingCard, game: (gameScene.game)) {
                             location = previousLocation
                             if diceValue > 0 && playingCard.children.count == 0 {
-                                let newPlayingDice = gameGraphics.addDice(to: gameScene)
-                                gameGraphics.drop(playingDice: newPlayingDice, on: playingCard)
+                                let newPlayingDice = gameScene.gameGraphics.addDice(to: gameScene)
+                                gameScene.gameGraphics.drop(playingDice: newPlayingDice, on: playingCard)
                             }
                             else if playingCard.children.count != 0 && diceValue == 0{
                                 playingCard.removeAllChildren()
                             }
                             else {
-                                if let playingDice = gameGraphics.findDice(from: playingCard) {
+                                if let playingDice = gameScene.gameGraphics.findDice(from: playingCard) {
                                     playingDice.dice.value = diceValue
                                     playingDice.setTexture()
                                 }
                             }
                         }
                     } else {
-                        let newPlayingCard = gameGraphics.addFromDatabase(name: cardName, field: fieldNumber, stack: stack, scene: gameScene)
+                        let newPlayingCard = gameScene.gameGraphics.addFromDatabase(name: cardName, field: fieldNumber, stack: stack, scene: gameScene)
                         newPlayingCard.databaseRef = snapshot.key
                         playingCard = newPlayingCard
                     }
@@ -175,7 +173,7 @@ class WDDatabase {
                     if let playingCard = playingCard {
                         let currentPlayingCard = CurrentPlayingCard(playingCard: playingCard, startPosition: playingCard.position, touchPoint: playingCard.position, location: location)
                         if currentPlayingCard.playingCard.tapped != cardTapped {
-                            self.gameGraphics.tap(card: currentPlayingCard.playingCard)
+                            self.gameScene.gameGraphics.tap(card: currentPlayingCard.playingCard)
                             return
                         }
                         
@@ -199,12 +197,12 @@ class WDDatabase {
             if let playerName = snapshotValue["player"],
                 let playerNumber = Int(snapshotValue["playNumber"]!),
                 let lifeTotal = Int(snapshotValue["lifeTotal"]!) {
-                if let player = gameGraphics.findPlayer(with: playerNumber) {
+                if let player = gameScene.gameGraphics.findPlayer(with: playerNumber) {
                     player.lifeTotal = lifeTotal
                     player.updateLife()
                     
                 } else {
-                    gameGraphics.addPlayer(playerName: playerName, playerNumber: playerNumber, lifeTotal: lifeTotal, to: gameScene, playerNumberSelf: self.playerNumber, databaseKey: snapshot.key)
+                    gameScene.gameGraphics.addPlayer(playerName: playerName, playerNumber: playerNumber, lifeTotal: lifeTotal, to: gameScene, playerNumberSelf: self.playerNumber, databaseKey: snapshot.key)
                 }
             }
         }
