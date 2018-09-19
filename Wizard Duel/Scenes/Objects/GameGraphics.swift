@@ -232,9 +232,10 @@ struct GameGraphics {
         return nil
     }
     
-    func reset() {
+    mutating func reset() {
         for playerInfo in playerInfos {
             playerInfo.removeFromParent()
+            playerInfos = []
         }
     }
     

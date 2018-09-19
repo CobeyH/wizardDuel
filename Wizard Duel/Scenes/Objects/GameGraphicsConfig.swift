@@ -44,7 +44,7 @@ public var config: GameGraphicsConfig = {
     let cardbackName = "cardback.png"
     let numberOfBackgrounds = 2
     let graveyardCount = 3
-    let backgroundCount = 6
+    let backgroundCount = 5
     
     //Initializes all of the sizes to be consistant on all of the devices.
     init() {

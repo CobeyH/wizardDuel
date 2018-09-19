@@ -15,30 +15,26 @@ import FirebaseDatabase
 class WDDatabase {
     let database = Database.database().reference()
     var playerNumber = 0
-    var gameScene: GameScene?
-    var gameGraphics = GameGraphics()
+    var gameScene: GameScene
+    var gameGraphics: GameGraphics
     let players: DatabaseReference
     
     
-    init() {
+    init(gameScene: GameScene, gameGraphics: GameGraphics) {
+        self.gameScene = gameScene
+        self.gameGraphics = gameGraphics
         self.players = database.child("players")
     }
     
-    func setup(gameScene: GameScene, gameGraphics: GameGraphics) {
-        self.gameScene = gameScene
-        self.gameGraphics = gameGraphics
-    }
-    
     //Adds the player to the database when they join the game
-    func addToDatabase(_ player: String) -> DatabaseReference {
+    func addToDatabase(_ player: String) {
         //Creates a new child database to store the players names.
-        let databaseRef = Database.database().reference()
-        let playerUpdate = databaseRef.child("players")
         //Accesses the database a sigle time to retrieve the players names.
-        playerUpdate.observeSingleEvent(of: .value, with: { (snapshot) in
+        self.players.observeSingleEvent(of: .value, with: { (snapshot) in
             self.playerNumber = Int(snapshot.childrenCount)
             let playerDictonary = ["player": player, "playNumber": String(self.playerNumber), "lifeTotal": "40"]
-            let databaseRef = playerUpdate.childByAutoId()
+            let databaseRef = self.players.childByAutoId()
+            self.gameGraphics.addPlayer(playerName: player, playerNumber: self.playerNumber, lifeTotal: 40, to: self.gameScene, playerNumberSelf: self.playerNumber, databaseKey: databaseRef.key)
             databaseRef.setValue(playerDictonary) {
                 (error, reference) in
                 if error != nil {
@@ -55,8 +51,8 @@ class WDDatabase {
         }) { (error) in
             print(error.localizedDescription)
         }
-        databaseRef.child("Updates").removeValue()
-        return databaseRef
+        database.child("Updates").removeValue()
+        
     }
     
     
@@ -66,7 +62,7 @@ class WDDatabase {
         var value = 0
         //This takes the location that the sender dropped the card.
         
-        if let location = gameScene?.game.location(from: playingCard.card) {
+        if let location = gameScene.game.location(from: playingCard.card) {
             if case .battlefield(let field, let stack) = location {
                 if playingCard.children.count != 0 {
                     let dice = playingCard.childNode(withName: "dice") as! PlayingDice
@@ -110,7 +106,7 @@ class WDDatabase {
                     let fieldNumber = self.findField(sender: sender!, relativeField: relativeField!)
                     for playingCard in self.gameGraphics.cards.reversed() {
                         if playingCard.databaseRef == snapshot.key {
-                            self.gameScene?.game.allBattlefields[fieldNumber][stack!].removeCard(card: playingCard.card)
+                            self.gameScene.game.allBattlefields[fieldNumber][stack!].removeCard(card: playingCard.card)
                             self.gameGraphics.delete(playingCard: playingCard)
                         }
                     }
@@ -154,10 +150,10 @@ class WDDatabase {
                     
                     //Updates the playing card if one is found other wise creates a new card locally.
                     if let playingCard = playingCard {
-                        if let previousLocation = self.gameGraphics.dropLocation(from: playingCard.position, playingCard: playingCard, game: (gameScene?.game)!) {
+                        if let previousLocation = self.gameGraphics.dropLocation(from: playingCard.position, playingCard: playingCard, game: (gameScene.game)) {
                             location = previousLocation
                             if diceValue > 0 && playingCard.children.count == 0 {
-                                let newPlayingDice = gameGraphics.addDice(to: gameScene!)
+                                let newPlayingDice = gameGraphics.addDice(to: gameScene)
                                 gameGraphics.drop(playingDice: newPlayingDice, on: playingCard)
                             }
                             else if playingCard.children.count != 0 && diceValue == 0{
@@ -171,7 +167,7 @@ class WDDatabase {
                             }
                         }
                     } else {
-                        let newPlayingCard = gameGraphics.addFromDatabase(name: cardName, field: fieldNumber, stack: stack, scene: gameScene!)
+                        let newPlayingCard = gameGraphics.addFromDatabase(name: cardName, field: fieldNumber, stack: stack, scene: gameScene)
                         newPlayingCard.databaseRef = snapshot.key
                         playingCard = newPlayingCard
                     }
@@ -184,7 +180,7 @@ class WDDatabase {
                         }
                         
                         let battlefieldLocation = Location.battlefield(fieldNumber, stack)
-                        gameScene?.moveLocation(currentPlayingCard: currentPlayingCard, location:  battlefieldLocation)
+                        gameScene.moveLocation(currentPlayingCard: currentPlayingCard, location:  battlefieldLocation)
                         
                         
                     } else {
@@ -208,7 +204,7 @@ class WDDatabase {
                     player.updateLife()
                     
                 } else {
-                    gameGraphics.addPlayer(playerName: playerName, playerNumber: playerNumber, lifeTotal: lifeTotal, to: gameScene!, playerNumberSelf: self.playerNumber, databaseKey: snapshot.key)
+                    gameGraphics.addPlayer(playerName: playerName, playerNumber: playerNumber, lifeTotal: lifeTotal, to: gameScene, playerNumberSelf: self.playerNumber, databaseKey: snapshot.key)
                 }
             }
         }

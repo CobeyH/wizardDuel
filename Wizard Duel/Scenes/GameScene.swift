@@ -16,9 +16,8 @@ public typealias pinchGR = UIPinchGestureRecognizer
 
 #elseif os(OSX)
 import FirebaseAuth
-import FirebaseDatabase
 import FirebaseCore
-
+import FirebaseDatabase
 public typealias TapGR = NSClickGestureRecognizer
 #endif
 
@@ -28,7 +27,10 @@ class GameScene: SKScene {
     let game = Game()
     var gameGraphics = GameGraphics()
     private var labels = Labels()
-    private var database = WDDatabase()
+    private lazy var database: WDDatabase = {
+        let database =  WDDatabase(gameScene: self, gameGraphics: gameGraphics)
+        return database
+    }()
     private var currentPlayingCard: CurrentPlayingCard?
     weak var viewDelegate: GameSceneDelegate?
     private var playerNumber = 0
@@ -49,7 +51,7 @@ class GameScene: SKScene {
                 print("login Successful")
             }
         }
-        database.setup(gameScene: self, gameGraphics: gameGraphics)
+        
     }
     
     override func didMove(to view: SKView) {
@@ -112,7 +114,7 @@ class GameScene: SKScene {
                 let tappedCards = gameGraphics.untapCards(for: playerNumber)
                 drawCard()
                 for playingCard in tappedCards {
-                    Database.database().reference().child("Updates").child(playingCard.databaseRef!).updateChildValues(["Tapped": "false"])
+                    database.database.child("Updates").child(playingCard.databaseRef!).updateChildValues(["Tapped": "false"])
                 }
                 return
             }
@@ -137,7 +139,7 @@ class GameScene: SKScene {
             if let playingCard = gameGraphics.cardFrom(position: touchLocation) {
                 if playingCard.heldBy == "Battlefield" {
                     gameGraphics.tap(card: playingCard)
-                    Database.database().reference().child("Updates").child(playingCard.databaseRef!).updateChildValues(["Tapped": String(playingCard.tapped), "Sender": String(playerNumber)])
+                    database.database.child("Updates").child(playingCard.databaseRef!).updateChildValues(["Tapped": String(playingCard.tapped), "Sender": String(playerNumber)])
                 }
             }
             //Checks if a a player info box is tapped and updates life totals locally and in the database.
@@ -151,7 +153,7 @@ class GameScene: SKScene {
                     playerInfo.lifeDown()
                 }
                 //Updates life total on the player Info
-                Database.database().reference().child("players").child(playerInfo.databaseKey).updateChildValues(["lifeTotal": String(playerInfo.getLife())])
+                database.players.child(playerInfo.databaseKey).updateChildValues(["lifeTotal": String(playerInfo.getLife())])
             }
             
         }
@@ -168,13 +170,6 @@ class GameScene: SKScene {
                 }
             }
         }
-    }
-
-    
-    //Adds the player to the database when they join the game
-    func addToDatabase(_ player: String) {
-        let databaseRef = database.addToDatabase(player)
-        self.gameGraphics.addPlayer(playerName: player, playerNumber: self.playerNumber, lifeTotal: 40, to: self, playerNumberSelf: self.playerNumber, databaseKey: databaseRef.key)
     }
     
     
@@ -287,14 +282,14 @@ class GameScene: SKScene {
             else if firstCharacter == "-" {
                 if let playerSelf = gameGraphics.findPlayer(with: playerNumber) {
                     playerSelf.lifeDown()
-                    Database.database().reference().child("players").child(playerSelf.databaseKey).updateChildValues(["lifeTotal": String(playerSelf.getLife())])
+                    database.players.child(playerSelf.databaseKey).updateChildValues(["lifeTotal": String(playerSelf.getLife())])
                 }
             }
             //Increases life by 1. It is a = and not a + so the user does not have to press shift.
             else if firstCharacter == "=" { 
                 if let playerSelf = gameGraphics.findPlayer(with: playerNumber) {
                     playerSelf.lifeUp()
-                    Database.database().reference().child("players").child(playerSelf.databaseKey).updateChildValues(["lifeTotal": String(playerSelf.getLife())])
+                    database.players.child(playerSelf.databaseKey).updateChildValues(["lifeTotal": String(playerSelf.getLife())])
                 }
             }
         }
@@ -469,7 +464,7 @@ extension GameScene: ViewControllerDelegate {
             labels.addMulligan(to: self)
             
             if let playerName = UserDefaults.standard.string(forKey: "PlayerName") {
-                addToDatabase(playerName)
+                database.addToDatabase(playerName)
             }
             else {
                 print("No Player Name")
