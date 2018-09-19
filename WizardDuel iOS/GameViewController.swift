@@ -84,7 +84,7 @@ class GameViewController: UIViewController {
     
         @objc func doubleTap(sender: UITapGestureRecognizer) {
             let scene = self.delegate as! GameScene
-            scene.doubleTap(sender: sender)
+            scene.doubleTap(by: sender)
         }
     
     //Used on IOS to view cards. Long press puts the user into viewing mode and then touch moves changes the currently viewed card.
