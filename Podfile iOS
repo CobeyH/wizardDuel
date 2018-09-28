@@ -1,0 +1,19 @@
+# Uncomment the next line to define a global platform for your project
+ platform :osx, '10.13'
+
+target 'WizardDuel iOS' do
+    platform :ios, '11.0'
+    
+    # Pods for Wizard Duel
+     pod 'Firebase'
+     pod 'Firebase/Auth'
+     pod 'Firebase/Database'
+end
+
+
+  target 'Wizard DuelTests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+
+end
