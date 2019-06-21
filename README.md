@@ -20,3 +20,12 @@ Decks can also be uploaded from a computer to the database. This will allow iOS 
 
 # New Turn
 The "New Turn" button can be pressed to automatically untap all permanents owned by that player and draw a card from the top of the deck.
+
+# Images
+2-Player game
+![alt text](https://github.com/CobeyH/wizardDuel/blob/master/Screenshots/Screen%20Shot%202019-06-20%20at%208.46.15%20PM%20(2).png)
+
+Searching Deck
+![alt text](https://github.com/CobeyH/wizardDuel/blob/master/Screenshots/Screen%20Shot%202019-06-20%20at%208.56.28%20PM.png)
+Adding Tokens
+![alt text](https://github.com/CobeyH/wizardDuel/blob/master/Screenshots/Screen%20Shot%202019-06-20%20at%208.57.06%20PM.png)
