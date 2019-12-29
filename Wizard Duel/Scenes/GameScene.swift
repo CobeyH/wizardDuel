@@ -350,6 +350,7 @@ class GameScene: SKScene {
     
     //Called when the mouse is released. It calls the move function when a card has been dragged and released to a new location
     private func touchUp(atPoint pos: CGPoint) {
+        // Handle dropping a dice
         if let dice = currentMovingDice {
             if let playingCard = gameGraphics.cardFrom(position: pos) {
                 gameGraphics.drop(playingDice: dice, on: playingCard)
@@ -362,10 +363,11 @@ class GameScene: SKScene {
             }
             currentMovingDice = nil
         }
+        // Handle dropping a card
         guard let currentPlayingCard = currentPlayingCard else { return }
         //Drop location is set as the location where the card is released.
         let startHeldBy = currentPlayingCard.playingCard.heldBy
-        if let dropLocation = gameGraphics.dropLocation(from: pos, playingCard: currentPlayingCard.playingCard, game: game) {
+        if let dropLocation = gameGraphics.dropLocation(playingCard: currentPlayingCard.playingCard, game: game) {
             let toDeleteCard = currentPlayingCard.playingCard
             moveLocation(currentPlayingCard: currentPlayingCard, location: dropLocation)
             if toDeleteCard.heldBy != "Battlefield" && startHeldBy == "Battlefield" {
@@ -374,7 +376,6 @@ class GameScene: SKScene {
                 self.currentPlayingCard = nil
                 return
             }
-            
             database.updateDatabase(playingCard: currentPlayingCard.playingCard)
         } else {
             currentPlayingCard.returnToOriginalLocation()

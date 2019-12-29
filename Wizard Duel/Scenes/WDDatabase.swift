@@ -147,7 +147,7 @@ class WDDatabase {
                     
                     //Updates the playing card if one is found other wise creates a new card locally.
                     if let playingCard = playingCard {
-                        if let previousLocation = self.gameScene.gameGraphics.dropLocation(from: playingCard.position, playingCard: playingCard, game: (gameScene.game)) {
+                        if let previousLocation = self.gameScene.gameGraphics.dropLocation(playingCard: playingCard, game: (gameScene.game)) {
                             location = previousLocation
                             if diceValue > 0 && playingCard.children.count == 0 {
                                 let newPlayingDice = gameScene.gameGraphics.addDice(to: gameScene)

@@ -549,7 +549,8 @@ struct GameGraphics {
     }
     
     //Returns the location at the point passed in
-    func dropLocation(from position: CGPoint, playingCard: PlayingCard, game: Game) -> Location? {
+    func dropLocation(playingCard: PlayingCard, game: Game) -> Location? {
+        let position = playingCard.position
         for (i, graveyard) in graveyards.enumerated() {
             if graveyard.contains(position) {
                 return .graveyard(i)
