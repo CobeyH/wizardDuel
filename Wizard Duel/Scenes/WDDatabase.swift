@@ -14,7 +14,6 @@ import FirebaseDatabase
 
 class WDDatabase {
     let database = Database.database().reference()
-    var playerNumber = 0
     var gameScene: GameScene
     let players: DatabaseReference
     
@@ -29,10 +28,10 @@ class WDDatabase {
         //Creates a new child database to store the players names.
         //Accesses the database a sigle time to retrieve the players names.
         self.players.observeSingleEvent(of: .value, with: { (snapshot) in
-            self.playerNumber = Int(snapshot.childrenCount)
-            let playerDictonary = ["player": player, "playNumber": String(self.playerNumber), "lifeTotal": "40"]
+            self.gameScene.playerNumber = Int(snapshot.childrenCount)
+            let playerDictonary = ["player": player, "playNumber": String(self.gameScene.playerNumber), "lifeTotal": "40"]
             let databaseRef = self.players.childByAutoId()
-            self.gameScene.gameGraphics.addPlayer(playerName: player, playerNumber: self.playerNumber, lifeTotal: 40, to: self.gameScene, playerNumberSelf: self.playerNumber, databaseKey: databaseRef.key)
+            self.gameScene.gameGraphics.addPlayer(playerName: player, playerNumber: self.gameScene.playerNumber, lifeTotal: 40, to: self.gameScene, playerNumberSelf: self.gameScene.playerNumber, databaseKey: databaseRef.key)
             databaseRef.setValue(playerDictonary) {
                 (error, reference) in
                 if error != nil {
@@ -68,10 +67,10 @@ class WDDatabase {
                 }
                 //Checks if the playingcard has an ID, and if not, assigns it a new ID.
                 let databaseRef = playingCard.databaseRef ?? cardUpdate.childByAutoId().key
-                var updateDictionary = ["Sender": String(playerNumber), "Card": playingCard.card.name, "Field": String(field), "Stack": String(stack), "Tapped": String(playingCard.tapped), "DiceValue": String(value)]
+                var updateDictionary = ["Sender": String(gameScene.playerNumber), "Card": playingCard.card.name, "Field": String(field), "Stack": String(stack), "Tapped": String(playingCard.tapped), "DiceValue": String(value)]
                 if playingCard.databaseRef == nil {
                     playingCard.databaseRef = databaseRef
-                    updateDictionary["Owner"] = String(self.playerNumber)
+                    updateDictionary["Owner"] = String(gameScene.playerNumber)
                     cardUpdate.child(databaseRef).setValue(updateDictionary)
                 }
                 else {
@@ -100,7 +99,7 @@ class WDDatabase {
                 let sender = Int(snapshotValue["Sender"]!)
                 let stack = Int(snapshotValue["Stack"]!)
                 let relativeField = Int(snapshotValue["Field"]!)
-                if owner != self.playerNumber {
+                if owner != self.gameScene.playerNumber {
                     let fieldNumber = self.findField(sender: sender!, relativeField: relativeField!)
                     for playingCard in self.gameScene.gameGraphics.cards.reversed() {
                         if playingCard.databaseRef == snapshot.key {
@@ -137,7 +136,7 @@ class WDDatabase {
                 
                 let fieldNumber = findField(sender: sender, relativeField: relativeField)
                 //Prevents updates from the sender to be recieved by the sender again.
-                if sender != self.playerNumber {
+                if sender != gameScene.playerNumber {
                     //Finds the playing card with the correct ID
                     var playingCard = gameScene.gameGraphics.cards.filter({
                         let databaseRef = $0.databaseRef
@@ -202,7 +201,7 @@ class WDDatabase {
                     player.updateLife()
                     
                 } else {
-                    gameScene.gameGraphics.addPlayer(playerName: playerName, playerNumber: playerNumber, lifeTotal: lifeTotal, to: gameScene, playerNumberSelf: self.playerNumber, databaseKey: snapshot.key)
+                    gameScene.gameGraphics.addPlayer(playerName: playerName, playerNumber: playerNumber, lifeTotal: lifeTotal, to: gameScene, playerNumberSelf: gameScene.playerNumber, databaseKey: snapshot.key)
                 }
             }
         }
@@ -221,7 +220,7 @@ class WDDatabase {
     
     //Determines what field to place a card on relative to the local user to ensure consistant player order.
     private func findField(sender: Int, relativeField: Int) -> Int {
-        return (4 + sender - self.playerNumber + relativeField) % 4
+        return (4 + sender - gameScene.playerNumber + relativeField) % 4
     }
     
 }

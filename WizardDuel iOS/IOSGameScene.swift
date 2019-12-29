@@ -26,7 +26,7 @@ extension GameScene {
         if let locationInScene = view?.convert(locationInView, to:scene!) {
             gameGraphics.showPlayingCard(at: locationInScene, scene: self)
         }
-        if sender.state == UIGestureRecognizerState.ended {
+        if sender.state == UIGestureRecognizer.State.ended {
             gameGraphics.hideCardDisplay()
         }
     }

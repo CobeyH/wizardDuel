@@ -383,7 +383,6 @@ struct GameGraphics {
             
             cards.append(card)
             scene.addChild(card)
-            
         }
     }
     

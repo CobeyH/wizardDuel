@@ -2,7 +2,7 @@
 //  Game.swift
 //  Freegraveyard2
 //
-//  Created by gary on 15/08/2017.
+//  Created by Cobey on 07/07/2018.
 //  Copyright © 2017 Gary Kerr. All rights reserved.
 //
 import Foundation

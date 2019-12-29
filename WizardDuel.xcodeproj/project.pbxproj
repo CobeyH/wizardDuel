@@ -22,13 +22,15 @@
 		039785CD20A52CA0005C2F1C /* testDeck.txt in Resources */ = {isa = PBXBuildFile; fileRef = 039785CC20A52CA0005C2F1C /* testDeck.txt */; };
 		039FF9352145ABCA005844B8 /* IOSGameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 039FF9342145ABCA005844B8 /* IOSGameScene.swift */; };
 		039FF9372145B95E005844B8 /* MacGameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 039FF9362145B95E005844B8 /* MacGameScene.swift */; };
+		03A745112180E7C70095E7B8 /* LoginInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03A745102180E7C70095E7B8 /* LoginInfo.swift */; };
+		03A745122180E7C70095E7B8 /* LoginInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03A745102180E7C70095E7B8 /* LoginInfo.swift */; };
+		03A745132180E7C70095E7B8 /* LoginInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03A745102180E7C70095E7B8 /* LoginInfo.swift */; };
 		03B66FBC2125EA7E005827ED /* WDDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B66FBB2125EA7E005827ED /* WDDatabase.swift */; };
 		03B66FBD2125EA7E005827ED /* WDDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B66FBB2125EA7E005827ED /* WDDatabase.swift */; };
 		03B66FBE2125EA7E005827ED /* WDDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B66FBB2125EA7E005827ED /* WDDatabase.swift */; };
 		03B8994720E03E5200CBEFDC /* PlayerInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B8994620E03E5200CBEFDC /* PlayerInfo.swift */; };
 		03D5AD4120A8C8AE001E29CE /* Battlefield.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03D5AD4020A8C8AE001E29CE /* Battlefield.swift */; };
 		03EE278320C70B8E00427770 /* Dice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03EE278220C70B8E00427770 /* Dice.swift */; };
-		03F157B220BC856D000301EB /* LoginInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03F157B120BC856D000301EB /* LoginInfo.swift */; };
 		03F7197320B0A16900B70122 /* Labels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03F7197220B0A16900B70122 /* Labels.swift */; };
 		03FACC6C20CB83AE00BC8F89 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 03FACC6B20CB83AE00BC8F89 /* GoogleService-Info.plist */; };
 		0B153C4E8F87D063960FBF7F /* libPods-WizardDuel iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 815E421A264786F281579619 /* libPods-WizardDuel iOS.a */; };
@@ -73,7 +75,6 @@
 		7E02B15420EC70550088FFEB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E396E801EF3DF8600F8696A /* AppDelegate.swift */; };
 		7E02B15520EC70830088FFEB /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E396E881EF3DF8600F8696A /* ViewController.swift */; };
 		7E02B15620EC70B50088FFEB /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E71F1E21F438893002E66D3 /* Card.swift */; };
-		7E02B15720EC70B50088FFEB /* LoginInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03F157B120BC856D000301EB /* LoginInfo.swift */; };
 		7E02B15820EC70B50088FFEB /* CanAddCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EF3F2901F4857F8004197A8 /* CanAddCard.swift */; };
 		7E02B15920EC70B50088FFEB /* ContainsCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E2E3F0A1F5627A000BF0862 /* ContainsCard.swift */; };
 		7E02B15A20EC70B50088FFEB /* Resetable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E2E3F0C1F56288E00BF0862 /* Resetable.swift */; };
@@ -90,7 +91,6 @@
 		7E02B16520EC70B50088FFEB /* Move.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E004E471F57797B00F12974 /* Move.swift */; };
 		7E02B16620EC70B50088FFEB /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EF3F29A1F489690004197A8 /* State.swift */; };
 		7E02B16820EC70B50088FFEB /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E71F1E21F438893002E66D3 /* Card.swift */; };
-		7E02B16920EC70B50088FFEB /* LoginInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03F157B120BC856D000301EB /* LoginInfo.swift */; };
 		7E02B16A20EC70B50088FFEB /* CanAddCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EF3F2901F4857F8004197A8 /* CanAddCard.swift */; };
 		7E02B16B20EC70B50088FFEB /* ContainsCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E2E3F0A1F5627A000BF0862 /* ContainsCard.swift */; };
 		7E02B16C20EC70B50088FFEB /* Resetable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E2E3F0C1F56288E00BF0862 /* Resetable.swift */; };
@@ -167,11 +167,11 @@
 		039785CC20A52CA0005C2F1C /* testDeck.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = testDeck.txt; sourceTree = "<group>"; };
 		039FF9342145ABCA005844B8 /* IOSGameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IOSGameScene.swift; sourceTree = "<group>"; };
 		039FF9362145B95E005844B8 /* MacGameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacGameScene.swift; sourceTree = "<group>"; };
+		03A745102180E7C70095E7B8 /* LoginInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LoginInfo.swift; path = "/Users/cobeyhollier/Programming/Swift/wizardDuel/Wizard Duel/Model/Game/LoginInfo.swift"; sourceTree = "<absolute>"; };
 		03B66FBB2125EA7E005827ED /* WDDatabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WDDatabase.swift; sourceTree = "<group>"; };
 		03B8994620E03E5200CBEFDC /* PlayerInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerInfo.swift; sourceTree = "<group>"; };
 		03D5AD4020A8C8AE001E29CE /* Battlefield.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Battlefield.swift; sourceTree = "<group>"; };
 		03EE278220C70B8E00427770 /* Dice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dice.swift; sourceTree = "<group>"; };
-		03F157B120BC856D000301EB /* LoginInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoginInfo.swift; path = "Wizard Duel/Model/Game/LoginInfo.swift"; sourceTree = SOURCE_ROOT; };
 		03F7197220B0A16900B70122 /* Labels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Labels.swift; sourceTree = "<group>"; };
 		03FACC6B20CB83AE00BC8F89 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		4E004E471F57797B00F12974 /* Move.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Move.swift; sourceTree = "<group>"; };
@@ -380,6 +380,7 @@
 			children = (
 				4EF3F28F1F4857D4004197A8 /* Protocols */,
 				4E71F1EA1F4389B7002E66D3 /* Deck.swift */,
+				03A745102180E7C70095E7B8 /* LoginInfo.swift */,
 				03EE278220C70B8E00427770 /* Dice.swift */,
 				4E71F1E61F43891E002E66D3 /* Hand.swift */,
 				4E71F1E81F438955002E66D3 /* Graveyard.swift */,
@@ -433,7 +434,6 @@
 		4EF3F28F1F4857D4004197A8 /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
-				03F157B120BC856D000301EB /* LoginInfo.swift */,
 				4EF3F2901F4857F8004197A8 /* CanAddCard.swift */,
 				4E2E3F0A1F5627A000BF0862 /* ContainsCard.swift */,
 				4E2E3F0C1F56288E00BF0862 /* Resetable.swift */,
@@ -558,7 +558,7 @@
 				7E02B13720EC6FF90088FFEB /* Frameworks */,
 				7E02B13820EC6FF90088FFEB /* Resources */,
 				7E02B19920EC72220088FFEB /* Copy Card Images */,
-				51A0A3CC2E458F8CF4DD82DD /* [CP] Embed Pods Frameworks */,
+				145DC35B5D5C2450E0EBB32C /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -595,6 +595,7 @@
 					7E02B12820EC6FF90088FFEB = {
 						CreatedOnToolsVersion = 9.4.1;
 						DevelopmentTeam = QD694Y7TZY;
+						LastSwiftMigration = 1000;
 						ProvisioningStyle = Automatic;
 					};
 					7E02B13920EC6FF90088FFEB = {
@@ -722,6 +723,32 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		145DC35B5D5C2450E0EBB32C /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-WizardDuel macOS/Pods-WizardDuel macOS-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-WizardDuel macOS/Pods-WizardDuel macOS-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		26053E8CE0DC45CBB96B6652 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -758,31 +785,9 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		51A0A3CC2E458F8CF4DD82DD /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-WizardDuel macOS/Pods-WizardDuel macOS-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
-				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
-				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-WizardDuel macOS/Pods-WizardDuel macOS-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		7E02B19920EC72220088FFEB /* Copy Card Images */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 8;
+			buildActionMask = 12;
 			files = (
 			);
 			inputPaths = (
@@ -790,14 +795,14 @@
 			name = "Copy Card Images";
 			outputPaths = (
 			);
-			runOnlyForDeploymentPostprocessing = 1;
+			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "#!/bin/sh\n\nset -e\n\necho \"$SRCROOT\"\nrsync -r \"$SRCROOT/Wizard Duel/Content/\" \"$TARGET_BUILD_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH\"\n";
 			showEnvVarsInLog = 0;
 		};
 		7ED1E33A20D4461700BC762B /* Copy Card Images */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 8;
+			buildActionMask = 12;
 			files = (
 			);
 			inputPaths = (
@@ -805,7 +810,7 @@
 			name = "Copy Card Images";
 			outputPaths = (
 			);
-			runOnlyForDeploymentPostprocessing = 1;
+			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "#!/bin/sh\n\nset -e\n\necho \"$SRCROOT\"\nrsync -r \"$SRCROOT/Wizard Duel/Content/\" \"$TARGET_BUILD_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH\"\n";
 			showEnvVarsInLog = 0;
@@ -817,6 +822,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				03A745112180E7C70095E7B8 /* LoginInfo.swift in Sources */,
 				4E396E891EF3DF8600F8696A /* ViewController.swift in Sources */,
 				0378867020ACA38E00B2B2E4 /* MasterDeck.swift in Sources */,
 				4E71F1F01F438A3C002E66D3 /* Shuffle.swift in Sources */,
@@ -847,7 +853,6 @@
 				03F7197320B0A16900B70122 /* Labels.swift in Sources */,
 				4E71F1E31F438893002E66D3 /* Card.swift in Sources */,
 				03B66FBC2125EA7E005827ED /* WDDatabase.swift in Sources */,
-				03F157B220BC856D000301EB /* LoginInfo.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -888,6 +893,7 @@
 				7E02B17D20EC70C30088FFEB /* CurrentPlayingCard.swift in Sources */,
 				7E02B15820EC70B50088FFEB /* CanAddCard.swift in Sources */,
 				7E02B15D20EC70B50088FFEB /* Dice.swift in Sources */,
+				03A745122180E7C70095E7B8 /* LoginInfo.swift in Sources */,
 				7E02B17F20EC70C30088FFEB /* GameGraphics.swift in Sources */,
 				7E02B12C20EC6FF90088FFEB /* AppDelegate.swift in Sources */,
 				7E02B17E20EC70C30088FFEB /* Labels.swift in Sources */,
@@ -899,7 +905,6 @@
 				7E02B16520EC70B50088FFEB /* Move.swift in Sources */,
 				7E02B15620EC70B50088FFEB /* Card.swift in Sources */,
 				03B66FBD2125EA7E005827ED /* WDDatabase.swift in Sources */,
-				7E02B15720EC70B50088FFEB /* LoginInfo.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -922,6 +927,7 @@
 				7E02B17520EC70B50088FFEB /* GameError.swift in Sources */,
 				7E02B18420EC70C30088FFEB /* PlayingCard.swift in Sources */,
 				7E02B16B20EC70B50088FFEB /* ContainsCard.swift in Sources */,
+				03A745132180E7C70095E7B8 /* LoginInfo.swift in Sources */,
 				7E02B18520EC70C30088FFEB /* PlayerInfo.swift in Sources */,
 				7E02B18720EC70C30088FFEB /* CurrentPlayingCard.swift in Sources */,
 				7E02B16A20EC70B50088FFEB /* CanAddCard.swift in Sources */,
@@ -937,7 +943,6 @@
 				7E02B17720EC70B50088FFEB /* Move.swift in Sources */,
 				7E02B16820EC70B50088FFEB /* Card.swift in Sources */,
 				03B66FBE2125EA7E005827ED /* WDDatabase.swift in Sources */,
-				7E02B16920EC70B50088FFEB /* LoginInfo.swift in Sources */,
 				039FF9372145B95E005844B8 /* MacGameScene.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1178,7 +1183,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.CobeyHollier.WizardDuel;
 				PRODUCT_NAME = WizardDuel;
 				SDKROOT = iphoneos;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -1201,7 +1206,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.CobeyHollier.WizardDuel;
 				PRODUCT_NAME = WizardDuel;
 				SDKROOT = iphoneos;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};

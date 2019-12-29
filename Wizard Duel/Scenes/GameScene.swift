@@ -15,8 +15,8 @@ public typealias TapGR = UITapGestureRecognizer
 public typealias pinchGR = UIPinchGestureRecognizer
 
 #elseif os(OSX)
-import FirebaseAuth
 import FirebaseCore
+import FirebaseAuth
 import FirebaseDatabase
 public typealias TapGR = NSClickGestureRecognizer
 #endif
@@ -33,7 +33,7 @@ class GameScene: SKScene {
     }()
     private var currentPlayingCard: CurrentPlayingCard?
     weak var viewDelegate: GameSceneDelegate?
-    private var playerNumber = 0
+    public var playerNumber = 0
     private var mulliganCount = 0
     
     
@@ -43,12 +43,12 @@ class GameScene: SKScene {
         anchorPoint = CGPoint(x: 0, y: 1)
         //Log in to the firebase database and set up observes for changes in the database
         
-        let login = loginInfo()
+        let login = LoginInfo()
         Auth.auth().signIn(withEmail: login.username, password: login.password) { (user, error) in
             if error != nil {
-                print(error!)
+                print("The following error occured while signing into the Database: ", error!)
             } else {
-                print("login Successful")
+                print("Login Successful")
             }
         }
         
@@ -84,81 +84,85 @@ class GameScene: SKScene {
         gameGraphics.showPlayingCard(at: location, scene: self)
     }
 #endif
+    func mulligan() {
+        mulliganCount = mulliganCount + 1
+        newGame()
+    }
     
-    // Triggered when a single click is detected with no dragging
-    @objc func tap(sender: TapGR) {
-        if sender.state == .ended {
-            var touchLocation: CGPoint = sender.location(in: sender.view)
-            touchLocation = self.convertPoint(fromView: touchLocation)
-            //On new game checks if the mulligan button has been pressed
-            if labels.mulliganButton != nil {
-                if (labels.mulliganButton!.contains(touchLocation)) {
-                    mulliganCount = mulliganCount + 1
-                    newGame()
-                }
-            }
-            
-            if labels.newGameButton.contains(touchLocation) {
-                guard let viewDelegate = viewDelegate, viewDelegate.newGame(currentGameState: game.state, gameScene: self) else { return }
-                newGame()
-            }
-            
-            //On new game checks if the keep hand button has been pressed.
-            if labels.keepButton.contains(touchLocation) {
-                mulliganCount = 0
-                labels.removeButtons()
-                game.deckURL = nil
-            }
-            //Checks if the new turn button has been pressed.
-            else if labels.isNewTurnTapped(point: touchLocation) {
-                let tappedCards = gameGraphics.untapCards(for: playerNumber)
-                drawCard()
-                for playingCard in tappedCards {
-                    database.database.child("Updates").child(playingCard.databaseRef!).updateChildValues(["Tapped": "false"])
-                }
-                return
-            }
-            //Checks if the shuffle button has been tapped.
-            else if labels.isShuffleTapped(point: touchLocation) {
-                game.deck.cards.shuffle()
-                gameGraphics.reconstructDeck(gameCards: game.deck.cards)
-            }
-            
-            //Increased the dice value on a playing card if a dice is tapped
-            if let playingCard = gameGraphics.cardFrom(position: touchLocation) {
-                if let playingDice = playingCard.childNode(withName: "dice") as? PlayingDice {
-                    if playingDice.contains(convert(touchLocation, to: playingDice)) {
-                        playingDice.dice.diceUp()
-                        playingDice.setTexture()
-                        database.updateDatabase(playingCard: playingCard)
-                        return
-                    }
-                }
-            }
-            //Taps a card if it is pressed and the tap is not on a dice.
-            if let playingCard = gameGraphics.cardFrom(position: touchLocation) {
-                if playingCard.heldBy == "Battlefield" {
-                    gameGraphics.tap(card: playingCard)
-                    database.database.child("Updates").child(playingCard.databaseRef!).updateChildValues(["Tapped": String(playingCard.tapped), "Sender": String(playerNumber)])
-                }
-            }
-            //Checks if a a player info box is tapped and updates life totals locally and in the database.
-            if let playerInfo = gameGraphics.findPlayer(at: touchLocation) {
-                let childPoint = convert(touchLocation, to: playerInfo)
-                //Checks if the click is near the life up label and increases the life if it is.
-                if gameGraphics.distanceBetween(pointA: playerInfo.healthUpLabel.position, pointB: childPoint) < 10 {
-                    playerInfo.lifeUp()
-                }
-                else if gameGraphics.distanceBetween(pointA: playerInfo.healthDownLabel.position, pointB: childPoint) < 10 {
-                    playerInfo.lifeDown()
-                }
-                //Updates life total on the player Info
-                database.players.child(playerInfo.databaseKey).updateChildValues(["lifeTotal": String(playerInfo.getLife())])
-            }
-            
+    func keepHand() {
+        mulliganCount = 0
+        labels.removeButtons()
+        game.deckURL = nil
+    }
+    
+    func newTurn() {
+        let tappedCards = gameGraphics.untapCards(for: playerNumber)
+        drawCard()
+        for playingCard in tappedCards {
+            database.database.child("Updates").child(playingCard.databaseRef!).updateChildValues(["Tapped": "false"])
         }
     }
     
+    func tapOn(playerInfo: PlayerInfo, touchLocation: CGPoint) {
+        let childPoint = convert(touchLocation, to: playerInfo)
+        //Checks if the click is near the life up label and increases the life if it is.
+        if gameGraphics.distanceBetween(pointA: playerInfo.healthUpLabel.position, pointB: childPoint) < 10 {
+            playerInfo.lifeUp()
+        }
+        else if gameGraphics.distanceBetween(pointA: playerInfo.healthDownLabel.position, pointB: childPoint) < 10 {
+            playerInfo.lifeDown()
+        }
+        //Updates life total on the player Info
+        database.players.child(playerInfo.databaseKey).updateChildValues(["lifeTotal": String(playerInfo.getLife())])
+    }
+    
+    // Triggered when a single click is detected with no dragging
+    @objc func tap(sender: TapGR) {
+        if sender.state != .ended {
+            return
+        }
+        var touchLocation: CGPoint = sender.location(in: sender.view)
+        touchLocation = self.convertPoint(fromView: touchLocation)
+        //Check each of the buttons to see if they have been tapped
+        if labels.mulliganButton != nil && labels.mulliganButton!.contains(touchLocation) {
+            mulligan()
+        } else if labels.newGameButton.contains(touchLocation) {
+            guard let viewDelegate = viewDelegate, viewDelegate.newGame(currentGameState: game.state, gameScene: self) else { return }
+            newGame()
+        } else if labels.keepButton.contains(touchLocation) {
+            keepHand()
+        } else if labels.isNewTurnTapped(point: touchLocation) {
+            newTurn()
+            return
+        } else if labels.isShuffleTapped(point: touchLocation) {
+            game.deck.cards.shuffle()
+            gameGraphics.reconstructDeck(gameCards: game.deck.cards)
+        }
+        
+        //Increased the dice value on a playing card if a dice is tapped
+        if let playingCard = gameGraphics.cardFrom(position: touchLocation) {
+            if let playingDice = playingCard.childNode(withName: "dice") as? PlayingDice {
+                if playingDice.contains(convert(touchLocation, to: playingDice)) {
+                    playingDice.dice.diceUp()
+                    playingDice.setTexture()
+                    database.updateDatabase(playingCard: playingCard)
+                    return
+                }
+            }
+        }
+        //Taps a card on the battlefield.
+        if let playingCard = gameGraphics.cardFrom(position: touchLocation) {
+            if playingCard.heldBy == "Battlefield" {
+                gameGraphics.tap(card: playingCard)
+                database.database.child("Updates").child(playingCard.databaseRef!).updateChildValues(["Tapped": String(playingCard.tapped), "Sender": String(playerNumber)])
+            }
+        }
+        //Checks if a a player info box is tapped and updates life totals locally and in the database.
+        if let playerInfo = gameGraphics.findPlayer(at: touchLocation) {
+            tapOn(playerInfo: playerInfo, touchLocation: touchLocation)
+        }
+    }
+
     //If a double tap is detected on the deck a card will be drawn
     @objc func doubleTap(by sender: TapGR) {
         if sender.state == .ended {
@@ -171,8 +175,7 @@ class GameScene: SKScene {
             }
         }
     }
-    
-    
+
     #if os(iOS)
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         if let touch = touches.first {
@@ -181,7 +184,7 @@ class GameScene: SKScene {
         }
         super.touchesBegan(touches, with: event)
     }
-        
+
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         if let touch = touches.first {
             let location = touch.location(in: self)
@@ -418,7 +421,7 @@ class GameScene: SKScene {
             print("Failed to draw a card")
         }
     }
-    
+
     private func requestNewGame() {
         guard let viewDelegate = viewDelegate, viewDelegate.newGame(currentGameState: game.state, gameScene: self) else { return }
         newGame()
@@ -467,7 +470,7 @@ extension GameScene: ViewControllerDelegate {
                 database.addToDatabase(playerName)
             }
             else {
-                print("No Player Name")
+                print("No Player Name Entered")
             }
         }
     }

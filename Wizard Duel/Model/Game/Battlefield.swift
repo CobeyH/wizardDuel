@@ -1,6 +1,6 @@
 //
 //  Deck.swift
-//  Freegraveyard2
+//  Wizard Duel
 //
 //  Created by Cobey on 13/05/2018.
 //  Copyright © 2017 Gary Kerr. All rights reserved.

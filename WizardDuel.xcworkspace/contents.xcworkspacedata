@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:/Users/cobeyhollier/Programming/Swift/wizardDuel/Wizard Duel/Model/Game/LoginInfo.swift">
+   </FileRef>
+   <FileRef
       location = "group:WizardDuel.xcodeproj">
    </FileRef>
    <FileRef

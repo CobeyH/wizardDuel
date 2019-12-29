@@ -12,7 +12,7 @@ import SpriteKit
 class Dice {
     var value = 1
     let maxValue: Int
-    
+  
     init(maxValue: Int) {
         self.maxValue = maxValue
     }
