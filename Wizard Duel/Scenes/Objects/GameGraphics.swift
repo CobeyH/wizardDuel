@@ -252,6 +252,18 @@ struct GameGraphics {
         return candidateCards.last
     }
     
+    func cardOverlapping(rectangle: CGRect) -> PlayingCard? {
+        var candidateCards: [PlayingCard] = []
+        for card in cards {
+            let frame = card.frame
+            if frame.intersects(rectangle) {
+                candidateCards.append(card)
+            }
+        }
+        candidateCards.sort(by: { $0.zPosition < $1.zPosition })
+        return candidateCards.last
+    }
+    
     //Moves playing card to highest zPosition.
     mutating func setActive(card: PlayingCard) {
         card.zPosition = config.getZIndex()

@@ -32,6 +32,7 @@ class GameScene: SKScene {
         return database
     }()
     private var currentPlayingCard: CurrentPlayingCard?
+    private var currentMovingDice: PlayingDice?
     weak var viewDelegate: GameSceneDelegate?
     public var playerNumber = 0
     private var mulliganCount = 0
@@ -302,10 +303,10 @@ class GameScene: SKScene {
     // MARK: - Touch Responders
     //These are all the actions that are called by the triggers.
     
-    //Called when the mouse is pressed down. This sets acard to active in order it initiate a movement of the card.
+    //Called when the mouse is pressed down. This sets a card to active in order it initiate a movement of the card.
     private func touchDown(atPoint point: CGPoint) {
         if gameGraphics.isDiceTapped(at: point) {
-            let _ = gameGraphics.addDice(to: self)
+            currentMovingDice = gameGraphics.addDice(to: self)
         }
         if let playingCard = gameGraphics.cardFrom(position: point) {
             let dicePoint = convert(point, to: playingCard)
@@ -313,7 +314,8 @@ class GameScene: SKScene {
                 gameGraphics.setDiceActive(dice: dice)
             }
         }
-        if gameGraphics.findDice(at: point) != nil {
+        if let dice = gameGraphics.findDice(at: point) {
+            currentMovingDice = dice
             return
         }
         guard
@@ -335,9 +337,7 @@ class GameScene: SKScene {
     
     //Updates the position of the dice to the new point.
     private func moveDice(atPoint point: CGPoint) {
-        if let dice = gameGraphics.findDice(at: point) {
-            dice.update(position: point)
-        }
+        currentMovingDice?.update(position: point)
     }
     
     //Updates the position of the card as the card is being dragged
@@ -350,11 +350,17 @@ class GameScene: SKScene {
     
     //Called when the mouse is released. It calls the move function when a card has been dragged and released to a new location
     private func touchUp(atPoint pos: CGPoint) {
-        if let dice = gameGraphics.findDice(at: pos) {
+        if let dice = currentMovingDice {
             if let playingCard = gameGraphics.cardFrom(position: pos) {
                 gameGraphics.drop(playingDice: dice, on: playingCard)
                 database.updateDatabase(playingCard: playingCard)
+            } else if let playingCard = gameGraphics.cardOverlapping(rectangle: dice.frame) {
+                gameGraphics.drop(playingDice: dice, on: playingCard)
+                database.updateDatabase(playingCard: playingCard)
+            } else {
+                gameGraphics.deleteDice(from: self, toDelete: dice)
             }
+            currentMovingDice = nil
         }
         guard let currentPlayingCard = currentPlayingCard else { return }
         //Drop location is set as the location where the card is released.
@@ -373,7 +379,6 @@ class GameScene: SKScene {
         } else {
             currentPlayingCard.returnToOriginalLocation()
         }
-        
         self.currentPlayingCard = nil
     }
     
